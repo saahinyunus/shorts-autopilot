@@ -182,8 +182,6 @@ def test_video_messages():
 def test_notify_commands_never_fail_and_do_nothing_when_disabled(monkeypatch, tmp_path):
     from typer.testing import CliRunner
 
-    for var in ("TELEGRAM_BOT_TOKEN", "TELEGRAM_CHAT_ID"):
-        monkeypatch.delenv(var, raising=False)
     from engine.config import get_settings
 
     get_settings.cache_clear()
@@ -293,3 +291,12 @@ def test_ci_runs_the_worker_tests_and_the_worker_has_no_secrets_inside():
     assert "worker/test.mjs" in (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
     code = (ROOT / "worker" / "index.js").read_text(encoding="utf-8")
     assert "env.TELEGRAM_BOT_TOKEN" in code and "AAF" not in code  # secrets come from the environment only
+
+
+def test_tests_are_isolated_from_the_real_env_file():
+    """Regression: a test once sent a real Telegram message because the developer's .env was read."""
+    from engine.config import get_settings
+
+    settings = get_settings()
+    assert settings.telegram_bot_token == "" and settings.telegram_chat_id == ""
+    assert settings.cloudflare_api_token == ""
