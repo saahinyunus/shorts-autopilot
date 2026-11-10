@@ -108,8 +108,9 @@ async function videoInfo(env, channel, ids) {
 
 // -------------------------------------------------------------------------------- commands
 const HELP =
-  "<b>Komutlar</b>\n/status: otopilotun genel durumu\n/queue: yayını bekleyen videolar (YouTube'dan doğrulanır)\n" +
-  "/stats: kanal ve video istatistikleri\n/health: sistem sağlık kontrolü\n/help: bu liste";
+  "<b>Komutlar</b>\n/menu: düğmeli menü\n/status: otopilotun genel durumu\n/queue: yayını bekleyen videolar (YouTube'dan doğrulanır)\n" +
+  "/stats: kanal istatistikleri ve bugünkü artış\n/health: sistem sağlık kontrolü\n/help: bu liste\n\n" +
+  "Her gece 00:00'da (TSİ) günlük özet otomatik gelir.";
 
 async function cmdStatus(env, now) {
   const tz = env.NOTIFY_TZ || "Europe/Istanbul";
@@ -158,26 +159,123 @@ async function cmdQueue(env, now) {
   return lines.join("\n");
 }
 
-async function cmdStats(env, now) {
-  const h = (await rawJson(env, "state/history.json")).entries;
-  const lines = ["<b>📈 İstatistikler</b>"];
+// ------------------------------------------------------------------ statistics + daily snapshots
+// Totals are read live from YouTube. "Today's gain" needs a baseline, so a snapshot of every channel's
+// totals is kept in Workers KV (binding `KV`), taken at 00:00 Istanbul time. Without KV the gains show "-".
+const TR_TZ = "Europe/Istanbul";
+const ICON = { money: "💰", psychology: "🧠" };
+
+function trDate(d) {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: TR_TZ, year: "numeric", month: "2-digit", day: "2-digit" }).format(d);
+}
+
+function clock(d) {
+  const p = parts(d, TR_TZ);
+  return `${p.hour === "24" ? "00" : p.hour}:${p.minute} TSİ`;
+}
+
+const signed = (n) => (n === null || n === undefined || isNaN(n) ? "-" : `${n < 0 ? "-" : "+"}${num(Math.abs(n))}`);
+
+async function channelTotals(env) {
+  const totals = {};
   for (const cid of CHANNELS) {
     try {
       const ch = (await youtube(env, cid, "channels", { part: "snippet,statistics", mine: "true" })).items[0];
       const s = ch.statistics;
-      lines.push(`\n<b>${esc(ch.snippet.title)}</b> (${esc(cid)})\n👥 ${num(s.subscriberCount)} abone · 👁 ${num(s.viewCount)} toplam izlenme · 🎞 ${num(s.videoCount)} video`);
-      const published = h.filter((e) => e.channel === cid && e.publish_at && new Date(e.publish_at) <= now);
-      if (!published.length) { lines.push("(henüz yayına girmiş video yok)"); continue; }
-      const info = await videoInfo(env, cid, published.slice(-8).map((e) => e.video_id));
-      for (const e of published.slice(-5).reverse()) {
-        const v = (info[e.video_id] || {}).statistics || {};
-        lines.push(`• ${esc((e.title || e.topic).slice(0, 48))}: 👁 ${num(v.viewCount)} · 👍 ${num(v.likeCount)} · 💬 ${num(v.commentCount)}`);
-      }
+      totals[cid] = { title: ch.snippet.title, subs: Number(s.subscriberCount || 0), views: Number(s.viewCount || 0), videos: Number(s.videoCount || 0) };
     } catch (e) {
-      lines.push(`\n<b>${esc(cid)}</b>: ${esc(e.message)}`);
+      totals[cid] = { error: e.message };
     }
   }
+  return totals;
+}
+
+const kvGet = async (env, key) => (env.KV ? env.KV.get(key, "json") : null);
+const kvPut = async (env, key, value) => (env.KV ? env.KV.put(key, JSON.stringify(value), { expirationTtl: 90 * 86400 }) : null);
+
+function snapshotOf(totals, now) {
+  const snap = { at: now.toISOString() };
+  for (const [cid, t] of Object.entries(totals)) if (!t.error) snap[cid] = { subs: t.subs, views: t.views, videos: t.videos };
+  return snap;
+}
+
+async function cmdStats(env, now) {
+  const totals = await channelTotals(env);
+  const today = trDate(now);
+  let base = await kvGet(env, `snap:${today}`);
+  if (!base && env.KV && Object.values(totals).some((t) => !t.error)) { // first look today: start counting now
+    base = snapshotOf(totals, now);
+    await kvPut(env, `snap:${today}`, base);
+  }
+  const lines = ["📊 <b>Tüm kanallar</b>\n"];
+  let subs = 0, views = 0, videos = 0, gain = 0, gainKnown = false;
+  for (const cid of CHANNELS) {
+    const t = totals[cid];
+    if (t.error) { lines.push(`${ICON[cid] || "📺"} ${esc(cid)}: ⚠️ ${esc(t.error)}`); continue; }
+    const b = base && base[cid];
+    const g = b ? t.views - b.views : null;
+    if (g !== null) { gain += g; gainKnown = true; }
+    subs += t.subs; views += t.views; videos += t.videos;
+    lines.push(`${ICON[cid] || "📺"} <b>${esc(t.title)}</b>: 👥 ${num(t.subs)} · 👁 ${num(t.views)} · 🎬 ${num(t.videos)} · 📈 ${signed(g)}`);
+  }
+  lines.push(`\n<b>Toplam:</b> 👥 ${num(subs)} · 👁 ${num(views)} · 🎬 ${num(videos)}`);
+  lines.push(`Bugün: ${gainKnown ? signed(gain) : "-"} izlenme` + (env.KV ? "" : " <i>(KV bağlı değil: günlük artış hesaplanamıyor)</i>"));
+  lines.push(`\n🕒 ${clock(now)}`);
   return lines.join("\n");
+}
+
+// Sent every night at 00:00 Istanbul time (cron "0 21 * * *"): what the day that just ended brought.
+async function dailySummary(env, now = new Date()) {
+  const today = trDate(now);
+  const ended = trDate(new Date(now.getTime() - 12 * HOUR)); // the Istanbul day that just finished
+  if (env.KV && (await env.KV.get(`summary:${today}`))) return null; // already sent
+  const totals = await channelTotals(env);
+  const base = await kvGet(env, `snap:${ended}`);
+  const h = (await rawJson(env, "state/history.json")).entries;
+  const lines = [`🌙 <b>Günlük özet</b> · ${ended.split("-").reverse().join(".")}\n`];
+  let dViews = 0, dSubs = 0, dVideos = 0, known = false;
+  for (const cid of CHANNELS) {
+    const t = totals[cid];
+    if (t.error) { lines.push(`${ICON[cid] || "📺"} ${esc(cid)}: ⚠️ ${esc(t.error)}`); continue; }
+    const b = base && base[cid];
+    const published = h.filter((e) => e.channel === cid && e.publish_at && trDate(new Date(e.publish_at)) === ended).length;
+    dVideos += published;
+    if (b) { dViews += t.views - b.views; dSubs += t.subs - b.subs; known = true; }
+    lines.push(`${ICON[cid] || "📺"} <b>${esc(t.title)}</b>: 👁 ${b ? signed(t.views - b.views) : "-"} · 👥 ${b ? signed(t.subs - b.subs) : "-"} · 🎬 ${published} yayınlandı`);
+  }
+  lines.push(`\n<b>Toplam:</b> 👁 ${known ? signed(dViews) : "-"} izlenme · 👥 ${known ? signed(dSubs) : "-"} abone · 🎬 ${dVideos} video`);
+  if (!known) lines.push("<i>(Karşılaştırma için dünkü kayıt yok; yarından itibaren artışlar görünür.)</i>");
+  // best recent videos
+  try {
+    const recent = h.filter((e) => e.publish_at && new Date(e.publish_at) <= now && now - new Date(e.publish_at) < 7 * 24 * HOUR);
+    const scored = [];
+    for (const cid of CHANNELS) {
+      const mine = recent.filter((e) => e.channel === cid);
+      if (!mine.length || totals[cid].error) continue;
+      const info = await videoInfo(env, cid, mine.map((e) => e.video_id));
+      for (const e of mine) scored.push({ e, views: Number(((info[e.video_id] || {}).statistics || {}).viewCount || 0) });
+    }
+    scored.sort((a, b) => b.views - a.views);
+    if (scored.length) {
+      lines.push("\n🏆 <b>Son 7 günün en çok izlenenleri</b>");
+      for (const s of scored.slice(0, 3)) lines.push(`• <a href="${esc(s.e.url)}">${esc((s.e.title || s.e.topic).slice(0, 50))}</a>: 👁 ${num(s.views)}`);
+    }
+  } catch { /* the summary must go out even without the ranking */ }
+  const waiting = h.filter((e) => e.publish_at && new Date(e.publish_at) > now).length;
+  lines.push(`\n🗓 Yayın bekleyen: ${waiting} video`);
+  try {
+    const st = await rawJson(env, "state/status.json");
+    const ok = st.produce_result !== "failure" && (now - new Date(st.updated_at)) / HOUR < 30;
+    lines.push(ok ? "✅ Sistem sorunsuz" : "⚠️ Son otomatik çalıştırmada sorun var, /health ile bakın");
+  } catch { /* no status file yet */ }
+  const ok = Object.values(totals).some((t) => !t.error);
+  if (env.KV && ok) { // today's baseline = the totals right now (00:00)
+    await kvPut(env, `snap:${today}`, snapshotOf(totals, now));
+    await kvPut(env, `summary:${today}`, { sent: now.toISOString() });
+  }
+  const text = lines.join("\n");
+  await send(env, env.TELEGRAM_CHAT_ID, text, MENU_ONLY);
+  return text;
 }
 
 async function cmdHealth(env, now) {
@@ -216,21 +314,59 @@ async function replyFor(text, env, now = new Date()) {
   try { return await handler(env, now); } catch (e) { return `⚠️ /${esc(name)} çalışmadı: ${esc(e.message)}`; }
 }
 
-async function send(env, chatId, text) {
-  for (let i = 0; i < text.length; i += 3900) {
-    await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: chatId, text: text.slice(i, i + 3900), parse_mode: "HTML", disable_web_page_preview: true }),
-    });
+// ------------------------------------------------------------------ Telegram I/O and buttons
+const MENU_ONLY = { inline_keyboard: [[{ text: "⬅️ Menü", callback_data: "menu" }]] };
+const MENU_TEXT = "<b>📋 Menü</b>\nBir seçim yapın:";
+const MENU_KEYBOARD = {
+  inline_keyboard: [
+    [{ text: "📊 İstatistik", callback_data: "cmd:stats" }, { text: "🗓 Yayın kuyruğu", callback_data: "cmd:queue" }],
+    [{ text: "📋 Durum", callback_data: "cmd:status" }, { text: "🩺 Sağlık", callback_data: "cmd:health" }],
+  ],
+};
+
+const refreshKeyboard = (name) => ({
+  inline_keyboard: [[{ text: "🔄 Yenile", callback_data: `cmd:${name}` }, { text: "⬅️ Menü", callback_data: "menu" }]],
+});
+
+async function telegram(env, method, body) {
+  const r = await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/${method}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  return r;
+}
+
+async function send(env, chatId, text, markup) {
+  const chunks = [];
+  for (let i = 0; i < text.length; i += 3900) chunks.push(text.slice(i, i + 3900));
+  for (let i = 0; i < chunks.length; i++) {
+    const body = { chat_id: chatId, text: chunks[i], parse_mode: "HTML", disable_web_page_preview: true };
+    if (markup && i === chunks.length - 1) body.reply_markup = markup;
+    await telegram(env, "sendMessage", body);
   }
 }
 
 async function handleUpdate(update, env) {
+  const cb = update.callback_query;
+  if (cb) { // a button was pressed: edit the message in place
+    const chat = String(((cb.message || {}).chat || {}).id ?? "");
+    if (chat !== String(env.TELEGRAM_CHAT_ID)) return;
+    await telegram(env, "answerCallbackQuery", { callback_query_id: cb.id });
+    const data = cb.data || "";
+    let text, markup;
+    if (data === "menu") { text = MENU_TEXT; markup = MENU_KEYBOARD; }
+    else if (data.startsWith("cmd:")) { const name = data.slice(4); text = await replyFor(`/${name}`, env); markup = refreshKeyboard(name); }
+    else return;
+    if (text) await telegram(env, "editMessageText", { chat_id: chat, message_id: cb.message.message_id, text: text.slice(0, 3900), parse_mode: "HTML", disable_web_page_preview: true, reply_markup: markup });
+    return; // "message is not modified" errors are harmless
+  }
   const msg = update.message || {};
   if (String((msg.chat || {}).id ?? "") !== String(env.TELEGRAM_CHAT_ID)) return; // strangers get no answer
+  const word = (msg.text || "").trim().split(/\s+/)[0].toLowerCase().replace(/^\//, "").split("@")[0];
+  if (word === "menu") { await send(env, msg.chat.id, MENU_TEXT, MENU_KEYBOARD); return; }
   const answer = await replyFor(msg.text, env);
-  if (answer) await send(env, msg.chat.id, answer);
+  if (answer) await send(env, msg.chat.id, answer, COMMANDS[word] ? refreshKeyboard(word) : undefined);
 }
 
 // ------------------------------------------------------------------ first comments (timer)
@@ -289,9 +425,11 @@ async function postDueComments(env, now = new Date()) {
 }
 
 export default {
-  internals: { fmtSlot, ago, checkScheduled, replyFor, handleUpdate, postDueComments }, // for worker/test.mjs
+  internals: { fmtSlot, ago, checkScheduled, replyFor, handleUpdate, postDueComments, dailySummary, trDate }, // for worker/test.mjs
   async scheduled(event, env, ctx) {
-    ctx.waitUntil(postDueComments(env).catch(() => {}));
+    // "0 21 * * *" (= 00:00 Istanbul) sends the daily summary; every other trigger posts due first comments
+    if (event.cron === "0 21 * * *") ctx.waitUntil(dailySummary(env).catch(() => {}));
+    else ctx.waitUntil(postDueComments(env).catch(() => {}));
   },
   async fetch(request, env, ctx) {
     if (request.method !== "POST") return new Response("Shorts autopilot bot is running.");

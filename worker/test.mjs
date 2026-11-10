@@ -2,10 +2,11 @@
 import assert from "node:assert/strict";
 import worker from "./index.js";
 
-const { fmtSlot, checkScheduled, replyFor, handleUpdate, postDueComments } = worker.internals;
+const { fmtSlot, checkScheduled, replyFor, handleUpdate, postDueComments, dailySummary, trDate } = worker.internals;
 const NOW = new Date("2026-11-10T12:00:00Z");
 const sent = [];
 let ytError = null;
+let channelViews = 56789;
 let commentFail = false;
 const posted = [];
 const existingComments = {};
@@ -29,7 +30,7 @@ globalThis.fetch = async (url, opts = {}) => {
   const json = (b, status = 200) => new Response(JSON.stringify(b), { status });
   if (url.includes("raw.githubusercontent.com")) return url.includes("history.json") ? json(HISTORY) : json(STATUS);
   if (url.includes("oauth2.googleapis.com")) return json({ access_token: "ya29.fake", expires_in: 3600 });
-  if (url.includes("api.telegram.org")) { sent.push(JSON.parse(opts.body)); return json({ ok: true }); }
+  if (url.includes("api.telegram.org")) { sent.push({ _method: url.split("/").pop(), ...JSON.parse(opts.body) }); return json({ ok: true }); }
   if (url.includes("youtube/v3/commentThreads")) {
     if (opts.method === "POST") {
       if (commentFail) return new Response("{}", { status: 403 });
@@ -40,7 +41,7 @@ globalThis.fetch = async (url, opts = {}) => {
   }
   if (url.includes("youtube/v3")) {
     if (ytError) return new Response(ytError, { status: 403 });
-    if (url.includes("/channels")) return json({ items: [{ snippet: { title: "Money Channel" }, statistics: { subscriberCount: "1234", viewCount: "56789", videoCount: "7" } }] });
+    if (url.includes("/channels")) return json({ items: [{ snippet: { title: "Money Channel" }, statistics: { subscriberCount: "1234", viewCount: String(channelViews), videoCount: "7" } }] });
     const ids = new URL(url).searchParams.get("id").split(",");
     return json({ items: ids.filter((i) => VIDEOS[i]).map((i) => ({ id: i, ...VIDEOS[i] })) });
   }
@@ -67,7 +68,7 @@ assert.match(status, /Son çalıştırma: success/); assert.match(status, /money
 const queue = await replyFor("/queue@my_bot", env, NOW);
 assert.match(queue, /3 video/); assert.match(queue, /✅/); assert.match(queue, /zamanlanmamış/); assert.match(queue, /Money &lt;One&gt;/); assert.doesNotMatch(queue, /Old one/);
 const stats = await replyFor("/stats", env, NOW);
-assert.match(stats, /Money Channel/); assert.match(stats, /1\.234 abone/); assert.match(stats, /1\.500/);
+assert.match(stats, /Tüm kanallar/); assert.match(stats, /Money Channel<\/b>: 👥 1\.234 · 👁 56\.789 · 🎬 7 · 📈 -/); assert.match(stats, /Toplam:<\/b> 👥 2\.468/); assert.match(stats, /KV bağlı değil/); assert.match(stats, /TSİ/);
 const health = await replyFor("/health", env, NOW);
 assert.match(health, /Yedek senaryo \(psychology\): 2/); assert.match(health, /⚠️/); assert.match(health, /YouTube girişi \(money\): geçerli/);
 
@@ -89,6 +90,71 @@ const ok = await worker.fetch(new Request("https://w", { method: "POST", headers
 assert.equal(ok.status, 200);
 await new Promise((r) => setTimeout(r, 20));
 assert.equal(sent.length, 1); assert.equal(sent[0].chat_id, 42); assert.match(sent[0].text, /Komutlar/);
+
+
+// ---- stats with a KV baseline (gains since 00:00 Istanbul) ----
+const kvStore = new Map();
+env.KV = { get: async (k) => (kvStore.has(k) ? JSON.parse(kvStore.get(k)) : null), put: async (k, v) => { kvStore.set(k, v); } };
+HISTORY.entries = [
+  { plan_id: "m1", channel: "money", topic: "t1", title: "Published today", video_id: "v0", url: "https://youtu.be/v0", publish_at: "2026-11-10T13:00:00Z" },
+  { plan_id: "p1", channel: "psychology", topic: "t", title: "Psych today", video_id: "vp", url: "https://youtu.be/vp", publish_at: "2026-11-10T18:00:00Z" },
+  { plan_id: "m9", channel: "money", topic: "t", title: "Other day", video_id: "v1", url: "u", publish_at: "2026-11-08T13:00:00Z" },
+];
+channelViews = 1000;
+const first = await replyFor("/stats", env, NOW);
+assert.match(first, /📈 \+0/); assert.match(first, /Bugün: \+0 izlenme/);               // baseline created now
+assert.ok(kvStore.has(`snap:${trDate(NOW)}`));
+channelViews = 1044;
+const later = await replyFor("/stats", env, NOW);
+assert.match(later, /📈 \+44/); assert.match(later, /Bugün: \+88 izlenme/);              // two channels with +44 each
+
+// ---- the nightly summary (cron 0 21 * * * = 00:00 Istanbul) ----
+const MIDNIGHT = new Date("2026-11-10T21:00:00Z");                                   // 00:00 on 11 Nov in Istanbul
+assert.equal(trDate(MIDNIGHT), "2026-11-11");
+kvStore.set("snap:2026-11-10", JSON.stringify({ money: { subs: 1200, views: 900, videos: 6 }, psychology: { subs: 1230, views: 1000, videos: 6 } }));
+channelViews = 1100; sent.length = 0;
+const summary = await dailySummary(env, MIDNIGHT);
+assert.match(summary, /Günlük özet<\/b> · 10\.11\.2026/);
+assert.match(summary, /👁 \+200 · 👥 \+34 · 🎬 1 yayınlandı/);                     // money: 1100-900, 1234-1200, one video that day
+assert.match(summary, /👁 \+100 · 👥 \+4 · 🎬 1 yayınlandı/);
+assert.match(summary, /Toplam:<\/b> 👁 \+300 izlenme · 👥 \+38 abone · 🎬 2 video/);
+assert.match(summary, /en çok izlenenleri/);
+assert.equal(sent.length, 1); assert.equal(sent[0]._method, "sendMessage"); assert.ok(sent[0].reply_markup.inline_keyboard[0][0].text.includes("Menü"));
+assert.ok(kvStore.has("snap:2026-11-11") && kvStore.has("summary:2026-11-11")); // tomorrow's baseline saved
+assert.equal(await dailySummary(env, MIDNIGHT), null); assert.equal(sent.length, 1); // never sent twice
+// without yesterday's snapshot it says so instead of inventing numbers
+kvStore.clear(); sent.length = 0;
+const noBase = await dailySummary(env, MIDNIGHT);
+assert.match(noBase, /yarından itibaren/); assert.match(noBase, /👁 - /);
+
+// ---- timer routing ----
+kvStore.clear(); sent.length = 0;
+await worker.scheduled({ cron: "0 21 * * *" }, env, { waitUntil: (p) => p });
+await new Promise((r) => setTimeout(r, 30));
+assert.ok(sent.some((m) => /Günlük özet/.test(m.text)));
+sent.length = 0;
+await worker.scheduled({ cron: "*/10 * * * *" }, env, { waitUntil: (p) => p });
+await new Promise((r) => setTimeout(r, 30));
+assert.ok(!sent.some((m) => /Günlük özet/.test(m.text)));
+
+// ---- buttons ----
+sent.length = 0;
+await handleUpdate({ message: { chat: { id: 42 }, text: "/stats" } }, env);
+const kb = sent[0].reply_markup.inline_keyboard[0];
+assert.deepEqual(kb.map((b) => b.text), ["🔄 Yenile", "⬅️ Menü"]); assert.equal(kb[0].callback_data, "cmd:stats");
+sent.length = 0;
+await handleUpdate({ message: { chat: { id: 42 }, text: "/menu" } }, env);
+assert.equal(sent[0].reply_markup.inline_keyboard.flat().length, 4);
+sent.length = 0;
+await handleUpdate({ callback_query: { id: "cb1", data: "cmd:stats", message: { chat: { id: 42 }, message_id: 77 } } }, env);
+assert.deepEqual(sent.map((m) => m._method), ["answerCallbackQuery", "editMessageText"]);
+assert.equal(sent[1].message_id, 77); assert.match(sent[1].text, /Tüm kanallar/); assert.equal(sent[1].reply_markup.inline_keyboard[0][0].callback_data, "cmd:stats");
+sent.length = 0;
+await handleUpdate({ callback_query: { id: "cb2", data: "menu", message: { chat: { id: 42 }, message_id: 78 } } }, env);
+assert.match(sent[1].text, /Menü/); assert.equal(sent[1].reply_markup.inline_keyboard.flat().length, 4);
+sent.length = 0;
+await handleUpdate({ callback_query: { id: "cb3", data: "cmd:stats", message: { chat: { id: 999 }, message_id: 1 } } }, env);
+assert.equal(sent.length, 0);                                                          // a stranger's button does nothing
 
 // first comments at publish time
 const C_HIST = [
