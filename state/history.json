@@ -1,3 +1,49 @@
 {
-  "entries": []
+  "entries": [
+    {
+      "plan_id": "money-20261110T1800Z",
+      "channel": "money",
+      "topic": "How a bitter feud between brothers created Adidas and Puma",
+      "title": "Adidas vs Puma: The Bitter Feud That Created Two Brands",
+      "video_id": "YeHtpBAU4RE",
+      "url": "https://www.youtube.com/shorts/YeHtpBAU4RE",
+      "publish_at": "2026-11-10T18:00:00Z"
+    },
+    {
+      "plan_id": "money-20261111T0000Z",
+      "channel": "money",
+      "topic": "Why giant stone carved wheels were once used as currency",
+      "title": "Giant Stone Money: Why People Traded Four Ton Rocks",
+      "video_id": "wYlcF6zByqg",
+      "url": "https://www.youtube.com/shorts/wYlcF6zByqg",
+      "publish_at": "2026-11-11T00:00:00Z"
+    },
+    {
+      "plan_id": "psychology-20261110T1300Z",
+      "channel": "psychology",
+      "topic": "Why your brain refuses to forget uncompleted tasks",
+      "title": "Why Your Brain Remembers Unfinished Tasks (Zeigarnik Effect)",
+      "video_id": "aor-IuMTGwk",
+      "url": "https://www.youtube.com/shorts/aor-IuMTGwk",
+      "publish_at": "2026-11-10T13:00:00Z"
+    },
+    {
+      "plan_id": "psychology-20261110T1800Z",
+      "channel": "psychology",
+      "topic": "Why you think everyone notices your minor mistakes",
+      "title": "Spotlight Effect: Why Nobody Notices Your Mistakes",
+      "video_id": "pq8auFUSK1c",
+      "url": "https://www.youtube.com/shorts/pq8auFUSK1c",
+      "publish_at": "2026-11-10T18:00:00Z"
+    },
+    {
+      "plan_id": "psychology-20261111T0000Z",
+      "channel": "psychology",
+      "topic": "Why asking someone for a small favor makes them like you",
+      "title": "Why Asking a Favor Makes People Like You (Psychology Hack)",
+      "video_id": "EXab1-0Gc8g",
+      "url": "https://www.youtube.com/shorts/EXab1-0Gc8g",
+      "publish_at": "2026-11-11T00:00:00Z"
+    }
+  ]
 }
