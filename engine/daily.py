@@ -158,6 +158,27 @@ def record(
     typer.echo(f"history: {added} added, {skipped} skipped, {len(history.entries)} total")
 
 
+@app.command()
+def heartbeat() -> None:
+    """Write state/status.json: what the last run did. The Telegram worker reads it (no GitHub API needed)."""
+    settings = get_settings()
+    history = load_history(settings.state_dir / "history.json")
+    env = os.environ
+    status = {
+        "updated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "run_url": env.get("RUN_URL", ""),
+        "plan_count": int(env.get("PLAN_COUNT") or 0),
+        "plan_result": env.get("PLAN_RESULT", ""),
+        "produce_result": env.get("PRODUCE_RESULT", ""),
+        "reserve": {
+            cid: len(available(cid, history, root=settings.state_dir / "reserve")) for cid in list_channel_ids()
+        },
+        "llms": [n for n, k in (("Gemini", settings.gemini_api_key), ("Groq", settings.groq_api_key), ("Anthropic", settings.anthropic_api_key)) if k],
+    }
+    (settings.state_dir / "status.json").write_text(json.dumps(status, indent=2) + "\n", encoding="utf-8")
+    typer.echo(f"status.json written ({status['produce_result'] or 'no produce result'})")
+
+
 def main() -> None:
     try:
         app()

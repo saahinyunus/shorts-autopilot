@@ -519,7 +519,13 @@ def poll(minutes: float = typer.Option(0.0, "--minutes", help="0 = answer what i
         params = {"timeout": 50 if minutes else 0, "allowed_updates": ["message"]}
         if offset:
             params["offset"] = offset
-        updates = tg.call("getUpdates", **params)
+        try:
+            updates = tg.call("getUpdates", **params)
+        except TelegramError as exc:
+            if "webhook" in str(exc).lower():  # the instant webhook (worker/) is active, nothing to poll
+                typer.echo("A webhook is active; polling is not needed.")
+                return
+            raise
         if updates:
             ctx.now = datetime.now(timezone.utc)
             offset = handle_updates(tg, updates, ctx)

@@ -208,6 +208,16 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }} # optional free backup LLM
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }} # optional paid last resort
         run: python engine/reserve.py fill --target 8 --max-new 2
+      - name: Write the heartbeat for the Telegram worker
+        continue-on-error: true
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PLAN_COUNT: ${{ needs.plan.outputs.count }}
+          PLAN_RESULT: ${{ needs.plan.result }}
+          PRODUCE_RESULT: ${{ needs.produce.result }}
+        run: python engine/daily.py heartbeat
       - name: Commit the history and reserve (this also keeps the repository 'active' so GitHub never disables the schedule)
         run: |
           git config user.name "github-actions[bot]"

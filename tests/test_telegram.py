@@ -242,3 +242,51 @@ def test_login_asks_for_the_readonly_scope_too():
     from engine.uploader import SCOPES
 
     assert any(s.endswith("youtube.upload") for s in SCOPES) and any(s.endswith("youtube.readonly") for s in SCOPES)
+
+
+# ------------------------------------------------------------- heartbeat + webhook coexistence
+def test_heartbeat_writes_the_status_file_for_the_worker(tmp_path, monkeypatch):
+    from typer.testing import CliRunner
+
+    from engine import daily
+    from engine.config import get_settings
+
+    monkeypatch.setenv("STATE_DIR", str(tmp_path / "state"))
+    (tmp_path / "state").mkdir()
+    monkeypatch.setenv("GEMINI_API_KEY", "g")
+    monkeypatch.setenv("GROQ_API_KEY", "q")
+    monkeypatch.setenv("PLAN_COUNT", "3")
+    monkeypatch.setenv("PRODUCE_RESULT", "success")
+    monkeypatch.setenv("RUN_URL", "https://run")
+    get_settings.cache_clear()
+    result = CliRunner().invoke(daily.app, ["heartbeat"])
+    get_settings.cache_clear()
+    assert result.exit_code == 0, result.output
+    status = json.loads((tmp_path / "state" / "status.json").read_text(encoding="utf-8"))
+    assert status["plan_count"] == 3 and status["produce_result"] == "success" and status["llms"] == ["Gemini", "Groq"]
+    assert set(status["reserve"]) == {"money", "psychology"} and status["run_url"] == "https://run"
+    assert "TOKEN" not in json.dumps(status).upper().replace("TOKENS", "")  # nothing secret in a public file
+
+
+def test_polling_steps_aside_when_the_webhook_is_active(monkeypatch):
+    from typer.testing import CliRunner
+
+    from engine.config import get_settings
+
+    monkeypatch.setenv("TELEGRAM_BOT_TOKEN", TOKEN)
+    monkeypatch.setenv("TELEGRAM_CHAT_ID", "1")
+    get_settings.cache_clear()
+    monkeypatch.setattr(tb, "build_context", lambda s: object())
+    def conflict(self, method, **params):
+        raise tb.TelegramError("Telegram getUpdates: Conflict: can't use getUpdates method while webhook is active")
+
+    monkeypatch.setattr(tb.Telegram, "call", conflict)
+    result = CliRunner().invoke(tb.app, ["poll"])
+    get_settings.cache_clear()
+    assert result.exit_code == 0 and "webhook is active" in result.output.lower()
+
+
+def test_ci_runs_the_worker_tests_and_the_worker_has_no_secrets_inside():
+    assert "worker/test.mjs" in (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+    code = (ROOT / "worker" / "index.js").read_text(encoding="utf-8")
+    assert "env.TELEGRAM_BOT_TOKEN" in code and "AAF" not in code  # secrets come from the environment only
