@@ -1,0 +1,171 @@
+name: Daily Shorts autopilot
+
+# Every day: plan the next ~28 hours of slots for every channel, produce one video per slot in parallel,
+# upload each as a scheduled (private -> public at the slot time) YouTube video and record it in
+# state/history.json. Manual runs default to a DRY RUN (nothing is uploaded).
+
+on:
+  schedule:
+    - cron: "23 3 * * *" # 03:23 UTC; an off-peak minute (GitHub delays jobs queued on the hour)
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run: produce the videos but do NOT upload them"
+        type: boolean
+        default: true
+      channels:
+        description: "Comma-separated channel ids (empty = all channels)"
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: shorts-autopilot
+  cancel-in-progress: false
+
+env:
+  # scheduled runs are always real; manual runs follow the checkbox
+  DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && 'true' || 'false' }}
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      count: ${{ steps.plan.outputs.count }}
+      errors: ${{ steps.plan.outputs.errors }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install pydantic pydantic-settings typer anthropic httpx tzdata
+      - name: Plan slots and topics
+        id: plan
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          CHANNELS: ${{ inputs.channels }}
+        run: python engine/daily.py plan --channels "$CHANNELS" --github-output
+
+  produce:
+    needs: plan
+    if: needs.plan.outputs.count != '' && needs.plan.outputs.count != '0'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false # one failing video must not stop the others
+      max-parallel: 3
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Linux libraries for Remotion's headless Chrome
+        run: >
+          sudo apt-get update && sudo apt-get install -y
+          libnss3 libdbus-1-3 libatk1.0-0 libasound2t64 libxrandr2 libxkbcommon-dev libxfixes3
+          libxcomposite1 libxdamage1 libgbm-dev libcups2 libcairo2 libpango-1.0-0 libatk-bridge2.0-0
+      - name: Produce the video
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          YOUTUBE_TOKENS_JSON: ${{ secrets.YOUTUBE_TOKENS_JSON }}
+          # values from the planner go through the environment, never straight into the shell command
+          CHANNEL: ${{ matrix.channel }}
+          TOPIC: ${{ matrix.topic }}
+          PUBLISH_AT: ${{ matrix.publish_at }}
+          PLAN_ID: ${{ matrix.plan_id }}
+        run: |
+          set -euo pipefail
+          args=(--channel "$CHANNEL" --topic "$TOPIC" --publish-at "$PUBLISH_AT" --plan-id "$PLAN_ID" --render)
+          if [ "$DRY_RUN" != "true" ]; then args+=(--upload); fi
+          python engine/pipeline.py "${args[@]}"
+      - name: Keep the result for bookkeeping
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: result-${{ matrix.plan_id }}
+          path: |
+            output/*/result.json
+            output/*/script.json
+          retention-days: 7
+          if-no-files-found: ignore
+      - name: Keep the video (dry runs only, so you can watch it)
+        if: always() && env.DRY_RUN == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: video-${{ matrix.plan_id }}
+          path: output/*/final.mp4
+          retention-days: 3
+          if-no-files-found: ignore
+
+  record:
+    needs: [plan, produce]
+    if: >-
+      always() && needs.plan.outputs.count != '' && needs.plan.outputs.count != '0' &&
+      !(github.event_name == 'workflow_dispatch' && inputs.dry_run)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write # commits state/history.json
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install pydantic pydantic-settings typer anthropic httpx tzdata
+      - run: mkdir -p artifacts
+      - uses: actions/download-artifact@v4
+        continue-on-error: true # no artifacts at all when every video failed
+        with:
+          pattern: result-*
+          path: artifacts
+      - name: Update state/history.json
+        run: python engine/daily.py record --results-dir artifacts
+      - name: Commit the history (this also keeps the repository 'active' so GitHub never disables the schedule)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state/history.json
+          if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
+          git commit -m "chore: record published shorts [skip ci]"
+          for attempt in 1 2 3; do
+            git pull --rebase && git push && exit 0
+            sleep 5
+          done
+          exit 1
+
+  alert:
+    needs: [plan, produce, record]
+    if: always() && (contains(needs.*.result, 'failure') || needs.plan.outputs.errors != '')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: write
+    steps:
+      - name: Open an issue (GitHub e-mails you about it)
+        uses: actions/github-script@v7
+        env:
+          PLAN_ERRORS: ${{ needs.plan.outputs.errors }}
+        with:
+          script: |
+            const run = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const errors = process.env.PLAN_ERRORS ? `\n\nPlanning errors: ${process.env.PLAN_ERRORS}` : "";
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Autopilot problem ${new Date().toISOString().slice(0, 10)}`,
+              body: `Something failed in the daily Shorts run: ${run}${errors}`,
+            });

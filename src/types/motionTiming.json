@@ -1,0 +1,9 @@
+{
+  "_comment": "Single source of truth for animation events. Read by Remotion (TS) AND engine/asset_manager.py so SFX and screen-shake land exactly on the visual impact. Seconds, relative to scene start.",
+  "counter_land_s": 0.9,
+  "chart_start_s": 0.15,
+  "chart_draw_s": 1.8,
+  "chart_crash_fraction": 0.7,
+  "document_unredact_s": 1.1,
+  "document_highlight_s": 0.6
+}

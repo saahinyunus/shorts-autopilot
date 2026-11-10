@@ -1,0 +1,12 @@
+node_modules/
+output/*
+!output/.gitkeep
+.env
+token.json
+client_secret*.json
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+token_*.json
+youtube_tokens.json
