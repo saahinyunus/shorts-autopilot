@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from engine import daily, reserve
 from engine.config import Settings
-from engine.generator import FailoverProvider, GeminiProvider, GroqProvider, LLMOutputError, ScriptSpec, get_llm_provider
+from engine.generator import FailoverProvider, GeminiProvider, LLMOutputError, ScriptSpec, get_llm_provider
 from engine.history import History, HistoryEntry
 from test_llm_providers import valid_script
 
@@ -280,3 +280,34 @@ def test_actions_use_groq_first_because_gemini_free_tier_is_tiny():
 
     wf = yaml.safe_load((Path(__file__).resolve().parent.parent / ".github/workflows/daily.yml").read_text(encoding="utf-8"))
     assert wf["env"]["LLM_PROVIDER"] == "groq"
+
+
+# ------------------------------------------------ a retry must never upload the same video twice
+def test_retry_of_an_already_uploaded_run_does_not_render_or_upload_again(tmp_path, monkeypatch):
+    from typer.testing import CliRunner
+
+    from engine import pipeline
+    from engine.config import get_settings
+    from engine.uploader import UploadResult
+
+    run = tmp_path / "out" / "20261110-000000-money-x"
+    run.mkdir(parents=True)
+    (run / "script.json").write_text(ScriptSpec.model_validate(valid_script()).model_dump_json(), encoding="utf-8")
+    (run / "voice.wav").write_bytes(b"x")
+    (run / "timeline.json").write_text("{}", encoding="utf-8")  # replaced below by a monkeypatched loader
+    (run / "upload.json").write_text(UploadResult(video_id="v1", url="https://youtu.be/v1", privacy="private", publish_at="2026-11-11T13:00:00Z", scheduled=True, comment_text="Q?").model_dump_json(), encoding="utf-8")
+
+    boom = lambda *a, **k: (_ for _ in ()).throw(AssertionError("must not be called"))
+    monkeypatch.setattr(pipeline, "render_video", boom)
+    monkeypatch.setattr(pipeline, "upload_video", boom)
+    monkeypatch.setattr(pipeline, "ensure_sfx", lambda s: {})
+    monkeypatch.setattr(pipeline.Timeline, "model_validate_json", classmethod(lambda cls, text: types.SimpleNamespace(duration=30.0, words=[])))
+    monkeypatch.setattr(pipeline, "build_props", lambda *a, **k: {})
+    monkeypatch.setattr(pipeline, "write_props", lambda props, d: d / "props.json")
+    monkeypatch.setenv("OUTPUT_DIR", str(tmp_path / "out"))
+    get_settings.cache_clear()
+    result = CliRunner().invoke(pipeline.app, ["--channel", "money", "--topic", "x", "--upload", "--resume", str(run), "--plan-id", "p1"])
+    get_settings.cache_clear()
+    assert result.exit_code == 0, result.output
+    data = json.loads((run / "result.json").read_text(encoding="utf-8"))
+    assert data["uploaded"] is True and data["video_id"] == "v1" and data["comment_text"] == "Q?"

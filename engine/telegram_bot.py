@@ -34,7 +34,7 @@ import typer
 
 from engine.channels import list_channel_ids, load_channel, upcoming_slots
 from engine.config import Settings, get_settings
-from engine.history import History, HistoryEntry, load_history
+from engine.history import History, load_history
 from engine.reserve import available as reserve_available
 
 API = "https://api.telegram.org/bot{token}/{method}"

@@ -27,13 +27,24 @@ from engine.audio_engine import Timeline, align_timeline, align_words, get_tts_p
 from engine.config import get_settings
 from engine.generator import ScriptSpec, generate_script, slugify, validate_quality
 from engine.renderer import build_props, render_video, write_props
-from engine.uploader import comment_text_for, upload_video
+from engine.uploader import UploadResult, comment_text_for, upload_video
 
 app = typer.Typer(add_completion=False, help="YouTube Shorts automation pipeline.")
 
 
 def _step(n: int, total: int, msg: str) -> None:
     typer.secho(f"\n[{n}/{total}] {msg}", fg=typer.colors.CYAN, bold=True)
+
+
+def _previous_upload(run_dir: Path) -> UploadResult | None:
+    """The upload recorded by an earlier attempt in this run folder, if any."""
+    marker = run_dir / "upload.json"
+    if not marker.exists():
+        return None
+    try:
+        return UploadResult.model_validate_json(marker.read_text(encoding="utf-8"))
+    except ValidationError:
+        return None
 
 
 def _load_script_file(path: Path) -> ScriptSpec:
@@ -194,15 +205,21 @@ def run(
     typer.echo(f"\nProps written: {props_path}")
 
     final_path = run_dir / "final.mp4"
-    if render or upload:
+    # A retry of a run folder whose video is already on YouTube must never upload a second copy.
+    previous = _previous_upload(run_dir) if upload else None
+    if previous:
+        typer.secho(f"  already uploaded earlier ({previous.url}); skipping render and upload", fg=typer.colors.YELLOW)
+    elif render or upload:
         _step(base_steps + 1, total_steps, "Render (Remotion)")
         final_path = render_video(run_dir, props_path)
         typer.secho(f"  {final_path}", fg=typer.colors.GREEN)
 
-    uploaded = None
-    if upload:
+    uploaded = previous
+    if upload and not previous:
         _step(total_steps, total_steps, "Upload (YouTube)")
         uploaded = upload_video(final_path, script, settings, channel_cfg, publish_dt)
+        # written right away, before anything else can fail, so a retry can recognise the finished upload
+        (run_dir / "upload.json").write_text(uploaded.model_dump_json(indent=2), encoding="utf-8")
         (run_dir / "youtube_url.txt").write_text(uploaded.url, encoding="utf-8")
         typer.secho(f"  {uploaded.url}", fg=typer.colors.GREEN)
 

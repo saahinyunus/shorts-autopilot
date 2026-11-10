@@ -10,7 +10,6 @@ cannot invent topics. Scripts are topped up automatically while the LLMs work.
 """
 from __future__ import annotations
 
-import json
 import sys
 from pathlib import Path
 
