@@ -7,6 +7,9 @@ name: Daily Shorts autopilot
 on:
   schedule:
     - cron: "23 3 * * *" # 03:23 UTC; an off-peak minute (GitHub delays jobs queued on the hour)
+    # Second chance: if the morning run was skipped or failed, this one plans every slot still at least 3 hours away.
+    # When the morning run worked it only prepares the next day's first slot early (nothing is ever produced twice).
+    - cron: "23 9 * * *"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -38,7 +41,7 @@ env:
 
 jobs:
   plan:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     outputs:
       matrix: ${{ steps.plan.outputs.matrix }}
@@ -89,7 +92,7 @@ jobs:
   produce:
     needs: plan
     if: needs.plan.outputs.count != '' && needs.plan.outputs.count != '0'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 90
     strategy:
       fail-fast: false # one failing video must not stop the others
@@ -184,7 +187,7 @@ jobs:
     if: >-
       always() && needs.plan.outputs.count != '' && needs.plan.outputs.count != '0' &&
       !(github.event_name == 'workflow_dispatch' && inputs.dry_run)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
       contents: write # commits state/history.json
@@ -243,7 +246,7 @@ jobs:
   notify:
     needs: [plan, produce, record]
     if: always() && (needs.plan.outputs.count != '' && needs.plan.outputs.count != '0' || needs.plan.outputs.errors != '')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
@@ -267,7 +270,7 @@ jobs:
   alert:
     needs: [plan, produce, record]
     if: always() && (contains(needs.*.result, 'failure') || needs.plan.outputs.errors != '')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
       issues: write

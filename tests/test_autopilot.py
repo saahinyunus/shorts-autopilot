@@ -546,3 +546,12 @@ def test_pipeline_main_annotates_failures(monkeypatch, capsys):
     with pytest.raises(SystemExit):
         pipeline.main()
     assert "::error title=Autopilot::Edge TTS failed (403)" in capsys.readouterr().out
+
+
+def test_daily_workflow_has_a_second_chance_run_and_pinned_runners():
+    wf = load_workflow("daily.yml")
+    crons = [c["cron"] for c in wf["on"]["schedule"]]
+    assert len(crons) == 2 and crons[0] != crons[1] and all(not c.startswith("0 ") for c in crons)
+    for name in ("daily.yml", "ci.yml", "telegram.yml", "check-keys.yml"):
+        for job in load_workflow(name)["jobs"].values():
+            assert job["runs-on"] == "ubuntu-24.04"  # 'latest' is moving to a new Ubuntu: do not let it break rendering
