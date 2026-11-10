@@ -89,6 +89,10 @@ class Settings(BaseSettings):
     telegram_chat_id: str = ""
     notify_timezone: str = "Europe/Istanbul"  # second clock shown next to the channel's own time
 
+    # --- Cloudflare (only used by worker/deploy.py to publish the Telegram worker) ---
+    cloudflare_api_token: str = ""
+    cloudflare_account_id: str = ""
+
     # --- Autopilot (daily.py) ---
     plan_lead_hours: float = 3.0  # a slot must be at least this far ahead so there is time to render
     plan_window_hours: float = 28.0  # a little over 24 h: late cron runs leave no gap, duplicates are filtered

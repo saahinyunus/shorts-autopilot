@@ -174,6 +174,8 @@ def test_video_messages():
     assert "❌" in bad and "Why &lt;x&gt; &amp; y" in bad and "https://run" in bad
     dry = tb.message_for_video(item, {**res, "uploaded": False}, dry_run=True, run_url="r", notify_tz="Europe/Istanbul", verdict=None)
     assert "Deneme" in dry
+    with_q = tb.message_for_video(item, {**res, "uploaded": False, "comment_text": "Which one?"}, dry_run=True, run_url="r", notify_tz="Europe/Istanbul", verdict=None)
+    assert "İlk yorum sorusu: Which one?" in with_q  # a dry run shows the comment before anything is posted
     assert "yedek senaryo" in tb.message_for_video(item, {**res, "reserve_used": "x"}, dry_run=False, run_url="r", notify_tz="Europe/Istanbul", verdict=None)
 
 
@@ -232,7 +234,8 @@ def test_daily_workflow_notifies_without_ever_failing_the_run():
 def test_telegram_poll_workflow_is_safe():
     wf = load("telegram.yml")
     text = json.dumps(wf)
-    assert wf[True if True in wf else "on"]["schedule"][0]["cron"] == "*/5 * * * *"  # PyYAML parses `on` as True
+    triggers = wf[True if True in wf else "on"]  # PyYAML parses `on` as True
+    assert "schedule" not in triggers and "workflow_dispatch" in triggers  # the Worker answers instantly; this is a fallback
     assert wf["concurrency"]["cancel-in-progress"] is False and wf["permissions"] == {"contents": "read", "actions": "read"}
     assert "${{" not in " ".join(s.get("run", "") for s in wf["jobs"]["poll"]["steps"])
     assert "poll" in text

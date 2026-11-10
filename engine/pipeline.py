@@ -27,7 +27,7 @@ from engine.audio_engine import Timeline, align_timeline, align_words, get_tts_p
 from engine.config import get_settings
 from engine.generator import ScriptSpec, generate_script, slugify, validate_quality
 from engine.renderer import build_props, render_video, write_props
-from engine.uploader import upload_video
+from engine.uploader import comment_text_for, upload_video
 
 app = typer.Typer(add_completion=False, help="YouTube Shorts automation pipeline.")
 
@@ -215,7 +215,7 @@ def run(
             "url": uploaded.url if uploaded else "",
             "publish_at": (uploaded.publish_at if uploaded and uploaded.publish_at else (publish_at or "")),
             "reserve_used": reserve_used,
-            "comment_text": uploaded.comment_text if uploaded else "",
+            "comment_text": uploaded.comment_text if uploaded else comment_text_for(script),
             "comment_id": uploaded.comment_id if uploaded else "",
         }
         (run_dir / "result.json").write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")

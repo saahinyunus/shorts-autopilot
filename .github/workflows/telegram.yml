@@ -1,12 +1,10 @@
 name: Telegram bot
 
-# Answers the commands you send to the bot (/status /queue /stats /health /help).
-# GitHub has no always-on server, so this checks for new messages every 5 minutes (replies can take a few
-# minutes; GitHub sometimes delays scheduled runs). The daily autopilot sends its own notifications instantly.
+# Fallback only. The bot normally answers instantly through the Cloudflare Worker (worker/index.js) and a
+# Telegram webhook. If the webhook is ever removed, add a `schedule:` here (for example "*/10 * * * *") to
+# poll for messages again. While the webhook is active this job exits immediately.
 
 on:
-  schedule:
-    - cron: "*/5 * * * *"
   workflow_dispatch:
 
 permissions:

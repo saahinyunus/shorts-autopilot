@@ -420,7 +420,11 @@ def message_for_video(
             lines.append("ℹ️ Yapay zekâ çalışmadığı için yedek senaryo kullanıldı")
         return "\n".join(lines)
     if result and dry_run:
-        return f"🧪 <b>Deneme videosu hazır</b> (yüklenmedi)\n📺 {esc(cid)} · 🕒 {when}\n🎬 {esc(result.get('title', ''))}\n🔗 {esc(run_url)}"
+        lines = [f"🧪 <b>Deneme videosu hazır</b> (yüklenmedi)\n📺 {esc(cid)} · 🕒 {when}\n🎬 {esc(result.get('title', ''))}"]
+        if result.get("comment_text"):
+            lines.append(f"💬 İlk yorum sorusu: {esc(result['comment_text'])}")
+        lines.append(f"🔗 {esc(run_url)}")
+        return "\n".join(lines)
     return (
         f"❌ <b>Video üretilemedi</b>\n📺 {esc(cid)} · 🕒 {when}\n📝 {esc(item.get('topic', ''))}\n"
         f"🔎 Ayrıntı: {esc(run_url)}"
