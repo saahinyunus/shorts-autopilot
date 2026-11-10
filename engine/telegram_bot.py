@@ -400,6 +400,11 @@ def _env_item() -> dict:
     return {k: os.environ.get(k.upper(), "") for k in ("channel", "topic", "publish_at", "plan_id")}
 
 
+def _reserve_note(result: dict) -> str:
+    reason = result.get("reserve_reason", "")
+    return "ℹ️ Yapay zekâ senaryo üretemediği için yedek senaryo kullanıldı" + (f" ({esc(reason[:160])})" if reason else "")
+
+
 def message_for_video(
     item: dict, result: dict | None, *, dry_run: bool, run_url: str, notify_tz: str, verdict: tuple[bool, str] | None
 ) -> str:
@@ -417,12 +422,14 @@ def message_for_video(
         if result.get("comment_text"):
             lines.append(f"💬 İlk yorum yayın saatinde otomatik yazılacak: {esc(result['comment_text'])}")
         if result.get("reserve_used"):
-            lines.append("ℹ️ Yapay zekâ çalışmadığı için yedek senaryo kullanıldı")
+            lines.append(_reserve_note(result))
         return "\n".join(lines)
     if result and dry_run:
         lines = [f"🧪 <b>Deneme videosu hazır</b> (yüklenmedi)\n📺 {esc(cid)} · 🕒 {when}\n🎬 {esc(result.get('title', ''))}"]
         if result.get("comment_text"):
             lines.append(f"💬 İlk yorum sorusu: {esc(result['comment_text'])}")
+        if result.get("reserve_used"):
+            lines.append(_reserve_note(result))
         lines.append(f"🔗 {esc(run_url)}")
         return "\n".join(lines)
     return (

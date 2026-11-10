@@ -122,6 +122,7 @@ def run(
     typer.echo(f"Run folder: {run_dir}")
 
     reserve_used = ""
+    reserve_reason = ""
     base_steps = 1 if demo else 3
     total_steps = base_steps + int(render or upload) + int(upload)
     sfx_files = ensure_sfx(settings)
@@ -155,6 +156,8 @@ def run(
                 item = load_item(reserve_file)
                 typer.secho(f"  script generation failed ({str(exc)[:160]}); using the reserve script '{item.topic}'", fg=typer.colors.YELLOW)
                 script, topic, reserve_used = item.script, item.topic, str(reserve_file)
+                reserve_reason = str(exc)[:200]
+                annotate_error(f"A reserve script replaced the AI script: {reserve_reason}", title="Reserve script used")
         script_path.write_text(script.model_dump_json(indent=2), encoding="utf-8")
         typer.echo(f"  \"{script.title}\" - {len(script.scenes)} scenes, {script.word_count} words")
 
@@ -215,6 +218,7 @@ def run(
             "url": uploaded.url if uploaded else "",
             "publish_at": (uploaded.publish_at if uploaded and uploaded.publish_at else (publish_at or "")),
             "reserve_used": reserve_used,
+            "reserve_reason": reserve_reason,
             "comment_text": uploaded.comment_text if uploaded else comment_text_for(script),
             "comment_id": uploaded.comment_id if uploaded else "",
         }
