@@ -42,7 +42,6 @@
   "timezone": "America/New_York",
   "slots": [
     "08:00",
-    "13:00",
     "19:00"
   ],
   "edge_tts_voice": "en-US-ChristopherNeural",

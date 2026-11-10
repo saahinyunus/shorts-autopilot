@@ -29,3 +29,12 @@ def _never_talk_to_real_services(monkeypatch):
     get_settings.cache_clear()
     yield
     get_settings.cache_clear()
+
+
+@pytest.fixture(autouse=True)
+def _fixed_channel_definitions(monkeypatch):
+    """Tests run against frozen copies of the channel files (tests/fixtures/channels), so changing the real
+    channels/*.json (slots, topics, voices) never breaks them. The real files have their own test."""
+    import engine.channels as channels
+
+    monkeypatch.setattr(channels, "CHANNELS_DIR", Path(__file__).resolve().parent / "fixtures" / "channels")

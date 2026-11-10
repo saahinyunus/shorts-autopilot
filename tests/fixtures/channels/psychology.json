@@ -1,0 +1,52 @@
+{
+  "id": "psychology",
+  "display_name": "Psychology Shorts",
+  "niche": "Human psychology and behavior: body language, eye contact, persuasion, memory, habits, decision making, cognitive biases and everyday social dynamics.",
+  "audience": "English-speaking viewers, mostly in the US, aged 16-45, who like quick surprising explanations they can use in daily life.",
+  "tone": "Intriguing, confident and conversational. Short punchy sentences. Speak to the viewer as 'you'.",
+  "topic_ideas": [
+    "Why you cannot stop checking your phone",
+    "The anchoring effect that makes you overpay",
+    "Why your brain remembers embarrassing moments forever",
+    "What the mere-exposure effect does to your taste",
+    "Why we procrastinate even when we know the cost"
+  ],
+  "rules": [
+    "Only use well-established, widely replicated findings (for example anchoring, confirmation bias, the mere-exposure effect, loss aversion).",
+    "Never give a precise statistic or study result unless it is real and widely documented; otherwise phrase it carefully ('research suggests').",
+    "Never diagnose anyone, never give medical or mental-health treatment advice.",
+    "Frame persuasion and manipulation tactics as awareness (how to notice them), not as instructions to exploit people."
+  ],
+  "avoid": [
+    "pop-psychology myths (left-brain/right-brain, only 10% of the brain, learning styles)",
+    "politics and religion",
+    "private lives of real people",
+    "mental-health treatment advice"
+  ],
+  "hashtags": [
+    "#Shorts",
+    "#psychology",
+    "#humanbehavior",
+    "#mindset"
+  ],
+  "tags": [
+    "psychology facts",
+    "human behavior",
+    "psychology",
+    "mind tricks",
+    "body language"
+  ],
+  "description_footer": "",
+  "category_id": "27",
+  "language": "en",
+  "timezone": "America/New_York",
+  "slots": [
+    "08:00",
+    "13:00",
+    "19:00"
+  ],
+  "edge_tts_voice": "en-US-ChristopherNeural",
+  "kokoro_voice": "am_michael",
+  "kokoro_speed": 1.0,
+  "accent_color": "#FFE600"
+}

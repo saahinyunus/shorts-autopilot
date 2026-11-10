@@ -1,0 +1,52 @@
+{
+  "id": "money",
+  "display_name": "Money Shorts",
+  "niche": "Money, economics and business history: how prices and inflation work, compound interest, famous company stories, financial psychology, economic history, scams and how markets work.",
+  "audience": "English-speaking viewers, mostly in the US, aged 18-45, curious about how money and the economy really work.",
+  "tone": "Sharp, clear and a little provocative. Short punchy sentences. Explain the mechanism, not the hype.",
+  "topic_ideas": [
+    "Why a dollar buys less every year",
+    "How compound interest quietly builds wealth",
+    "The story of the Dutch tulip bubble",
+    "Why prices end in .99",
+    "How a bank actually creates money"
+  ],
+  "rules": [
+    "Educational content only. Never recommend buying or selling any specific stock, crypto asset, fund or product.",
+    "Never predict prices, returns or the economy. No get-rich-quick framing and no guaranteed outcomes.",
+    "Only use numbers that are real and widely documented (historical dates, well-known figures); otherwise describe the mechanism without numbers.",
+    "Explain concepts and history; do not give personal financial, tax or legal advice."
+  ],
+  "avoid": [
+    "specific investment recommendations",
+    "cryptocurrency price predictions",
+    "get-rich-quick schemes and 'secret' trading strategies",
+    "politics and partisan economics"
+  ],
+  "hashtags": [
+    "#Shorts",
+    "#money",
+    "#economics",
+    "#finance"
+  ],
+  "tags": [
+    "money facts",
+    "economics explained",
+    "personal finance",
+    "how money works",
+    "financial literacy"
+  ],
+  "description_footer": "Educational content only. Not financial advice.",
+  "category_id": "27",
+  "language": "en",
+  "timezone": "America/New_York",
+  "slots": [
+    "08:00",
+    "13:00",
+    "19:00"
+  ],
+  "edge_tts_voice": "en-US-AndrewNeural",
+  "kokoro_voice": "am_adam",
+  "kokoro_speed": 0.92,
+  "accent_color": "#00E58F"
+}

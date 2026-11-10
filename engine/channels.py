@@ -74,11 +74,13 @@ class ChannelConfig(BaseModel):
         return "\n".join(lines)
 
 
-def list_channel_ids(directory: Path = CHANNELS_DIR) -> list[str]:
+def list_channel_ids(directory: Path | None = None) -> list[str]:
+    directory = directory or CHANNELS_DIR  # looked up at call time so tests can point it elsewhere
     return sorted(p.stem for p in directory.glob("*.json"))
 
 
-def load_channel(channel_id: str, directory: Path = CHANNELS_DIR) -> ChannelConfig:
+def load_channel(channel_id: str, directory: Path | None = None) -> ChannelConfig:
+    directory = directory or CHANNELS_DIR
     path = directory / f"{channel_id}.json"
     if not path.exists():
         raise RuntimeError(f"Unknown channel '{channel_id}'. Available: {', '.join(list_channel_ids(directory)) or '(none)'}")

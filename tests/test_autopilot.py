@@ -555,3 +555,19 @@ def test_daily_workflow_has_a_second_chance_run_and_pinned_runners():
     for name in ("daily.yml", "ci.yml", "telegram.yml", "check-keys.yml"):
         for job in load_workflow(name)["jobs"].values():
             assert job["runs-on"] == "ubuntu-24.04"  # 'latest' is moving to a new Ubuntu: do not let it break rendering
+
+
+def test_real_channel_files_are_valid_and_publish_twice_a_day(monkeypatch):
+    """The production channels/*.json (the other tests use frozen copies)."""
+    from pathlib import Path as P
+
+    from engine import channels
+
+    real = P(__file__).resolve().parent.parent / "channels"
+    assert channels.list_channel_ids(real) == ["money", "psychology"]
+    for cid in ("money", "psychology"):
+        ch = channels.load_channel(cid, real)
+        assert ch.slots == ["08:00", "19:00"] and ch.timezone == "America/New_York"
+        assert ch.rules and ch.hashtags and ch.kokoro_voice
+    money = channels.load_channel("money", real)
+    assert any("never recommend" in r.lower() for r in money.rules) and "not financial advice" in money.description_footer.lower()
