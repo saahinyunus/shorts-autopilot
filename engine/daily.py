@@ -158,6 +158,59 @@ def record(
     typer.echo(f"history: {added} added, {skipped} skipped, {len(history.entries)} total")
 
 
+def post_pending_comments(history, settings, youtube_for=None, max_comments: int = 20) -> list[tuple[HistoryEntry, str]]:
+    """Post the first comment under every recorded video that still lacks one. Returns [(entry, error or "")].
+    A failure leaves the entry pending, so the next run tries again."""
+    from engine.uploader import post_comment
+
+    if youtube_for is None:
+        from googleapiclient.discovery import build
+
+        from engine.uploader import get_credentials
+
+        cache: dict = {}
+
+        def youtube_for(channel_id):  # noqa: E306
+            if channel_id not in cache:
+                cache[channel_id] = build("youtube", "v3", credentials=get_credentials(settings, channel_id), cache_discovery=False)
+            return cache[channel_id]
+
+    outcome: list[tuple[HistoryEntry, str]] = []
+    for entry in history.entries:
+        if not entry.comment_text or entry.comment_id or len(outcome) >= max_comments:
+            continue
+        try:
+            entry.comment_id = post_comment(youtube_for(entry.channel), entry.video_id, entry.comment_text)
+            outcome.append((entry, ""))
+        except Exception as exc:  # noqa: BLE001
+            outcome.append((entry, type(exc).__name__))
+    return outcome
+
+
+@app.command()
+def comments() -> None:
+    """Retry the first comment for videos where posting right after the upload did not work."""
+    settings = get_settings()
+    path = settings.state_dir / "history.json"
+    history = load_history(path)
+    outcome = post_pending_comments(history, settings)
+    save_history(history, path)
+    for entry, error in outcome:
+        typer.echo(f"comment {entry.plan_id}: {'posted' if not error else 'failed (' + error + ')'}")
+    if not outcome:
+        typer.echo("no pending comments")
+    try:  # tell Telegram about late comments (best effort)
+        from engine.telegram_bot import get_telegram
+
+        tg = get_telegram(settings)
+        posted = [e for e, err in outcome if not err]
+        if tg and posted:
+            lines = [f"• {e.title or e.topic}: {e.comment_text}" for e in posted]
+            tg.send("💬 <b>Yorum yazıldı</b> (önceki denemede yazılamamıştı)\n" + "\n".join(lines))
+    except Exception:  # noqa: BLE001
+        pass
+
+
 @app.command()
 def heartbeat() -> None:
     """Write state/status.json: what the last run did. The Telegram worker reads it (no GitHub API needed)."""

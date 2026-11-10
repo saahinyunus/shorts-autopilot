@@ -83,6 +83,7 @@ class ScriptSpec(BaseModel):
     # Extras used by the uploader.
     description: str = ""
     tags: list[str] = Field(default_factory=list)
+    comment_question: str = ""  # first comment under the video (an engagement question about the topic)
 
     @model_validator(mode="after")
     def _check(self) -> "ScriptSpec":
@@ -206,7 +207,11 @@ HARD RULES
 10. The narration is read aloud by a text-to-speech engine: write numbers, years, money and symbols the way
     they are SPOKEN ("nineteen twenty", "four dollars and fifty cents", "three percent"), never as digits or
     symbols, and avoid abbreviations.
-11. A CHANNEL BRIEF may follow the topic. Follow its tone and obey its rules and exclusions."""
+11. A CHANNEL BRIEF may follow the topic. Follow its tone and obey its rules and exclusions.
+12. `comment_question`: ONE short question (<= 110 characters) that the channel owner posts as the first comment.
+    It must be about THIS video's idea, easy to answer in one line, and invite a personal answer or a choice
+    ("Which one gets you the most: ...?"). No links, no hashtags, no emoji spam (at most one), no begging for
+    likes or subscribers, and obey the channel's rules (never any financial advice)."""
 
 
 SUBMIT_SCRIPT_TOOL = {
@@ -259,6 +264,7 @@ SUBMIT_SCRIPT_TOOL = {
             },
             "description": {"type": "string"},
             "tags": {"type": "array", "items": {"type": "string"}},
+            "comment_question": {"type": "string", "description": "First comment: one engagement question about this video"},
         },
         "required": ["title", "hook", "scenes", "loop_transition_text"],
     },

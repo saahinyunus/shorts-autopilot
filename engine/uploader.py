@@ -18,13 +18,12 @@ from .channels import ChannelConfig
 from .config import ROOT_DIR, Settings, get_settings
 from .generator import ScriptSpec
 
-# Requested at login. "upload" publishes videos; "readonly" lets the Telegram bot read statistics and verify
-# that uploads are really scheduled. Tokens made before readonly was added still work for uploading.
+# Requested at login. "upload" publishes videos; "force-ssl" additionally lets the bot read statistics, verify
+# that uploads are scheduled and post the first comment. Tokens made before still work for uploading.
 SCOPES = [
     "https://www.googleapis.com/auth/youtube.upload",
-    "https://www.googleapis.com/auth/youtube.readonly",
+    "https://www.googleapis.com/auth/youtube.force-ssl",
 ]
-READONLY_SCOPE = "https://www.googleapis.com/auth/youtube.readonly"
 MAX_TAG_CHARS = 450  # YouTube allows 500 in total; stay safely below
 MAX_HASHTAGS = 5  # the first three are shown above the title; many more look spammy
 
@@ -35,6 +34,8 @@ class UploadResult(BaseModel):
     privacy: str
     publish_at: str = ""
     scheduled: bool = False
+    comment_text: str = ""
+    comment_id: str = ""
 
 
 # --------------------------------------------------------------------------- metadata
@@ -109,6 +110,32 @@ def build_body(
         },
         "status": status,
     }
+
+
+# ---------------------------------------------------------------------------- first comment
+MAX_COMMENT_CHARS = 200
+DEFAULT_QUESTION = "What do you think? Tell us in the comments."
+
+
+def comment_text_for(script: ScriptSpec) -> str:
+    """The question to post as the first comment: the script's own, else the hook if it is a question,
+    else a generic one. Links and hashtags are stripped (they get comments held for review)."""
+    text = script.comment_question.strip()
+    if not text and script.hook.strip().endswith("?"):
+        text = script.hook.strip()
+    text = re.sub(r"https?://\S+|www\.\S+", "", text)
+    text = re.sub(r"#\w+", "", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    if len(text) < 8:
+        return DEFAULT_QUESTION
+    return _cut(text, MAX_COMMENT_CHARS)
+
+
+def post_comment(youtube, video_id: str, text: str) -> str:
+    """Post a top-level comment as the channel owner; returns the comment id. Raises on failure."""
+    body = {"snippet": {"videoId": video_id, "topLevelComment": {"snippet": {"textOriginal": text}}}}
+    response = youtube.commentThreads().insert(part="snippet", body=body).execute()
+    return response["snippet"]["topLevelComment"]["id"]
 
 
 # ------------------------------------------------------------------------ credentials
@@ -188,6 +215,12 @@ def upload_video(
     if publish_at is not None and not result.scheduled:
         print("[upload] WARNING: YouTube did not keep the schedule (publishAt missing). The video may have been "
               "locked as private; check YouTube Studio and the API audit status of your Google Cloud project.")
+    result.comment_text = comment_text_for(script)
+    try:
+        result.comment_id = post_comment(youtube, result.video_id, result.comment_text)
+        print(f"[upload] first comment posted: {result.comment_text}")
+    except Exception as exc:  # noqa: BLE001 - a missing comment must never fail an upload; it is retried later
+        print(f"[upload] first comment not posted yet ({type(exc).__name__}); it will be retried by the next daily run")
     label = f"scheduled for {result.publish_at}" if result.scheduled else result.privacy
     print(f"[upload] done ({label}): {result.url}")
     return result

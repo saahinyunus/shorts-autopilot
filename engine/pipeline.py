@@ -215,6 +215,8 @@ def run(
             "url": uploaded.url if uploaded else "",
             "publish_at": (uploaded.publish_at if uploaded and uploaded.publish_at else (publish_at or "")),
             "reserve_used": reserve_used,
+            "comment_text": uploaded.comment_text if uploaded else "",
+            "comment_id": uploaded.comment_id if uploaded else "",
         }
         (run_dir / "result.json").write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
 

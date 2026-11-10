@@ -20,6 +20,8 @@ class HistoryEntry(BaseModel):
     video_id: str = ""
     url: str = ""
     publish_at: str = ""
+    comment_text: str = ""  # the first comment to post under the video
+    comment_id: str = ""  # set once it is posted; empty + comment_text = still pending
 
 
 class History(BaseModel):

@@ -414,6 +414,13 @@ def message_for_video(
         ]
         if verdict is not None:
             lines.append(("✔️ YouTube doğruladı: " if verdict[0] else "⚠️ ") + esc(verdict[1]))
+        if result.get("comment_id"):
+            lines.append(
+                f"💬 İlk yorum yazıldı: {esc(result.get('comment_text', ''))}\n"
+                "📌 Sabitlemek için: YouTube Studio uygulaması → Yorumlar → yorumun ⋮ menüsü → Sabitle"
+            )
+        elif result.get("comment_text"):
+            lines.append("💬 İlk yorum şimdi yazılamadı, sonraki otomatik çalıştırmada denenecek")
         if result.get("reserve_used"):
             lines.append("ℹ️ Yapay zekâ çalışmadığı için yedek senaryo kullanıldı")
         return "\n".join(lines)

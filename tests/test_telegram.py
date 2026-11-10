@@ -238,10 +238,10 @@ def test_telegram_poll_workflow_is_safe():
     assert "poll" in text
 
 
-def test_login_asks_for_the_readonly_scope_too():
+def test_login_asks_for_the_upload_and_force_ssl_scopes():
     from engine.uploader import SCOPES
 
-    assert any(s.endswith("youtube.upload") for s in SCOPES) and any(s.endswith("youtube.readonly") for s in SCOPES)
+    assert any(s.endswith("youtube.upload") for s in SCOPES) and any(s.endswith("youtube.force-ssl") for s in SCOPES)
 
 
 # ------------------------------------------------------------- heartbeat + webhook coexistence

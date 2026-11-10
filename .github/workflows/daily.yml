@@ -192,7 +192,7 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-      - run: pip install pydantic pydantic-settings typer anthropic httpx tzdata
+      - run: pip install pydantic pydantic-settings typer anthropic httpx tzdata google-api-python-client google-auth google-auth-oauthlib
       - run: mkdir -p artifacts
       - uses: actions/download-artifact@v4
         continue-on-error: true # no artifacts at all when every video failed
@@ -201,6 +201,13 @@ jobs:
           path: artifacts
       - name: Update state/history.json
         run: python engine/daily.py record --results-dir artifacts
+      - name: Post first comments that did not work right after the upload
+        continue-on-error: true
+        env:
+          YOUTUBE_TOKENS_JSON: ${{ secrets.YOUTUBE_TOKENS_JSON }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python engine/daily.py comments
       - name: Top up the reserve scripts (housekeeping, never fails the run)
         continue-on-error: true
         env:
