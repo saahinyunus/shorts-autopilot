@@ -18,7 +18,13 @@ from .channels import ChannelConfig
 from .config import ROOT_DIR, Settings, get_settings
 from .generator import ScriptSpec
 
-SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
+# Requested at login. "upload" publishes videos; "readonly" lets the Telegram bot read statistics and verify
+# that uploads are really scheduled. Tokens made before readonly was added still work for uploading.
+SCOPES = [
+    "https://www.googleapis.com/auth/youtube.upload",
+    "https://www.googleapis.com/auth/youtube.readonly",
+]
+READONLY_SCOPE = "https://www.googleapis.com/auth/youtube.readonly"
 MAX_TAG_CHARS = 450  # YouTube allows 500 in total; stay safely below
 MAX_HASHTAGS = 5  # the first three are shown above the title; many more look spammy
 
@@ -134,7 +140,7 @@ def get_credentials(settings: Settings, channel_id: str | None = None):
             f"No YouTube login found for {who}. Run once on your computer: "
             f"python engine/youtube_auth.py login --channel {channel_id or '<id>'}"
         )
-    creds = Credentials.from_authorized_user_info(info, SCOPES)
+    creds = Credentials.from_authorized_user_info(info)  # refresh with exactly the scopes the login granted
     if not creds.valid:
         if creds.refresh_token:
             creds.refresh(Request())

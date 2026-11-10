@@ -192,3 +192,17 @@ Bir video üretilemezse sistem sırayla şunları dener:
 3. **Yedek senaryo deposu** (`state/reserve/<kanal>/`): hazır, doğrulanmış senaryolar. Hiçbir yapay zekâ çalışmasa bile video yine çıkar. Her gün otomatik doldurulur (kanal başına hedef 8).
 
 Önerilen: Groq anahtarı (https://console.groq.com/keys) alıp GitHub'da `GROQ_API_KEY` secret'ı olarak ekleyin.
+
+## Telegram botu
+
+Bildirimler (anında): plan, her videonun yüklenmesi ve YouTube'daki zamanlama doğrulaması, hatalar, günlük özet.
+Komutlar (cevap birkaç dakika gecikebilir): `/status`, `/queue`, `/stats`, `/health`, `/help`.
+
+Kurulum: Telegram'da @BotFather → `/newbot` → token. Token'ı `.env` dosyasına `TELEGRAM_BOT_TOKEN=` olarak yazın,
+botunuza `/start` gönderin, sonra `python engine/telegram_bot.py whoami` çıktısındaki `TELEGRAM_CHAT_ID=...` satırını
+`.env`'e ekleyin. İkisini de GitHub'da secret olarak ekleyin (aynı adlarla). `python engine/telegram_bot.py test`
+ile deneyin.
+
+İstatistikler için YouTube'dan `youtube.readonly` izni gerekir: Google Cloud'da Data Access'e bu kapsamı ekleyin,
+sonra her kanal için `python engine/youtube_auth.py login --channel money` ve `--channel psychology` komutlarını
+yeniden çalıştırıp `export` çıktısını `YOUTUBE_TOKENS_JSON` secret'ına yapıştırın.

@@ -84,6 +84,11 @@ class Settings(BaseSettings):
     # (secret YOUTUBE_TOKENS_JSON). Locally the files token_<channel>.json are used instead.
     youtube_tokens_json: str = ""
 
+    # --- Telegram bot (notifications + commands); both empty = disabled ---
+    telegram_bot_token: str = ""
+    telegram_chat_id: str = ""
+    notify_timezone: str = "Europe/Istanbul"  # second clock shown next to the channel's own time
+
     # --- Autopilot (daily.py) ---
     plan_lead_hours: float = 3.0  # a slot must be at least this far ahead so there is time to render
     plan_window_hours: float = 28.0  # a little over 24 h: late cron runs leave no gap, duplicates are filtered

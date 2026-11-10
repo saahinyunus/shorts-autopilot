@@ -441,7 +441,7 @@ def test_daily_workflow_shape_and_safety():
     assert wf["permissions"] == {"contents": "read"}
     assert wf["on"]["workflow_dispatch"]["inputs"]["dry_run"]["default"] is True  # manual runs are dry by default
     assert re.fullmatch(r"\d+ \d+ \* \* \*", wf["on"]["schedule"][0]["cron"]) and not wf["on"]["schedule"][0]["cron"].startswith("0 ")
-    assert list(wf["jobs"]) == ["plan", "produce", "record", "alert"]
+    assert list(wf["jobs"]) == ["plan", "produce", "record", "notify", "alert"]
     produce = wf["jobs"]["produce"]
     assert produce["strategy"]["fail-fast"] is False and "fromJSON" in produce["strategy"]["matrix"]
     assert wf["jobs"]["record"]["permissions"] == {"contents": "write"}

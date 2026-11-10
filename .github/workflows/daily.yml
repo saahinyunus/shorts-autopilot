@@ -32,6 +32,7 @@ concurrency:
 env:
   # scheduled runs are always real; manual runs follow the checkbox
   DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && 'true' || 'false' }}
+  RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
 jobs:
   plan:
@@ -73,6 +74,15 @@ jobs:
         run: |
           if [ -n "$LEAD_HOURS" ]; then export PLAN_LEAD_HOURS="$LEAD_HOURS"; fi
           python engine/daily.py plan --channels "$CHANNELS" --github-output
+      - name: Tell Telegram what was planned
+        if: always() && steps.plan.conclusion != 'skipped'
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          PLAN_MATRIX: ${{ steps.plan.outputs.matrix }}
+          PLAN_ERRORS: ${{ steps.plan.outputs.errors }}
+        run: python engine/telegram_bot.py notify-plan
 
   produce:
     needs: plan
@@ -136,6 +146,18 @@ jobs:
             sleep $((attempt * 150))
           done
           exit 1
+      - name: Tell Telegram how this video went
+        if: always()
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          CHANNEL: ${{ matrix.channel }}
+          TOPIC: ${{ matrix.topic }}
+          PUBLISH_AT: ${{ matrix.publish_at }}
+          PLAN_ID: ${{ matrix.plan_id }}
+          YOUTUBE_TOKENS_JSON: ${{ secrets.YOUTUBE_TOKENS_JSON }}
+        run: python engine/telegram_bot.py notify-video
       - name: Keep the result for bookkeeping
         if: always()
         uses: actions/upload-artifact@v4
@@ -198,6 +220,30 @@ jobs:
             sleep 5
           done
           exit 1
+
+  notify:
+    needs: [plan, produce, record]
+    if: always() && (needs.plan.outputs.count != '' && needs.plan.outputs.count != '0' || needs.plan.outputs.errors != '')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install pydantic pydantic-settings typer anthropic httpx tzdata
+      - name: Summary to Telegram
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          PLAN_COUNT: ${{ needs.plan.outputs.count }}
+          PLAN_ERRORS: ${{ needs.plan.outputs.errors }}
+          PLAN_RESULT: ${{ needs.plan.result }}
+          PRODUCE_RESULT: ${{ needs.produce.result }}
+          RECORD_RESULT: ${{ needs.record.result }}
+        run: python engine/telegram_bot.py notify-run
 
   alert:
     needs: [plan, produce, record]
