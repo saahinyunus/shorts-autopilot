@@ -63,7 +63,9 @@ def build_plan(channel_ids: list[str], now: datetime, settings, history, provide
                 if other != cid
                 for _, t in available(other, history, root=settings.state_dir / "reserve")
             ]
-            previous = others + other_reserve + planned_topics + channel.already_covered + own
+            # this channel's own reserve scripts are future videos too: a fresh topic must not be the same idea
+            own_reserve = [t for _, t in available(cid, history, root=settings.state_dir / "reserve")]
+            previous = others + other_reserve + planned_topics + channel.already_covered + own + own_reserve
             topics: list[str] = []
             try:
                 provider = provider or provider_factory()

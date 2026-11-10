@@ -238,3 +238,15 @@ def test_planner_treats_other_channels_reserve_topics_as_taken(tmp_path):
 
     daily.build_plan(["money"], utc(2026, 11, 10, 3, 23), settings_for(tmp_path), History(), lambda: types.SimpleNamespace(complete_json=complete))
     assert "decoy effect tricks you into buying larger sizes" in seen[0]
+
+
+def test_planner_also_avoids_its_own_channels_reserve_topics(tmp_path):
+    put(tmp_path, "money", "How a gold standard once limited every government")
+    seen = []
+
+    def complete(system, user, schema):
+        seen.append(user)
+        return {"topics": [{"topic": t} for t in ["How Nintendo survived a century", "What a Ponzi scheme really is", "Why the penny costs more than its value"]]}
+
+    daily.build_plan(["money"], utc(2026, 11, 10, 3, 23), settings_for(tmp_path), History(), lambda: types.SimpleNamespace(complete_json=complete))
+    assert "gold standard once limited every government" in seen[0]  # shown as already taken
