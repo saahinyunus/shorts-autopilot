@@ -1,0 +1,127 @@
+{
+  "topic": "Why crossing your arms can signal hidden disagreement",
+  "script": {
+    "title": "Crossed arms hidden disagreement: Why body language betrays you",
+    "hook": "Crossed arms reveal hidden disagreement?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Crossed arms reveal hidden disagreement?",
+        "duration_estimate": 2.0,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Crossed arms reveal hidden disagreement?",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "Roughly seventy percent of people cross their arms when they disagree.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 70.0,
+          "prefix": "",
+          "suffix": "%",
+          "label": "people cross arms when disagreeing"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 3,
+        "text": "The gesture spikes in tense meetings and negotiations.",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "UP",
+          "label": "NONVERBAL RESISTANCE"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 4,
+        "text": "Analysts label it a defensive barrier against confrontation.",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "BODY LANGUAGE FILE",
+          "highlight_text": "defensive barrier",
+          "is_redacted": true
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 5,
+        "text": "You’ll often Google why crossing arms feels instinctive.",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "why do I cross my arms when angry",
+          "result_headline": "Crossing arms signals psychological resistance"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 6,
+        "text": "But it’s more than just comfort.",
+        "duration_estimate": 2.4,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "But it’s more than just comfort",
+          "subtext": ""
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 7,
+        "text": "Trust can drop roughly twenty percent when you see crossed arms.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 20.0,
+          "prefix": "",
+          "suffix": "%",
+          "label": "trust drop when arms crossed"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 8,
+        "text": "Communication effectiveness slides as the barrier rises.",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "DOWN",
+          "label": "COMMUNICATION EFFECTIVENESS"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 9,
+        "text": "Now you know the hidden signal:",
+        "duration_estimate": 2.4,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Now you know the hidden signal:",
+          "subtext": ""
+        },
+        "sfx": "riser"
+      }
+    ],
+    "loop_transition_text": "Now you know the hidden signal:",
+    "description": "Crossed arms reveal hidden disagreement? Learn why this simple gesture signals resistance.\nBody language often betrays true feelings.\nSpot nonverbal cues before they affect you.\n\n#Shorts #psychology #humanbehavior #mindset",
+    "tags": [
+      "crossed arms meaning",
+      "body language disagreement",
+      "nonverbal resistance",
+      "defensive posture",
+      "hidden disagreement cue",
+      "psychology of gestures",
+      "interpret body language",
+      "signs of disagreement",
+      "arm crossing meaning",
+      "social signals"
+    ]
+  }
+}
