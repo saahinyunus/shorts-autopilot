@@ -19,6 +19,8 @@ if __package__ in (None, ""):
 import typer
 from pydantic import ValidationError
 
+from engine.ci import annotate_error
+
 from engine.asset_manager import ensure_sfx
 from engine.channels import ChannelConfig, load_channel
 from engine.audio_engine import Timeline, align_timeline, align_words, synthesize_audio
@@ -205,10 +207,15 @@ def main() -> None:
         for err in exc.errors():
             message = err["msg"].removeprefix("Value error, ")
             typer.secho(f"\nConfig error: {message}", fg=typer.colors.RED, err=True)
+            annotate_error(f"Config error: {message}")
         raise SystemExit(1) from None
     except RuntimeError as exc:  # config/API/render problems: short message, no traceback
         typer.secho(f"\nError: {exc}", fg=typer.colors.RED, err=True)
+        annotate_error(str(exc))
         raise SystemExit(1) from None
+    except Exception as exc:  # noqa: BLE001 - unexpected crash: make it visible in the run summary, then re-raise
+        annotate_error(f"{type(exc).__name__}: {exc}")
+        raise
 
 
 if __name__ == "__main__":

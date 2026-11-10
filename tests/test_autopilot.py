@@ -520,3 +520,28 @@ def test_whole_history_is_checked_not_only_the_recent_part():
                      "What inflation quietly does to your savings", "How compound interest builds wealth slowly"]])
     topics = plan_topics(ch, 3, old, llm)  # the repeat sits deep inside a long history
     assert "Why prices end in .99 almost everywhere again" not in topics
+
+
+# ------------------------------------------------------------------ CI error annotations
+def test_annotate_error_only_inside_github_actions(monkeypatch, capsys):
+    from engine.ci import annotate_error
+
+    monkeypatch.delenv("GITHUB_ACTIONS", raising=False)
+    annotate_error("boom")
+    assert capsys.readouterr().out == ""
+    monkeypatch.setenv("GITHUB_ACTIONS", "true")
+    annotate_error("Edge TTS failed\n100% sure")
+    out = capsys.readouterr().out
+    assert out.startswith("::error title=Autopilot::Edge TTS failed%0A100%25 sure")
+    annotate_error("x" * 5000)
+    assert len(capsys.readouterr().out) < 1300
+
+
+def test_pipeline_main_annotates_failures(monkeypatch, capsys):
+    from engine import pipeline
+
+    monkeypatch.setenv("GITHUB_ACTIONS", "true")
+    monkeypatch.setattr(pipeline, "app", lambda: (_ for _ in ()).throw(RuntimeError("Edge TTS failed (403)")))
+    with pytest.raises(SystemExit):
+        pipeline.main()
+    assert "::error title=Autopilot::Edge TTS failed (403)" in capsys.readouterr().out

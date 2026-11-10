@@ -22,6 +22,8 @@ if __package__ in (None, ""):
 import typer
 from pydantic import ValidationError
 
+from engine.ci import annotate_error
+
 from engine.channels import list_channel_ids, load_channel, plan_id, upcoming_slots
 from engine.config import get_settings
 from engine.generator import get_llm_provider
@@ -125,7 +127,11 @@ def main() -> None:
         raise SystemExit(1) from None
     except RuntimeError as exc:
         typer.secho(f"\nError: {exc}", fg=typer.colors.RED, err=True)
+        annotate_error(str(exc))
         raise SystemExit(1) from None
+    except Exception as exc:  # noqa: BLE001
+        annotate_error(f"{type(exc).__name__}: {exc}")
+        raise
 
 
 if __name__ == "__main__":
