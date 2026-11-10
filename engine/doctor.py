@@ -101,11 +101,14 @@ def check_telegram(s: Settings, post: Callable = httpx.post) -> list[Check]:
 
 def run_checks(s: Settings) -> list[Check]:
     results: list[Check] = []
-    for fn in (check_gemini, check_groq, check_anthropic, check_youtube, check_telegram):
+    for name, fn in (
+        ("gemini", check_gemini), ("groq", check_groq), ("anthropic", check_anthropic),
+        ("youtube", check_youtube), ("telegram", check_telegram),
+    ):
         try:
             results.extend(fn(s))
         except Exception as exc:  # noqa: BLE001 - one broken check must not hide the others
-            results.append((fn.__name__.removeprefix("check_"), False, type(exc).__name__))
+            results.append((name, False, type(exc).__name__))
     return results
 
 
