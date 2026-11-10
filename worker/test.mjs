@@ -2,10 +2,13 @@
 import assert from "node:assert/strict";
 import worker from "./index.js";
 
-const { fmtSlot, checkScheduled, replyFor, handleUpdate } = worker.internals;
+const { fmtSlot, checkScheduled, replyFor, handleUpdate, postDueComments } = worker.internals;
 const NOW = new Date("2026-11-10T12:00:00Z");
 const sent = [];
 let ytError = null;
+let commentFail = false;
+const posted = [];
+const existingComments = {};
 
 const HISTORY = { entries: [
   { plan_id: "m1", channel: "money", topic: "t1", title: "Money <One>", video_id: "v1", url: "https://youtu.be/v1", publish_at: "2026-11-10T13:00:00Z" },
@@ -27,6 +30,14 @@ globalThis.fetch = async (url, opts = {}) => {
   if (url.includes("raw.githubusercontent.com")) return url.includes("history.json") ? json(HISTORY) : json(STATUS);
   if (url.includes("oauth2.googleapis.com")) return json({ access_token: "ya29.fake", expires_in: 3600 });
   if (url.includes("api.telegram.org")) { sent.push(JSON.parse(opts.body)); return json({ ok: true }); }
+  if (url.includes("youtube/v3/commentThreads")) {
+    if (opts.method === "POST") {
+      if (commentFail) return new Response("{}", { status: 403 });
+      const body = JSON.parse(opts.body); posted.push(body.snippet); return json({ id: "thread1" });
+    }
+    const vid = new URL(url).searchParams.get("videoId");
+    return json({ items: (existingComments[vid] || []).map((t) => ({ snippet: { topLevelComment: { snippet: { textOriginal: t } } } })) });
+  }
   if (url.includes("youtube/v3")) {
     if (ytError) return new Response(ytError, { status: 403 });
     if (url.includes("/channels")) return json({ items: [{ snippet: { title: "Money Channel" }, statistics: { subscriberCount: "1234", viewCount: "56789", videoCount: "7" } }] });
@@ -79,4 +90,34 @@ assert.equal(ok.status, 200);
 await new Promise((r) => setTimeout(r, 20));
 assert.equal(sent.length, 1); assert.equal(sent[0].chat_id, 42); assert.match(sent[0].text, /Komutlar/);
 
+// first comments at publish time
+const C_HIST = [
+  { plan_id: "c1", channel: "money", topic: "t", title: "Due video", video_id: "due1", url: "https://youtu.be/due1", publish_at: "2026-11-10T11:30:00Z", comment_text: "Which one gets you?" },
+  { plan_id: "c2", channel: "money", topic: "t", title: "Future video", video_id: "fut1", url: "u", publish_at: "2026-11-10T13:00:00Z", comment_text: "Not yet?" },
+  { plan_id: "c3", channel: "psychology", topic: "t", title: "Already commented", video_id: "had1", url: "u", publish_at: "2026-11-10T10:00:00Z", comment_text: "Existing question?" },
+  { plan_id: "c4", channel: "money", topic: "t", title: "Old video, no feature", video_id: "old1", url: "u", publish_at: "2026-11-10T09:00:00Z" },
+  { plan_id: "c5", channel: "money", topic: "t", title: "Too old", video_id: "ancient", url: "u", publish_at: "2026-11-09T09:00:00Z", comment_text: "Stale?" },
+];
+HISTORY.entries = C_HIST;
+existingComments.had1 = ["Existing question?"];
+sent.length = 0;
+const done = await postDueComments(env, NOW);
+assert.deepEqual(done.map((e) => e.video_id), ["due1"]);                         // only the due one
+assert.equal(posted.length, 1); assert.equal(posted[0].videoId, "due1"); assert.equal(posted[0].topLevelComment.snippet.textOriginal, "Which one gets you?");
+assert.equal(sent.length, 1); assert.match(sent[0].text, /Sabitle/); assert.match(sent[0].text, /Due video/);
+assert.deepEqual(await postDueComments(env, NOW), []);                           // never twice
+assert.equal(posted.length, 1);
+
+// a failing comment is retried, and reported once after six tries
+HISTORY.entries = [{ plan_id: "f", channel: "money", topic: "t", title: "Flaky", video_id: "flaky1", url: "u", publish_at: "2026-11-10T11:55:00Z", comment_text: "Flaky q?" }];
+commentFail = true; sent.length = 0;
+for (let i = 0; i < 5; i++) await postDueComments(env, NOW);
+assert.equal(sent.length, 0);
+await postDueComments(env, NOW);
+assert.equal(sent.length, 1); assert.match(sent[0].text, /yazılamadı/);
+await postDueComments(env, NOW);
+assert.equal(sent.length, 1);                                                    // gave up quietly after the alert
+
+// the timer entry point exists
+assert.equal(typeof worker.scheduled, "function");
 console.log("worker tests passed");

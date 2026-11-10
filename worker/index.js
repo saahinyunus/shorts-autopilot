@@ -233,8 +233,66 @@ async function handleUpdate(update, env) {
   if (answer) await send(env, msg.chat.id, answer);
 }
 
+// ------------------------------------------------------------------ first comments (timer)
+// YouTube refuses comments on videos that are not public yet, so the Worker's cron trigger (every 10
+// minutes) posts each video's first comment once the video has gone public. It never posts twice: it
+// looks for its own comment first. state/history.json carries the text (comment_text).
+const HOUR = 3600000;
+const handled = new Set(); // video ids finished in this isolate (the YouTube check below is the real guard)
+const attempts = new Map();
+
+async function ownComment(env, e) {
+  const data = await youtube(env, e.channel, "commentThreads", { part: "snippet", videoId: e.video_id, maxResults: "50", order: "time" });
+  return (data.items || []).some((i) => i.snippet.topLevelComment.snippet.textOriginal === e.comment_text);
+}
+
+async function insertComment(env, e) {
+  const token = await accessToken(env, e.channel);
+  const r = await fetch("https://www.googleapis.com/youtube/v3/commentThreads?part=snippet", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ snippet: { videoId: e.video_id, topLevelComment: { snippet: { textOriginal: e.comment_text } } } }),
+  });
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+}
+
+async function postDueComments(env, now = new Date()) {
+  const h = (await rawJson(env, "state/history.json")).entries;
+  const due = h.filter((e) => {
+    const age = now - new Date(e.publish_at);
+    return e.comment_text && !e.comment_id && e.publish_at && age >= 0 && age < 12 * HOUR && !handled.has(e.video_id);
+  });
+  const results = [];
+  for (const e of due) {
+    try {
+      if (!(await ownComment(env, e))) {
+        await insertComment(env, e);
+        results.push(e);
+        await send(env, env.TELEGRAM_CHAT_ID,
+          `💬 <b>İlk yorum yazıldı</b>
+🎬 <a href="${esc(e.url)}">${esc(e.title || e.topic)}</a>
+“${esc(e.comment_text)}”
+` +
+          "📌 Sabitlemek için: YouTube Studio uygulaması → Yorumlar → yorumun ⋮ menüsü → Sabitle");
+      }
+      handled.add(e.video_id);
+    } catch (err) {
+      const n = (attempts.get(e.video_id) || 0) + 1;
+      attempts.set(e.video_id, n);
+      if (n >= 6) { // about an hour of trying: give up and say so once
+        handled.add(e.video_id);
+        await send(env, env.TELEGRAM_CHAT_ID, `⚠️ İlk yorum yazılamadı: ${esc(e.title || e.topic)} (${esc(err.message)})`);
+      }
+    }
+  }
+  return results;
+}
+
 export default {
-  internals: { fmtSlot, ago, checkScheduled, replyFor, handleUpdate }, // for worker/test.mjs
+  internals: { fmtSlot, ago, checkScheduled, replyFor, handleUpdate, postDueComments }, // for worker/test.mjs
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(postDueComments(env).catch(() => {}));
+  },
   async fetch(request, env, ctx) {
     if (request.method !== "POST") return new Response("Shorts autopilot bot is running.");
     if (!env.WEBHOOK_SECRET || request.headers.get("X-Telegram-Bot-Api-Secret-Token") !== env.WEBHOOK_SECRET) {

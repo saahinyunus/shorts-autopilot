@@ -158,10 +158,14 @@ def record(
     typer.echo(f"history: {added} added, {skipped} skipped, {len(history.entries)} total")
 
 
-def post_pending_comments(history, settings, youtube_for=None, max_comments: int = 20) -> list[tuple[HistoryEntry, str]]:
-    """Post the first comment under every recorded video that still lacks one. Returns [(entry, error or "")].
-    A failure leaves the entry pending, so the next run tries again."""
-    from engine.uploader import post_comment
+def post_pending_comments(
+    history, settings, youtube_for=None, now=None, min_age_hours: float = 6.0, max_comments: int = 20
+) -> list[tuple[HistoryEntry, str]]:
+    """Safety net: post the first comment under videos that went public at least `min_age_hours` ago and
+    still have none (the Telegram worker normally does it within minutes). Returns [(entry, error or "")]."""
+    from engine.uploader import find_comment, post_comment
+
+    now = now or datetime.now(timezone.utc)
 
     if youtube_for is None:
         from googleapiclient.discovery import build
@@ -177,10 +181,14 @@ def post_pending_comments(history, settings, youtube_for=None, max_comments: int
 
     outcome: list[tuple[HistoryEntry, str]] = []
     for entry in history.entries:
-        if not entry.comment_text or entry.comment_id or len(outcome) >= max_comments:
+        if not entry.comment_text or entry.comment_id or not entry.publish_at or len(outcome) >= max_comments:
+            continue
+        if (now - datetime.fromisoformat(entry.publish_at.replace("Z", "+00:00"))).total_seconds() < min_age_hours * 3600:
             continue
         try:
-            entry.comment_id = post_comment(youtube_for(entry.channel), entry.video_id, entry.comment_text)
+            yt = youtube_for(entry.channel)
+            existing = find_comment(yt, entry.video_id, entry.comment_text)  # the worker may have posted it already
+            entry.comment_id = existing or post_comment(yt, entry.video_id, entry.comment_text)
             outcome.append((entry, ""))
         except Exception as exc:  # noqa: BLE001
             outcome.append((entry, type(exc).__name__))
@@ -189,7 +197,7 @@ def post_pending_comments(history, settings, youtube_for=None, max_comments: int
 
 @app.command()
 def comments() -> None:
-    """Retry the first comment for videos where posting right after the upload did not work."""
+    """Safety net for the first comment (normally posted by the Telegram worker at publish time)."""
     settings = get_settings()
     path = settings.state_dir / "history.json"
     history = load_history(path)

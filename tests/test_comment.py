@@ -1,6 +1,7 @@
 """First comment under every video: question text, posting, retry of failures, notifications."""
 import sys
 import types
+from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -31,8 +32,8 @@ def test_prompt_and_schema_ask_for_the_question():
 
 
 class FakeYouTube:
-    def __init__(self, fail=None):
-        self.fail, self.posted = fail, []
+    def __init__(self, fail=None, existing=()):
+        self.fail, self.posted, self.existing = fail, [], list(existing)
 
     def commentThreads(self):
         def insert(part, body):
@@ -44,7 +45,14 @@ class FakeYouTube:
 
             return types.SimpleNamespace(execute=execute)
 
-        return types.SimpleNamespace(insert=insert)
+        def list_(part, videoId, maxResults, order):
+            items = [{"snippet": {"topLevelComment": {"id": "old1", "snippet": {"textOriginal": t}}}} for t in self.existing]
+            return types.SimpleNamespace(execute=lambda: {"items": items})
+
+        return types.SimpleNamespace(insert=insert, list=list_)
+
+
+NOW = datetime(2026, 11, 10, 20, 0, tzinfo=timezone.utc)
 
 
 def test_post_comment_sends_a_top_level_comment():
@@ -52,32 +60,39 @@ def test_post_comment_sends_a_top_level_comment():
     assert uploader.post_comment(yt, "vid1", "Which one?") == "c123"
     assert yt.posted[0]["snippet"]["videoId"] == "vid1"
     assert yt.posted[0]["snippet"]["topLevelComment"]["snippet"]["textOriginal"] == "Which one?"
+    assert uploader.find_comment(FakeYouTube(existing=["Hi", "Which one?"]), "v", "Which one?") == "old1"
+    assert uploader.find_comment(FakeYouTube(existing=["Hi"]), "v", "Which one?") == ""
 
 
-def test_pending_comments_are_posted_and_failures_stay_pending():
-    ok_entry = HistoryEntry(plan_id="a", channel="money", topic="t", video_id="v1", comment_text="Q1?")
-    failing = HistoryEntry(plan_id="b", channel="psychology", topic="t", video_id="v2", comment_text="Q2?")
-    done = HistoryEntry(plan_id="c", channel="money", topic="t", video_id="v3", comment_text="Q3?", comment_id="old")
-    none = HistoryEntry(plan_id="d", channel="money", topic="t", video_id="v4")  # video from before this feature
-    history = History(entries=[ok_entry, failing, done, none])
-    clients = {"money": FakeYouTube(), "psychology": FakeYouTube(fail=RuntimeError("commentsDisabled"))}
-    outcome = daily.post_pending_comments(history, Settings(_env_file=None), youtube_for=lambda cid: clients[cid])
-    assert [(e.plan_id, err) for e, err in outcome] == [("a", ""), ("b", "RuntimeError")]
-    assert ok_entry.comment_id == "c123" and failing.comment_id == "" and done.comment_id == "old"
-    assert len(clients["money"].posted) == 1  # nothing posted twice
+def test_safety_net_only_touches_old_videos_without_a_comment():
+    def e(pid, cid, vid, at, **kw):
+        return HistoryEntry(plan_id=pid, channel=cid, topic="t", video_id=vid, publish_at=at, **kw)
+
+    old = e("a", "money", "v1", "2026-11-10T08:00:00Z", comment_text="Q1?")                      # 12 h old: the worker missed it
+    fresh = e("b", "money", "v2", "2026-11-10T18:00:00Z", comment_text="Q2?")                    # 2 h old: leave it to the worker
+    failing = e("c", "psychology", "v3", "2026-11-10T08:00:00Z", comment_text="Q3?")
+    done = e("d", "money", "v4", "2026-11-10T08:00:00Z", comment_text="Q4?", comment_id="x")
+    legacy = e("e", "money", "v5", "2026-11-10T08:00:00Z")                                        # video from before this feature
+    present = e("f", "money", "v6", "2026-11-10T08:00:00Z", comment_text="Already there?")
+    unscheduled = HistoryEntry(plan_id="g", channel="money", topic="t", video_id="v7", comment_text="No time?")
+    history = History(entries=[old, fresh, failing, done, legacy, present, unscheduled])
+    clients = {"money": FakeYouTube(existing=["Already there?"]), "psychology": FakeYouTube(fail=RuntimeError("boom"))}
+    outcome = daily.post_pending_comments(history, Settings(_env_file=None), youtube_for=lambda cid: clients[cid], now=NOW)
+    assert [(x.plan_id, err) for x, err in outcome] == [("a", ""), ("c", "RuntimeError"), ("f", "")]
+    assert old.comment_id == "c123" and present.comment_id == "old1"          # an existing comment is adopted, never duplicated
+    assert failing.comment_id == "" and fresh.comment_id == "" and done.comment_id == "x"
+    assert len(clients["money"].posted) == 1
 
 
 def test_record_keeps_the_comment_fields_in_the_history():
     assert {"comment_text", "comment_id"} <= set(HistoryEntry.model_fields)
 
 
-def test_telegram_message_tells_how_to_pin():
+def test_telegram_upload_message_announces_the_comment():
     item = {"channel": "money", "publish_at": "2026-11-10T13:00:00Z"}
-    base = {"uploaded": True, "title": "T", "url": "https://youtu.be/a", "channel": "money"}
-    posted = tb.message_for_video(item, {**base, "comment_text": "Which one?", "comment_id": "c1"}, dry_run=False, run_url="r", notify_tz="Europe/Istanbul", verdict=None)
-    assert "Which one?" in posted and "Sabitle" in posted
-    pending = tb.message_for_video(item, {**base, "comment_text": "Which one?", "comment_id": ""}, dry_run=False, run_url="r", notify_tz="Europe/Istanbul", verdict=None)
-    assert "denenecek" in pending and "Sabitle" not in pending
+    res = {"uploaded": True, "title": "T", "url": "https://youtu.be/a", "channel": "money", "comment_text": "Which one?"}
+    text = tb.message_for_video(item, res, dry_run=False, run_url="r", notify_tz="Europe/Istanbul", verdict=None)
+    assert "yayın saatinde otomatik yazılacak" in text and "Which one?" in text
 
 
 def test_workflow_retries_comments_before_committing():

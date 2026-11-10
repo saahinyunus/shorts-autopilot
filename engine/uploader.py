@@ -131,6 +131,16 @@ def comment_text_for(script: ScriptSpec) -> str:
     return _cut(text, MAX_COMMENT_CHARS)
 
 
+def find_comment(youtube, video_id: str, text: str) -> str:
+    """Id of the channel's own comment with exactly this text on the video, or ''."""
+    response = youtube.commentThreads().list(part="snippet", videoId=video_id, maxResults=50, order="time").execute()
+    for item in response.get("items", []):
+        top = item["snippet"]["topLevelComment"]
+        if top["snippet"].get("textOriginal") == text:
+            return top["id"]
+    return ""
+
+
 def post_comment(youtube, video_id: str, text: str) -> str:
     """Post a top-level comment as the channel owner; returns the comment id. Raises on failure."""
     body = {"snippet": {"videoId": video_id, "topLevelComment": {"snippet": {"textOriginal": text}}}}
@@ -215,12 +225,9 @@ def upload_video(
     if publish_at is not None and not result.scheduled:
         print("[upload] WARNING: YouTube did not keep the schedule (publishAt missing). The video may have been "
               "locked as private; check YouTube Studio and the API audit status of your Google Cloud project.")
+    # YouTube refuses comments on a video that is not public yet, so the comment is posted at publish time
+    # (by the Telegram worker's timer; daily.py comments is the safety net). Only the text is stored now.
     result.comment_text = comment_text_for(script)
-    try:
-        result.comment_id = post_comment(youtube, result.video_id, result.comment_text)
-        print(f"[upload] first comment posted: {result.comment_text}")
-    except Exception as exc:  # noqa: BLE001 - a missing comment must never fail an upload; it is retried later
-        print(f"[upload] first comment not posted yet ({type(exc).__name__}); it will be retried by the next daily run")
     label = f"scheduled for {result.publish_at}" if result.scheduled else result.privacy
     print(f"[upload] done ({label}): {result.url}")
     return result
