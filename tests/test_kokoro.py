@@ -179,9 +179,8 @@ def test_download_success_replaces_the_partial_file(tmp_path, monkeypatch):
 
 
 # ------------------------------------------- Windows: espeak cannot read non-ASCII folders
-def test_espeak_config_is_untouched_off_windows(monkeypatch):
-    monkeypatch.setattr(ae.os, "name", "posix")
-    assert ae._ascii_espeak_config() is None
+def test_espeak_config_is_untouched_off_windows():
+    assert ae._ascii_espeak_config(windows=False) is None
 
 
 def test_espeak_files_are_copied_to_an_ascii_folder_when_the_path_has_non_ascii_letters(tmp_path, monkeypatch):
@@ -189,24 +188,23 @@ def test_espeak_files_are_copied_to_an_ascii_folder_when_the_path_has_non_ascii_
     (pkg / "espeak-ng-data").mkdir(parents=True)
     (pkg / "espeak-ng-data" / "phontab").write_bytes(b"data")
     (pkg / "espeak-ng.dll").write_bytes(b"dll")
-    monkeypatch.setattr(ae.os, "name", "nt")
     monkeypatch.setitem(sys.modules, "espeakng_loader", types.SimpleNamespace(
         get_library_path=lambda: str(pkg / "espeak-ng.dll"), get_data_path=lambda: str(pkg / "espeak-ng-data")))
     monkeypatch.setitem(sys.modules, "kokoro_onnx", types.SimpleNamespace(
         EspeakConfig=lambda lib_path, data_path: types.SimpleNamespace(lib_path=lib_path, data_path=data_path)))
     ascii_base = tmp_path / "ProgramData"
     monkeypatch.setenv("PROGRAMDATA", str(ascii_base))
-    cfg = ae._ascii_espeak_config()
+    cfg = ae._ascii_espeak_config(windows=True)
     assert cfg is not None and cfg.lib_path.isascii() and cfg.data_path.isascii()
     assert (Path(cfg.data_path) / "phontab").read_bytes() == b"data" and Path(cfg.lib_path).read_bytes() == b"dll"
-    assert ae._ascii_espeak_config().data_path == cfg.data_path  # second call reuses the copy
+    assert ae._ascii_espeak_config(windows=True).data_path == cfg.data_path  # second call reuses the copy
 
     ascii_pkg = tmp_path / "plain" / "espeakng_loader"  # ASCII path: nothing to do
     (ascii_pkg / "espeak-ng-data").mkdir(parents=True)
     (ascii_pkg / "espeak-ng.dll").write_bytes(b"dll")
     monkeypatch.setitem(sys.modules, "espeakng_loader", types.SimpleNamespace(
         get_library_path=lambda: str(ascii_pkg / "espeak-ng.dll"), get_data_path=lambda: str(ascii_pkg / "espeak-ng-data")))
-    assert ae._ascii_espeak_config() is None
+    assert ae._ascii_espeak_config(windows=True) is None
 
 
 # ---------------------------------------------------------------------- pipeline + channels

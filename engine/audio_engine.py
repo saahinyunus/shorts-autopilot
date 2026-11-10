@@ -230,11 +230,12 @@ def _download(url: str, target: Path, attempts: int = 3) -> None:
             print(f"[tts] download failed ({exc}); retrying {attempt}/{attempts - 1}")
 
 
-def _ascii_espeak_config():
+def _ascii_espeak_config(windows: bool | None = None):
     """On Windows the espeak-ng library bundled with kokoro-onnx cannot read its data files from a
     folder whose path contains non-ASCII characters (for example 'Masaüstü'): the process just dies.
-    In that case copy the files to an ASCII-only folder and point kokoro-onnx there. Elsewhere: None."""
-    if os.name != "nt":
+    In that case copy the files to an ASCII-only folder and point kokoro-onnx there. Elsewhere: None.
+    (`windows` overrides the OS detection; used by tests.)"""
+    if not (os.name == "nt" if windows is None else windows):
         return None
     try:
         import espeakng_loader
