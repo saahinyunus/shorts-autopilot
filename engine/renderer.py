@@ -22,6 +22,7 @@ def build_props(
     audio_file: str,
     run_dir: Path,
     settings: Settings | None = None,
+    theme=None,
 ) -> dict:
     """Create the Remotion `VideoProps` dict and copy the SFX files the video uses into
     `<run_dir>/sfx` (the run folder doubles as Remotion's public dir)."""
@@ -35,7 +36,7 @@ def build_props(
         source = next(p for p in sfx_files.values() if p.name == name)
         shutil.copyfile(source, sfx_dir / name)
 
-    return {
+    props = {
         "title": script.title,
         "fps": settings.fps,
         "durationInSeconds": timeline.duration,
@@ -55,6 +56,10 @@ def build_props(
         "words": [w.model_dump() for w in timeline.words],
         "sfx": cues,
     }
+    if theme is not None:  # per-video look chosen by engine/variety.py; Remotion defaults to the classic grid
+        props["theme"] = theme.props()
+        props["accentColor"] = theme.accent
+    return props
 
 
 def write_props(props: dict, run_dir: Path) -> Path:

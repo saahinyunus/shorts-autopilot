@@ -237,7 +237,7 @@ def test_plan_cli_writes_github_outputs(tmp_path, monkeypatch):
     lines = dict(line.split("=", 1) for line in out.read_text(encoding="utf-8").splitlines())
     matrix = json.loads(lines["matrix"])
     assert lines["count"] == "3" and lines["errors"] == "" and len(matrix["include"]) == 3
-    assert set(matrix["include"][0]) == {"channel", "topic", "publish_at", "plan_id", "reserve"}
+    assert set(matrix["include"][0]) == {"channel", "topic", "publish_at", "plan_id", "reserve", "format", "theme"}
 
 
 def test_record_cli_stores_only_uploaded_results_once(tmp_path, monkeypatch):

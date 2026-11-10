@@ -26,7 +26,29 @@ export type MotionAction =
   | {type: 'CHART'; trend: 'UP' | 'DOWN'; label: string}
   | {type: 'DOCUMENT'; title: string; highlight_text: string; is_redacted: boolean}
   | {type: 'SEARCH'; query_text: string; result_headline: string}
-  | {type: 'MINIMAL_TEXT'; headline: string; subtext: string};
+  | {type: 'MINIMAL_TEXT'; headline: string; subtext: string}
+  | {
+      type: 'COMPARISON';
+      left_label: string;
+      left_value: string;
+      right_label: string;
+      right_value: string;
+      winner: 'LEFT' | 'RIGHT' | 'NONE';
+    }
+  | {type: 'TIMELINE'; events: {label: string; text: string}[]}
+  | {type: 'STEPS'; title: string; steps: string[]}
+  | {type: 'CALLOUT'; tag: string; statement: string; tone: 'NEUTRAL' | 'BAD' | 'GOOD'};
+
+export type BgStyle = 'grid' | 'dots' | 'diagonal' | 'rings' | 'waves';
+
+/** Per-video look (chosen by the engine from the channel's palettes). Optional: defaults to the classic grid. */
+export type VideoTheme = {
+  name: string;
+  bgStyle: BgStyle;
+  /** The two neon glows behind the pattern. */
+  glow: string;
+  glow2: string;
+};
 
 export type SceneProps = {
   id: number;
@@ -60,6 +82,7 @@ export type VideoProps = {
   accentColor: string;
   /** Fade the last scene out so the Short loops seamlessly into scene 1. */
   seamlessLoop: boolean;
+  theme?: VideoTheme;
 };
 
 export const VIDEO_WIDTH = 1080;

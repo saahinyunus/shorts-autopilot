@@ -1,11 +1,15 @@
 import React from 'react';
 import {interpolate, useCurrentFrame} from 'remotion';
 import type {MotionAction} from '../../types/schema';
+import {Callout} from './Callout';
+import {Comparison} from './Comparison';
 import {DocumentReveal} from './DocumentReveal';
 import {DynamicCounter} from './DynamicCounter';
 import {MinimalText} from './MinimalText';
 import {SearchMockup} from './SearchMockup';
+import {Steps} from './Steps';
 import {SvgChart} from './SvgChart';
+import {Timeline} from './Timeline';
 
 /**
  * Chooses the React animation for a scene from its `motion_action`.
@@ -36,6 +40,21 @@ const renderMotion = (m: MotionAction, accentColor: string): React.ReactNode => 
       );
     case 'SEARCH':
       return <SearchMockup queryText={m.query_text} resultHeadline={m.result_headline} />;
+    case 'COMPARISON':
+      return (
+        <Comparison
+          left={{label: m.left_label, value: m.left_value}}
+          right={{label: m.right_label, value: m.right_value}}
+          winner={m.winner}
+          accentColor={accentColor}
+        />
+      );
+    case 'TIMELINE':
+      return <Timeline events={m.events} accentColor={accentColor} />;
+    case 'STEPS':
+      return <Steps title={m.title} steps={m.steps} accentColor={accentColor} />;
+    case 'CALLOUT':
+      return <Callout tag={m.tag} statement={m.statement} tone={m.tone} accentColor={accentColor} />;
     case 'MINIMAL_TEXT':
     default:
       return (

@@ -1,0 +1,158 @@
+{
+  "topic": "The 1929 Wall Street Crash: How panic selling sealed the Great Depression",
+  "script": {
+    "title": "1929 Wall Street Crash: How Panic Selling Fueled the Great Depression",
+    "hook": "What if the crash never happened?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "What if the crash never happened?",
+        "duration_estimate": 2.4,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "What if the crash never happened?",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "The Dow fell from about three hundred to sixty nine points.",
+        "duration_estimate": 5.2,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 69.0,
+          "prefix": "",
+          "suffix": "",
+          "label": "Dow points after crash"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 3,
+        "text": "Investors rushed to sell stocks, flooding the market with massive volume.",
+        "duration_estimate": 5.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Massive sell‑off floods the market",
+          "subtext": ""
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 4,
+        "text": "Bank runs froze credit across the nation.",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "WARNING",
+          "statement": "Bank runs froze credit across the nation",
+          "tone": "BAD"
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 5,
+        "text": "Industrial output fell by about a quarter within a year.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "DOWN",
+          "label": "US Industrial Output"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 6,
+        "text": "Unemployment jumped from under five percent in 1929 to about twenty‑five percent by 1933.",
+        "duration_estimate": 6.4,
+        "motion_action": {
+          "type": "TIMELINE",
+          "events": [
+            {
+              "label": "1929",
+              "text": "Unemployment ~5%"
+            },
+            {
+              "label": "1930",
+              "text": "Unemployment rising"
+            },
+            {
+              "label": "1933",
+              "text": "Unemployment ~25%"
+            }
+          ]
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 7,
+        "text": "Panic = Depression. Selling amplified the slump.",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Panic = Depression",
+          "subtext": "Selling amplified the slump"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 8,
+        "text": "Why did fear spread so fast? Psychology of herd behavior triggered mass sell‑offs.",
+        "duration_estimate": 5.2,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "why did 1929 panic spread",
+          "result_headline": "Psychology of herd behavior triggered mass sell‑offs"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 9,
+        "text": "1929 panic sell vs 2020 COVID sell shows similar fallout.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "COMPARISON",
+          "left_label": "1929",
+          "left_value": "panic sell",
+          "right_label": "2020",
+          "right_value": "COVID sell",
+          "winner": "NONE"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 10,
+        "text": "Now you know why panic sells doom economies:",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Now you know why panic sells doom",
+          "subtext": ""
+        },
+        "sfx": "sub_drop"
+      }
+    ],
+    "loop_transition_text": "Now you know why panic sells doom economies:",
+    "description": "The 1929 Wall Street Crash showed how panic selling can turn a recession into a depression. Learn the mechanics behind the crash and its lasting impact. Discover why herd behavior still matters today.\n\n#Shorts #money #economics #finance",
+    "tags": [
+      "1929 crash",
+      "wall street panic",
+      "great depression causes",
+      "stock market history",
+      "economic downturns",
+      "panic selling",
+      "herd behavior finance",
+      "industrial output decline"
+    ],
+    "comment_question": "Which panic moment in history scares you the most?",
+    "sources": [
+      "Federal Reserve History, 1929‑1933 data",
+      "U.S. Bureau of Labor Statistics unemployment records"
+    ],
+    "review_notes": [
+      "FIXED: Scene 3: \"Investors dumped stocks at a rate of roughly three million shares per day.\" (No evidence supports that exact daily share volume during the crash.)",
+      "FIXED: Scene 6: \"Unemployment rose to ten percent, then to twenty five percent by nineteen thirty three.\" (Historical unemployment was ~4.7% in 1929 and ~25% in 1933, not 10% in 1929.)"
+    ]
+  }
+}

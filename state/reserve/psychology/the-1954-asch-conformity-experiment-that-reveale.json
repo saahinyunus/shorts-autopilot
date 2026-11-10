@@ -1,0 +1,123 @@
+{
+  "topic": "The 1954 Asch conformity experiment that revealed group pressure",
+  "script": {
+    "title": "Asch conformity experiment shows why we follow the crowd",
+    "hook": "Who decides reality when everyone nods?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Who decides reality when everyone nods?",
+        "duration_estimate": 2.4,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Who decides reality when everyone nods?",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "In 1951 psychologist Solomon Asch gathered strangers in a room.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "ASCH EXPERIMENT",
+          "highlight_text": "1951",
+          "is_redacted": false
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 3,
+        "text": "He showed them a line and asked which matched a longer one.",
+        "duration_estimate": 4.8,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Match the line?",
+          "subtext": ""
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 4,
+        "text": "One person gave the correct answer, but the rest shouted the wrong length.",
+        "duration_estimate": 5.2,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Wrong answers echo",
+          "subtext": ""
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 5,
+        "text": "About thirty‑seven percent of participants conformed at least once, doubting their own sight.",
+        "duration_estimate": 5.2,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 37.0,
+          "prefix": "",
+          "suffix": "%",
+          "label": "participants who conformed"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 6,
+        "text": "When a true ally spoke up, conformity dropped to under fifteen percent.",
+        "duration_estimate": 4.8,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 15.0,
+          "prefix": "",
+          "suffix": "%",
+          "label": "conformity with ally"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 7,
+        "text": "The experiment proves we trust the group over our senses.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "FACT",
+          "statement": "Group pressure overrides perception",
+          "tone": "GOOD"
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 8,
+        "text": "Now you know why you second‑guess yourself in crowds:",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Second‑guess in crowds",
+          "subtext": ""
+        },
+        "sfx": "none"
+      }
+    ],
+    "loop_transition_text": "Now you know why you second‑guess yourself in crowds:",
+    "description": "Who decides reality when everyone nods? The classic Asch experiment reveals group pressure.\nLearn how conformity shapes daily decisions.\nDiscover simple cues to spot when you’re being swayed.\n\n#Shorts #psychology #humanbehavior #mindset",
+    "tags": [
+      "asch conformity experiment",
+      "group pressure",
+      "social influence",
+      "psychology experiment",
+      "conformity bias",
+      "solomon asch",
+      "human behavior",
+      "decision making"
+    ],
+    "comment_question": "Have you ever gone along with a group even when you felt it was wrong?",
+    "sources": [
+      "Solomon Asch, 1951 (Classic conformity study)",
+      "McLeod, 2018 (Summary of Asch experiment)"
+    ],
+    "review_notes": [
+      "FIXED: Scene 5: \"Seventy percent of participants conformed at least once\" (The Asch experiment reported a conformity rate of about 37%, not 70%)"
+    ]
+  }
+}

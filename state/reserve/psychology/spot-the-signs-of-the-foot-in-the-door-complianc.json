@@ -1,0 +1,135 @@
+{
+  "topic": "Spot the signs of the ‘foot-in-the-door’ compliance technique",
+  "script": {
+    "title": "Foot‑in‑the‑door trick: how tiny asks hijack your decisions",
+    "hook": "Why does a tiny request make you say yes?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Why does a tiny request make you say yes?",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Why does a tiny request make you say",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "Researchers discovered a two‑step compliance trick that lifts agreement rates.",
+        "duration_estimate": 5.0,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "foot in the door technique",
+          "result_headline": "Two‑step compliance trick boosts agreement"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 3,
+        "text": "First they ask for something trivial, like a free sticker.",
+        "duration_estimate": 5.2,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "CASE FILE: FOOT‑IN‑THE‑DOOR",
+          "highlight_text": "initial trivial request",
+          "is_redacted": false
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 4,
+        "text": "Then, moments later, they request a larger favor.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Step two: a bigger favor",
+          "subtext": ""
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 5,
+        "text": "Your brain tags the first agreement as a self‑label.",
+        "duration_estimate": 5.2,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "MYTH",
+          "statement": "Small asks don’t matter",
+          "tone": "BAD"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 6,
+        "text": "That label creates subconscious pressure to stay consistent.",
+        "duration_estimate": 5.2,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "FACT",
+          "statement": "They create a self‑label of agreement",
+          "tone": "GOOD"
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 7,
+        "text": "Research finds compliance rises after the initial tiny request.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Compliance rises after tiny ask",
+          "subtext": ""
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 8,
+        "text": "Notice the pattern: a minor favor followed by a bigger one.",
+        "duration_estimate": 5.2,
+        "motion_action": {
+          "type": "COMPARISON",
+          "left_label": "Minor favor",
+          "left_value": "1 request",
+          "right_label": "Major favor",
+          "right_value": "2 requests",
+          "winner": "RIGHT"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 9,
+        "text": "Now you know the hidden cue: –",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Now you know the hidden cue:",
+          "subtext": ""
+        },
+        "sfx": "none"
+      }
+    ],
+    "loop_transition_text": "Now you know the hidden cue: –",
+    "description": "Why does a tiny request make you say yes?\nLearn the two‑step compliance cue and how to spot it.\nBoost your awareness of subtle persuasion tactics.\n\n#Shorts #psychology #humanbehavior #mindset",
+    "tags": [
+      "foot-in-the-door",
+      "compliance technique",
+      "persuasion cues",
+      "psychology tricks",
+      "behavior science",
+      "social influence",
+      "subtle persuasion",
+      "self consistency",
+      "awareness tips"
+    ],
+    "comment_question": "Which tiny request have you noticed turning into a bigger ask?",
+    "sources": [
+      "Freedman & Fraser, 1966 (foot‑in‑the‑door study)",
+      "Cialdini, Influence, 1984 (compliance techniques)"
+    ],
+    "review_notes": [
+      "FIXED: Scene 7: \"Studies show people comply about twice as often after the small ask.\" (The exact 2× increase is a precise statistic that cannot be verified without a specific source and may not reflect the original study’s find)"
+    ]
+  }
+}

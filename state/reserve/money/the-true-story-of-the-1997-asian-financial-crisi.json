@@ -1,0 +1,177 @@
+{
+  "topic": "The true story of the 1997 Asian Financial Crisis",
+  "script": {
+    "title": "The 1997 Asian Crisis: How Thailand Broke",
+    "hook": "Why did Thailand's elite lose everything in days?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Why did Thailand's elite lose everything in days?",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "TOTAL COLLAPSE",
+          "subtext": "The 1997 Trap"
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "Bankers bet the country on one risky move.",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "RISK",
+          "statement": "Fixed Exchange Rate: A Gamble",
+          "tone": "BAD"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 3,
+        "text": "They promised the baht would never drop.",
+        "duration_estimate": 2.6,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "CENTRAL BANK ORDER",
+          "highlight_text": "BAHT STAYS FIXED",
+          "is_redacted": false
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 4,
+        "text": "Credit flows like water, fueling a bubble.",
+        "duration_estimate": 3.0,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "UP",
+          "label": "ASSET PRICES SURGE"
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 5,
+        "text": "Global investors began selling the currency very fast.",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "Is Thailand overvalued?",
+          "result_headline": "Expert: Exit Strategy Required"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 6,
+        "text": "The central bank spent reserves to hold the line.",
+        "duration_estimate": 3.8,
+        "motion_action": {
+          "type": "TIMELINE",
+          "events": [
+            {
+              "label": "JUL 97",
+              "text": "Reserves Depleted"
+            },
+            {
+              "label": "AUG 97",
+              "text": "Defense Failed"
+            }
+          ]
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 7,
+        "text": "On July two, the baht finally crashed.",
+        "duration_estimate": 3.0,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "DOWN",
+          "label": "BAHT VALUE PLUMMETS"
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 8,
+        "text": "This triggered the Asian Financial Crisis.",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "IMPACT",
+          "statement": "Regional Contagion Begins",
+          "tone": "BAD"
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 9,
+        "text": "Indonesia and South Korea followed suit in the panic.",
+        "duration_estimate": 3.8,
+        "motion_action": {
+          "type": "STEPS",
+          "title": "CONTAGION SPREAD",
+          "steps": [
+            "Thailand Devaluation",
+            "Capital Flight",
+            "Regional Panic"
+          ]
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 10,
+        "text": "GDP shrank, jobs vanished, trust evaporated.",
+        "duration_estimate": 3.0,
+        "motion_action": {
+          "type": "COMPARISON",
+          "left_label": "1996",
+          "left_value": "Stable",
+          "right_label": "1998",
+          "right_value": "Recession",
+          "winner": "LEFT"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 11,
+        "text": "The lesson is simple: paper promises break.",
+        "duration_estimate": 3.4,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "TRUST FAILS",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 12,
+        "text": "And that is exactly why:",
+        "duration_estimate": 1.8,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "THE REAL REASON",
+          "subtext": ""
+        },
+        "sfx": "none"
+      }
+    ],
+    "loop_transition_text": "And that is exactly why:",
+    "description": "How fixed exchange rates can trigger a financial crisis.\nThe 1997 Asian Financial Crisis explained simply.\n\n#Shorts #money #economics #finance",
+    "tags": [
+      "asian financial crisis",
+      "thailand baht crash",
+      "economic history",
+      "currency devaluation",
+      "financial bubble",
+      "money concepts",
+      "business history",
+      "market mechanics"
+    ],
+    "comment_question": "Have you ever seen a currency crash like this?",
+    "sources": [
+      "IMF World Economic Outlook, 1998 (Asian Crisis Data)",
+      "Thailand Central Bank Historical Records, 1997"
+    ],
+    "review_notes": []
+  }
+}

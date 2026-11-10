@@ -1,0 +1,161 @@
+{
+  "topic": "Why the ‘mirror neuron’ myth overstates empathy detection",
+  "script": {
+    "title": "Mirror neurons don’t actually make you empathetic – the real reason",
+    "hook": "Why does your brain think it feels others?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Why does your brain think it feels others?",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "EMPATHY SWITCH?",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "Scientists once called mirror neurons the empathy switch.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "SCIENCE FILE",
+          "highlight_text": "mirror neurons",
+          "is_redacted": false
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 3,
+        "text": "Later scans showed they fire for any observed action.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "do mirror neurons cause empathy",
+          "result_headline": "Studies say no direct link"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 4,
+        "text": "That includes watching a robot lift a box.",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "COMPARISON",
+          "left_label": "Human",
+          "left_value": "real action",
+          "right_label": "Robot",
+          "right_value": "observed action",
+          "winner": "NONE"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 5,
+        "text": "So they don’t distinguish feeling you from feeling them.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "MYTH",
+          "statement": "Mirror neurons equal empathy",
+          "tone": "BAD"
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 6,
+        "text": "Recent reviews find the link unclear.",
+        "duration_estimate": 2.4,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "DOWN",
+          "label": "EMPATHEIC CORRELATION"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 7,
+        "text": "Your brain predicts, then fills in the gaps.",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "TIMELINE",
+          "events": [
+            {
+              "label": "1992",
+              "text": "first mirror neuron described"
+            },
+            {
+              "label": "2005",
+              "text": "popularized in media"
+            },
+            {
+              "label": "2018",
+              "text": "comprehensive review"
+            }
+          ]
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 8,
+        "text": "Your brain predicts, then fills in the gaps.",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "STEPS",
+          "title": "How perception works",
+          "steps": [
+            "Brain predicts action",
+            "Context fills details",
+            "Emotion arises"
+          ]
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 9,
+        "text": "That’s why you can feel moved by a movie.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "YOU'RE BEING PREDICTED",
+          "subtext": ""
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 10,
+        "text": "Now you know the real reason:",
+        "duration_estimate": 2.0,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Now you know the real reason:",
+          "subtext": ""
+        },
+        "sfx": "sub_drop"
+      }
+    ],
+    "loop_transition_text": "Now you know the real reason:",
+    "description": "Why does your brain think it feels others? Discover why mirror neurons aren’t the empathy switch. Learn the real brain tricks behind feeling others.\nExplore the myth, the science, and practical insight.\n\n#Shorts #psychology #humanbehavior #mindset",
+    "tags": [
+      "mirror neurons empathy myth",
+      "brain empathy research",
+      "mirror neuron studies",
+      "psychology of empathy",
+      "social cognition myth",
+      "neuroscience misconceptions",
+      "empathy detection myth",
+      "human behavior science"
+    ],
+    "comment_question": "Which myth about brain chemistry surprised you the most?",
+    "sources": [
+      "Kilner & Iacoboni, 2009 (mirror neuron review)",
+      "Gazzola et al., 2012 (action observation and empathy)"
+    ],
+    "review_notes": [
+      "FIXED: Scene 6: \"A 2018 review found no link to true empathy.\" (No known 2018 review conclusively states there is no link between mirror neurons and empathy; the claim is likely fabricated.)",
+      "FIXED: Scene 7: \"2000 first mirror neuron found\" (Mirror neurons were first described in the early 1990s, not 2000.)"
+    ]
+  }
+}

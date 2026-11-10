@@ -25,8 +25,9 @@ from engine.asset_manager import ensure_sfx
 from engine.channels import ChannelConfig, load_channel
 from engine.audio_engine import Timeline, align_timeline, align_words, get_tts_provider, synthesize_audio
 from engine.config import get_settings
-from engine.generator import ScriptSpec, generate_script, slugify, validate_quality
+from engine.generator import FactCheckUnresolved, ScriptSpec, generate_script, slugify, validate_quality
 from engine.renderer import build_props, render_video, write_props
+from engine.variety import format_brief, theme_named
 from engine.uploader import UploadResult, comment_text_for, upload_video
 
 app = typer.Typer(add_completion=False, help="YouTube Shorts automation pipeline.")
@@ -78,6 +79,8 @@ def run(
     channel: str = typer.Option(None, "--channel", "-c", help="Channel id from channels/ (voice, accent colour, tone, SEO and the YouTube login come from it)."),
     publish_at: str = typer.Option(None, "--publish-at", help="Schedule the upload: ISO time, e.g. 2026-11-12T13:00:00Z (uploaded as private, YouTube publishes it then)."),
     plan_id: str = typer.Option(None, "--plan-id", help="Id of the planned slot (written to result.json for the history)."),
+    narrative: str = typer.Option(None, "--format", help="Narrative format of this video (engine/variety.py FORMATS), e.g. myth_vs_reality."),
+    theme_name: str = typer.Option(None, "--theme", help="Visual theme of this video (engine/variety.py THEMES), e.g. gold-dots."),
     reserve_file: Path = typer.Option(None, "--reserve-file", help="Backup script (state/reserve/...): used only if generating a fresh script fails, so the slot is never left empty."),
     demo: bool = typer.Option(False, "--demo", help="Offline demo with placeholder assets (no API keys)."),
 ) -> None:
@@ -103,6 +106,9 @@ def run(
         if channel_cfg.accent_color:
             overrides.setdefault("accent_color", channel_cfg.accent_color)
         overrides.setdefault("youtube_category_id", channel_cfg.category_id)
+    theme = theme_named(channel, theme_name) if (channel and theme_name) else None
+    if theme:  # the theme's accent colour wins over the channel default (same colour family)
+        overrides["accent_color"] = theme.accent
     settings = base_settings.model_copy(update=overrides)
 
     publish_dt: datetime | None = None
@@ -158,17 +164,27 @@ def run(
             script = _load_script_file(script_path)
         else:
             try:
-                script = generate_script(topic, settings, brief=channel_cfg.brief() if channel_cfg else "")
+                parts = (channel_cfg.brief() if channel_cfg else "", format_brief(narrative or ""))
+                brief = "\n\n".join(part for part in parts if part)
+                script = generate_script(topic, settings, brief=brief, review=settings.fact_check)
             except RuntimeError as exc:
-                if not (reserve_file and reserve_file.exists()):
-                    raise
-                from engine.reserve import load_item
+                have_reserve = bool(reserve_file and reserve_file.exists())
+                if have_reserve:
+                    from engine.reserve import load_item
 
-                item = load_item(reserve_file)
-                typer.secho(f"  script generation failed ({str(exc)[:160]}); using the reserve script '{item.topic}'", fg=typer.colors.YELLOW)
-                script, topic, reserve_used = item.script, item.topic, str(reserve_file)
-                reserve_reason = str(exc)[:200]
-                annotate_error(f"A reserve script replaced the AI script: {reserve_reason}", title="Reserve script used")
+                    item = load_item(reserve_file)
+                    typer.secho(f"  script generation failed ({str(exc)[:160]}); using the reserve script '{item.topic}'", fg=typer.colors.YELLOW)
+                    script, topic, reserve_used = item.script, item.topic, str(reserve_file)
+                    reserve_reason = str(exc)[:200]
+                    annotate_error(f"A reserve script replaced the AI script: {reserve_reason}", title="Reserve script used")
+                elif isinstance(exc, FactCheckUnresolved):
+                    # a doubtful claim and no reserve script either: publishing with a warning to the owner
+                    # is better than leaving the slot empty
+                    script = exc.script
+                    typer.secho(f"  WARNING: {exc}", fg=typer.colors.YELLOW)
+                    annotate_error(f"Published with a flagged claim (no reserve script): {str(exc)[:300]}", title="Fact check")
+                else:
+                    raise
         script_path.write_text(script.model_dump_json(indent=2), encoding="utf-8")
         typer.echo(f"  \"{script.title}\" - {len(script.scenes)} scenes, {script.word_count} words")
 
@@ -200,7 +216,7 @@ def run(
         typer.echo(f"  video length {timeline.duration:.1f}s, {len(timeline.words)} words")
 
     # --------------------------------------------------------------------- props
-    props = build_props(script, timeline, sfx_files, audio_name, run_dir, settings)
+    props = build_props(script, timeline, sfx_files, audio_name, run_dir, settings, theme)
     props_path = write_props(props, run_dir)
     typer.echo(f"\nProps written: {props_path}")
 
@@ -236,6 +252,10 @@ def run(
             "publish_at": (uploaded.publish_at if uploaded and uploaded.publish_at else (publish_at or "")),
             "reserve_used": reserve_used,
             "reserve_reason": reserve_reason,
+            "format": narrative or "",
+            "theme": theme.name if theme else "",
+            "sources": script.sources,
+            "review_notes": script.review_notes,
             "comment_text": uploaded.comment_text if uploaded else comment_text_for(script),
             "comment_id": uploaded.comment_id if uploaded else "",
         }

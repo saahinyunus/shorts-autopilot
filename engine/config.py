@@ -24,6 +24,7 @@ class Settings(BaseSettings):
 
     # Gemini (free tier). gemini-2.0-flash / 1.5-flash were retired by Google; 3.x Flash is current.
     llm_failover: bool = True  # fall back to every other LLM whose API key is set
+    fact_check: bool = True  # a second model reviews every script for doubtful claims
     gemini_api_key: str = ""
     gemini_model: str = "gemini-3.6-flash"
     gemini_fallback_model: str = "gemini-3.8-flash"  # used if the primary returns 404
@@ -31,7 +32,7 @@ class Settings(BaseSettings):
     # Groq (free tier, OpenAI-compatible)
     groq_api_key: str = ""
     groq_model: str = "openai/gpt-oss-120b"
-    groq_fallback_model: str = "qwen/qwen3.8-27b"
+    groq_fallback_model: str = "openai/gpt-oss-20b"  # its own 8,000 tokens/minute bucket on the free tier
 
     # Anthropic (paid; only used when LLM_PROVIDER=anthropic)
     anthropic_api_key: str = ""

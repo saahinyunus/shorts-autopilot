@@ -22,6 +22,8 @@ class HistoryEntry(BaseModel):
     publish_at: str = ""
     comment_text: str = ""  # the first comment to post under the video
     comment_id: str = ""  # set once it is posted; empty + comment_text = still pending
+    format: str = ""  # narrative format of the video (engine/variety.py)
+    theme: str = ""  # visual theme of the video
 
 
 class History(BaseModel):

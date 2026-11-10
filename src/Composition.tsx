@@ -23,6 +23,7 @@ export const ShortsComposition: React.FC<VideoProps> = ({
   sfx,
   accentColor,
   seamlessLoop,
+  theme,
 }) => {
   const {fps, durationInFrames} = useVideoConfig();
   const shakes = useMemo(() => buildShakeTriggers(scenes, sfx), [scenes, sfx]);
@@ -30,7 +31,7 @@ export const ShortsComposition: React.FC<VideoProps> = ({
   return (
     <AbsoluteFill style={{backgroundColor: '#07080B'}}>
       <ScreenShake triggers={shakes}>
-        <GridBackground />
+        <GridBackground bgStyle={theme?.bgStyle} glow={theme?.glow} glow2={theme?.glow2} />
         {scenes.map((scene, i) => {
           const isLast = i === scenes.length - 1;
           const from = Math.round(scene.start * fps);

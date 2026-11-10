@@ -266,13 +266,13 @@ def test_a_provider_that_keeps_breaking_the_rules_is_replaced_after_two_tries():
     chain = FailoverProvider([weak, strong])
     script = generate_script("topic", Settings(_env_file=None, gemini_api_key="k"), provider=chain)
     assert len(script.scenes) == 8
-    assert weak.calls == ["propose", "revise"] and strong.calls == ["propose"]  # 2 tries, then a fresh start elsewhere
+    assert weak.calls == ["propose", "revise", "revise"] and strong.calls == ["propose"]  # 3 tries, then a fresh start elsewhere
 
 
 def test_attempts_scale_with_the_number_of_providers():
     assert FailoverProvider([Fake("a")]).suggested_attempts == 3
-    assert FailoverProvider([Fake("a"), Fake("b"), Fake("c")]).suggested_attempts == 6
-    assert FailoverProvider([Fake(str(i)) for i in range(5)]).suggested_attempts == 6
+    assert FailoverProvider([Fake("a"), Fake("b"), Fake("c")]).suggested_attempts == 9
+    assert FailoverProvider([Fake(str(i)) for i in range(5)]).suggested_attempts == 9
 
 
 def test_actions_use_groq_first_because_gemini_free_tier_is_tiny():

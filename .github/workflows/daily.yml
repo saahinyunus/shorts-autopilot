@@ -136,11 +136,15 @@ jobs:
           PUBLISH_AT: ${{ matrix.publish_at }}
           PLAN_ID: ${{ matrix.plan_id }}
           RESERVE: ${{ matrix.reserve }}
+          FORMAT: ${{ matrix.format }}
+          THEME: ${{ matrix.theme }}
         run: |
           set -uo pipefail
           base=(--channel "$CHANNEL" --topic "$TOPIC" --publish-at "$PUBLISH_AT" --plan-id "$PLAN_ID" --render)
           if [ "$DRY_RUN" != "true" ]; then base+=(--upload); fi
           if [ -n "$RESERVE" ]; then base+=(--reserve-file "$RESERVE"); fi
+          if [ -n "${FORMAT:-}" ]; then base+=(--format "$FORMAT"); fi
+          if [ -n "${THEME:-}" ]; then base+=(--theme "$THEME"); fi
           for attempt in 1 2 3; do
             args=("${base[@]}")
             last=$(ls -dt output/*/ 2>/dev/null | head -1 || true)

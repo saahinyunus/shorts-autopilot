@@ -101,6 +101,35 @@ def status() -> None:
         typer.echo(f"{cid}: {len(available(cid, history, root=settings.state_dir / 'reserve'))} reserve script(s)")
 
 
+def review_reserve(settings, provider, root: Path) -> list[tuple[Path, list[str]]]:
+    """Fact check every reserve script with a second model and delete the doubtful ones.
+    Returns [(deleted path, issues)]; scripts the checker could not judge are kept."""
+    from engine.generator import fact_check
+
+    checker = provider.second_opinion() if hasattr(provider, "second_opinion") else provider
+    removed: list[tuple[Path, list[str]]] = []
+    for folder in sorted(root.glob("*")) if root.exists() else []:
+        for path in sorted(folder.glob("*.json")) if folder.is_dir() else []:
+            try:
+                issues = fact_check(load_item(path).script, checker)
+            except Exception:  # noqa: BLE001 - unreadable file: leave it to available()
+                continue
+            if issues:
+                path.unlink()
+                removed.append((path, issues))
+    return removed
+
+
+@app.command()
+def review() -> None:
+    """Fact check all reserve scripts; doubtful ones are deleted (`fill` creates checked replacements)."""
+    settings = get_settings()
+    removed = review_reserve(settings, get_llm_provider(settings), settings.state_dir / "reserve")
+    for path, issues in removed:
+        typer.echo(f"removed {relpath(path)}: {issues[0]}")
+    typer.echo(f"{len(removed)} doubtful reserve script(s) removed")
+
+
 @app.command()
 def fill(
     channel: str = typer.Option("", "--channel", help="Channel id (default: all)."),
@@ -132,7 +161,7 @@ def fill(
             continue
         for topic in topics:
             try:
-                script = generate_script(topic, settings, provider=provider, brief=ch.brief())
+                script = generate_script(topic, settings, provider=provider, brief=ch.brief(), review=settings.fact_check)
             except Exception as exc:  # noqa: BLE001
                 typer.secho(f"{cid}: script for '{topic}' failed: {exc}", fg=typer.colors.YELLOW)
                 continue

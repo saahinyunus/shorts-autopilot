@@ -1,0 +1,161 @@
+{
+  "topic": "Myth: Inflation always hurts savers – Reality: Real interest rates matter",
+  "script": {
+    "title": "Real interest rates vs inflation: why savers can still win",
+    "hook": "Inflation always destroys savers, right?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Inflation always destroys savers, right?",
+        "duration_estimate": 2.0,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Inflation always destroys savers, right?",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "US Treasury bonds have often delivered modest positive real returns.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Modest positive real returns on",
+          "subtext": ""
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 3,
+        "text": "When inflation stays below that rate, savings actually grow.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "UP",
+          "label": "REAL RETURN vs INFLATION"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 4,
+        "text": "That sounds true but misses the bigger picture.",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "MYTH",
+          "statement": "Inflation always erodes purchasing power",
+          "tone": "BAD"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 5,
+        "text": "Positive real rates mean your money outpaces price rises.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "FACT",
+          "statement": "Positive real rates let money increase despite inflation",
+          "tone": "GOOD"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 6,
+        "text": "Zero versus two percent real return makes a stark difference.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "COMPARISON",
+          "left_label": "0% real return",
+          "left_value": "money loses value",
+          "right_label": "2% real return",
+          "right_value": "money gains value",
+          "winner": "RIGHT"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 7,
+        "text": "The 1970s saw double‑digit inflation, the 1980s kept interest rates high, and the 2000s settled into low inflation.",
+        "duration_estimate": 5.2,
+        "motion_action": {
+          "type": "TIMELINE",
+          "events": [
+            {
+              "label": "1970s",
+              "text": "double‑digit inflation"
+            },
+            {
+              "label": "1980s",
+              "text": "high rates"
+            },
+            {
+              "label": "2000s",
+              "text": "low inflation"
+            }
+          ]
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 8,
+        "text": "People ask if savers can profit during inflation.",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "Can savers profit during inflation?",
+          "result_headline": "Yes, if real interest rates stay positive"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 9,
+        "text": "Three steps help keep your savings ahead of rising prices.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "STEPS",
+          "title": "Protect your savings",
+          "steps": [
+            "Track inflation rate",
+            "Find assets with real returns above",
+            "Reinvest earnings"
+          ]
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 10,
+        "text": "Now you know the real reason:",
+        "duration_estimate": 2.4,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Now you know the real reason:",
+          "subtext": ""
+        },
+        "sfx": "none"
+      }
+    ],
+    "loop_transition_text": "Now you know the real reason:",
+    "description": "Inflation always hurts savers, but real interest rates change the game.\nLearn why positive real returns protect your money.\nFind out how history shows savers can still win.\n\n#Shorts #money #economics #finance",
+    "tags": [
+      "inflation savers real interest rates",
+      "real return vs inflation",
+      "how inflation affects savings",
+      "historical treasury bond returns",
+      "protecting savings from inflation",
+      "economic history inflation",
+      "savers and inflation myth",
+      "real interest rate explained"
+    ],
+    "comment_question": "Which real return rate do you think beats inflation most effectively?",
+    "sources": [
+      "Federal Reserve Economic Data (FRED) on real returns",
+      "U.S. Treasury historical yield tables"
+    ],
+    "review_notes": [
+      "FIXED: Scene 2: \"Historically, US Treasury bonds yielded about two percent real return.\" (The exact figure of 2% real return is not supported by the cited sources and likely oversimplifies long‑term averages.)",
+      "FIXED: Scene 7: \"The 1980s brought aggressive rate cuts.\" (During the 1980s the Fed actually maintained high rates; cuts occurred later, making this statement historically inaccurate.)"
+    ]
+  }
+}

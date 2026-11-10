@@ -10,7 +10,7 @@ from typing import Annotated, Literal, Union
 
 import anthropic
 import httpx
-from pydantic import BaseModel, Field, ValidationError, model_validator
+from pydantic import BaseModel, Field, ValidationError, field_validator, model_validator
 
 from .config import Settings, get_settings
 
@@ -22,7 +22,10 @@ MIN_WORDS, MAX_WORDS = 70, 110  # ~30s .. ~48s of speech
 MIN_SCENES, MAX_SCENES = 8, 16
 
 # A scene must be on screen long enough for its animation to finish (see motionTiming.json).
-MIN_WORDS_PER_SCENE = {"COUNTER": 4, "CHART": 6, "DOCUMENT": 6, "SEARCH": 6, "MINIMAL_TEXT": 1}
+MIN_WORDS_PER_SCENE = {
+    "COUNTER": 4, "CHART": 6, "DOCUMENT": 6, "SEARCH": 6, "MINIMAL_TEXT": 1,
+    "COMPARISON": 6, "TIMELINE": 8, "STEPS": 8, "CALLOUT": 5,
+}
 
 
 # --------------------------------------------------------------------- motion actions
@@ -59,11 +62,48 @@ class MinimalTextAction(BaseModel):
     subtext: str = Field("", max_length=80)
 
 
+class ComparisonAction(BaseModel):
+    type: Literal["COMPARISON"]
+    left_label: str = Field(min_length=1, max_length=22)
+    left_value: str = Field(min_length=1, max_length=26)
+    right_label: str = Field(min_length=1, max_length=22)
+    right_value: str = Field(min_length=1, max_length=26)
+    winner: Literal["LEFT", "RIGHT", "NONE"] = "NONE"
+
+
+class TimelineEvent(BaseModel):
+    label: str = Field(min_length=1, max_length=10)  # a year or short marker, e.g. "1948", "Day 1"
+    text: str = Field(min_length=1, max_length=36)
+
+
+class TimelineAction(BaseModel):
+    type: Literal["TIMELINE"]
+    events: list[TimelineEvent] = Field(min_length=2, max_length=4)
+
+
+class StepsAction(BaseModel):
+    type: Literal["STEPS"]
+    title: str = Field("", max_length=30)
+    steps: list[Annotated[str, Field(min_length=1, max_length=40)]] = Field(min_length=2, max_length=4)
+
+
+class CalloutAction(BaseModel):
+    type: Literal["CALLOUT"]
+    tag: str = Field(min_length=1, max_length=12)  # e.g. MYTH, FACT, TIP, WARNING
+    statement: str = Field(min_length=3, max_length=90)
+    tone: Literal["NEUTRAL", "BAD", "GOOD"] = "NEUTRAL"
+
+
 MotionAction = Annotated[
-    Union[CounterAction, ChartAction, DocumentAction, SearchAction, MinimalTextAction],
+    Union[
+        CounterAction, ChartAction, DocumentAction, SearchAction, MinimalTextAction,
+        ComparisonAction, TimelineAction, StepsAction, CalloutAction,
+    ],
     Field(discriminator="type"),
 ]
-MOTION_TYPES = ("COUNTER", "CHART", "DOCUMENT", "SEARCH", "MINIMAL_TEXT")
+MOTION_TYPES = (
+    "COUNTER", "CHART", "DOCUMENT", "SEARCH", "MINIMAL_TEXT", "COMPARISON", "TIMELINE", "STEPS", "CALLOUT",
+)
 
 
 # ------------------------------------------------------------------------------ script
@@ -84,6 +124,8 @@ class ScriptSpec(BaseModel):
     description: str = ""
     tags: list[str] = Field(default_factory=list)
     comment_question: str = ""  # first comment under the video (an engagement question about the topic)
+    sources: list[str] = Field(default_factory=list)  # real study / event / person the video rests on
+    review_notes: list[str] = Field(default_factory=list)  # set by the fact check (never by the LLM)
 
     @model_validator(mode="after")
     def _check(self) -> "ScriptSpec":
@@ -156,7 +198,8 @@ HARD RULES
 1. HOOK: The very first sentence (scene 1) must create instant curiosity in under 1.5 seconds of
    speech: a direct question or a bold, slightly controversial claim. No greetings, no "Did you
    know", no "In this video". Under 12 words.
-2. PACE: {MIN_WORDS}-{MAX_WORDS} words of narration in total. Short, punchy sentences. Zero filler
+2. PACE: {MIN_WORDS}-{MAX_WORDS} words of narration in total; aim for about 90 and COUNT the words of all scenes
+   together before you answer (too short or too long is rejected). Short, punchy sentences. Zero filler
    (no "basically", "actually", "so", "well"). Every sentence adds a fact, raises tension or pays
    something off. Use a pattern interrupt every 2-3 sentences.
 3. SEAMLESS LOOP: The video restarts right after the last sentence, so the LAST sentence must be a
@@ -184,7 +227,19 @@ HARD RULES
      and "what people ask". Narration >= 6 words.
    - MINIMAL_TEXT: kinetic headline text. Params: headline (<= 40 chars, 1-5 words, ALL the punch),
      subtext (<= 80 chars, optional). Use for the hook, transitions and the final line.
-   Variety matters: use at least 3 different types, never the same type 3 scenes in a row, and make
+   - COMPARISON: two cards "A vs B". Params: left_label, left_value, right_label, right_value (labels
+     <= 22 chars, values <= 26 chars, short: "$5 a day", "1 in 3"), winner ("LEFT", "RIGHT" or "NONE": the
+     side that should glow). Use when the sentence contrasts two things, before/after, myth/reality.
+     Narration >= 6 words.
+   - TIMELINE: 2-4 events appear down a vertical line. Params: events = [{{label (<= 10 chars, usually a year
+     like "1948"), text (<= 36 chars)}}]. Use for a sequence of real, documented dates or stages.
+     Narration >= 8 words. Only real dates you are sure about.
+   - STEPS: 2-4 numbered cards. Params: title (<= 30 chars, optional) and steps = [short strings, each
+     <= 40 chars]. Use for "how to", signs to notice, a short process. Narration >= 8 words.
+   - CALLOUT: a big statement card with a tag pill. Params: tag (<= 12 chars: "MYTH", "FACT", "TIP",
+     "WARNING", "RULE"), statement (<= 90 chars), tone ("BAD" red, "GOOD" green, "NEUTRAL"). Use MYTH+BAD
+     then FACT+GOOD to debunk a belief. Narration >= 5 words.
+   Variety matters: use at least 4 different types across the video, picking those that fit the sentence; use at least 3 different types, never the same type 3 scenes in a row, and make
    scene 1 (the hook) MINIMAL_TEXT, SEARCH or COUNTER. On-screen text must complement the narration,
    not repeat it word for word. NEVER invent statistics: only use numbers that are real and widely
    documented, or approximate ones that you phrase carefully in the narration ("about", "roughly").
@@ -211,7 +266,11 @@ HARD RULES
 12. `comment_question`: ONE short question (<= 110 characters) that the channel owner posts as the first comment.
     It must be about THIS video's idea, easy to answer in one line, and invite a personal answer or a choice
     ("Which one gets you the most: ...?"). No links, no hashtags, no emoji spam (at most one), no begging for
-    likes or subscribers, and obey the channel's rules (never any financial advice)."""
+    likes or subscribers, and obey the channel's rules (never any financial advice).
+13. `sources`: 1-2 short notes (<= 80 characters each) naming the REAL study, event, document or person (with the
+    year) that the video's facts come from, e.g. "Zeigarnik, 1927 (Berlin study on interrupted tasks)". They are
+    published in the description. If you cannot name a real, checkable source, make the claims more general
+    instead of inventing one. NEVER invent a study, a person, a quote or a number."""
 
 
 SUBMIT_SCRIPT_TOOL = {
@@ -247,6 +306,24 @@ SUBMIT_SCRIPT_TOOL = {
                                 "result_headline": {"type": "string", "description": "SEARCH"},
                                 "headline": {"type": "string", "description": "MINIMAL_TEXT"},
                                 "subtext": {"type": "string", "description": "MINIMAL_TEXT"},
+                                "left_label": {"type": "string", "description": "COMPARISON"},
+                                "left_value": {"type": "string", "description": "COMPARISON"},
+                                "right_label": {"type": "string", "description": "COMPARISON"},
+                                "right_value": {"type": "string", "description": "COMPARISON"},
+                                "winner": {"type": "string", "enum": ["LEFT", "RIGHT", "NONE"], "description": "COMPARISON"},
+                                "events": {
+                                    "type": "array",
+                                    "description": "TIMELINE, 2-4 events",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {"label": {"type": "string"}, "text": {"type": "string"}},
+                                        "required": ["label", "text"],
+                                    },
+                                },
+                                "steps": {"type": "array", "items": {"type": "string"}, "description": "STEPS, 2-4 short strings"},
+                                "tag": {"type": "string", "description": "CALLOUT, e.g. MYTH / FACT"},
+                                "statement": {"type": "string", "description": "CALLOUT"},
+                                "tone": {"type": "string", "enum": ["NEUTRAL", "BAD", "GOOD"], "description": "CALLOUT"},
                             },
                             "required": ["type"],
                         },
@@ -265,6 +342,11 @@ SUBMIT_SCRIPT_TOOL = {
             "description": {"type": "string"},
             "tags": {"type": "array", "items": {"type": "string"}},
             "comment_question": {"type": "string", "description": "First comment: one engagement question about this video"},
+            "sources": {
+                "type": "array",
+                "items": {"type": "string"},
+                "description": "1-2 short source notes: the real study, event or person (with year) the video is based on",
+            },
         },
         "required": ["title", "hook", "scenes", "loop_transition_text"],
     },
@@ -306,6 +388,13 @@ MOTION_FIELDS = {
     "DOCUMENT": (["title", "highlight_text", "is_redacted"], ["title", "highlight_text", "is_redacted"]),
     "SEARCH": (["query_text", "result_headline"], ["query_text", "result_headline"]),
     "MINIMAL_TEXT": (["headline", "subtext"], ["headline"]),
+    "COMPARISON": (
+        ["left_label", "left_value", "right_label", "right_value", "winner"],
+        ["left_label", "left_value", "right_label", "right_value"],
+    ),
+    "TIMELINE": (["events"], ["events"]),
+    "STEPS": (["title", "steps"], ["steps"]),
+    "CALLOUT": (["tag", "statement", "tone"], ["tag", "statement"]),
 }
 
 
@@ -371,7 +460,7 @@ class DailyQuotaExhausted(ModelNotFound):
 
 
 RETRY_STATUS = {429, 500, 502, 503, 504}
-RETRY_DELAYS = (4.0, 12.0, 30.0)  # free tiers rate-limit hard; wait and retry politely
+RETRY_DELAYS = (4.0, 12.0, 30.0, 60.0)  # free tiers rate-limit hard; wait and retry politely
 
 
 def _post_json(url: str, headers: dict, body: dict, provider: str) -> dict:
@@ -612,6 +701,11 @@ class GeminiProvider(LLMProvider):
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
 
 
+def _groq_extras(model: str) -> dict:
+    """gpt-oss models 'think' before answering and that thinking eats the token budget: keep it short."""
+    return {"reasoning_effort": "low"} if model.startswith("openai/gpt-oss") else {}
+
+
 class GroqProvider(LLMProvider):
     """Groq's OpenAI-compatible chat API in JSON mode. Free tier."""
 
@@ -647,11 +741,15 @@ class GroqProvider(LLMProvider):
             "messages": messages,
             "response_format": {"type": "json_object"},
             "temperature": 0.8,
-            "max_tokens": 6000,
+            # Groq's free tier allows 8,000 tokens a minute PER MODEL and counts the reserved output too,
+            # so a huge max_tokens makes every request "too large". A script needs ~2,000 tokens.
+            "max_tokens": 4096,
         }
         headers = {"Authorization": f"Bearer {self.settings.groq_api_key}", "Content-Type": "application/json"}
         data = _with_fallback(
-            self.models, self.state, lambda model: _post_json(GROQ_URL, headers, {**body, "model": model}, "Groq")
+            self.models,
+            self.state,
+            lambda model: _post_json(GROQ_URL, headers, {**body, "model": model, **_groq_extras(model)}, "Groq"),
         )
         choices = data.get("choices") or []
         if not choices:
@@ -691,15 +789,19 @@ class FailoverProvider(LLMProvider):
         super().__init__(providers[0].settings)
         self.providers = providers
         self.index = 0
-        self.hop_after = 2  # rule-breaking scripts from one provider before the next one gets a try
+        self.hop_after = 3  # rule-breaking scripts from one provider before the next one gets a try
         self._bad = 0
         self._topic = ""
         self._brief = ""
 
+    def second_opinion(self) -> LLMProvider:
+        """Another provider than the one that wrote the script (a different model catches different errors)."""
+        return self.providers[(self.index + 1) % len(self.providers)]
+
     @property
     def suggested_attempts(self) -> int:
-        """How many script attempts generate_script should make: two per provider (at least 3, at most 6)."""
-        return max(3, min(6, 2 * len(self.providers)))
+        """How many script attempts generate_script should make: three per provider (at least 3, at most 9)."""
+        return max(3, min(9, 3 * len(self.providers)))
 
     @property
     def name(self) -> str:  # type: ignore[override]
@@ -784,6 +886,163 @@ def get_llm_provider(settings: Settings | None = None, client: anthropic.Anthrop
     return FailoverProvider(chain) if len(chain) > 1 else primary
 
 
+# ----------------------------------------------------------------- tolerant validation
+def _shorten(text: str, limit: int) -> str:
+    """Cut at a word boundary (on-screen text only complements the narration, so a shorter label is fine)."""
+    if len(text) <= limit:
+        return text
+    cut = text[:limit].rsplit(" ", 1)[0] if " " in text[:limit] else text[:limit]
+    return cut.rstrip(" ,;:-–—") or text[:limit]
+
+
+def _trim_too_long(raw: dict, exc: ValidationError) -> dict | None:
+    """Models often overshoot the on-screen character limits (the JSON mode of free providers does not enforce
+    them). Shorten exactly the strings the validator complained about; return None if the errors are of any
+    other kind (those still go back to the model as feedback)."""
+    errors = exc.errors()
+    if not errors or any(e["type"] != "string_too_long" for e in errors):
+        return None
+    fixed = json.loads(json.dumps(raw))
+    for e in errors:
+        node, parent, key = fixed, None, None
+        for part in e["loc"]:
+            if isinstance(part, int) and isinstance(node, list) and part < len(node):
+                parent, key, node = node, part, node[part]
+            elif isinstance(part, str) and isinstance(node, dict) and part in node:
+                parent, key, node = node, part, node[part]
+            # anything else is a union tag segment (e.g. 'MINIMAL_TEXT'): skip it
+        limit = (e.get("ctx") or {}).get("max_length")
+        if isinstance(node, str) and isinstance(limit, int) and parent is not None:
+            parent[key] = _shorten(node, limit)
+    return fixed
+
+
+def _validate_tolerant(raw: dict) -> ScriptSpec:
+    """ScriptSpec.model_validate, after shortening over-long on-screen strings."""
+    cleaned = _drop_nulls(raw)
+    try:
+        return ScriptSpec.model_validate(cleaned)
+    except ValidationError as exc:
+        trimmed = _trim_too_long(cleaned, exc)
+        if trimmed is None:
+            raise
+        return ScriptSpec.model_validate(trimmed)
+
+
+# ------------------------------------------------------------------------------ fact check
+FACT_CHECK_SYSTEM = """You are a careful fact checker for 40-second educational YouTube Shorts scripts.
+Read the script and flag ONLY claims that are probably FALSE or wrong in a way a knowledgeable reader would
+notice, that state an invented-sounding specific (a precise statistic, percentage, date, quote, study or person
+you cannot confirm exists), or that overclaim ("always", "proves", "guaranteed") beyond what the evidence
+supports.
+Give every issue a `kind`: false_claim (it is wrong), invented_specific (a precise number, percentage, date,
+quote, study or person that probably does not exist), or overclaim (only the wording is exaggerated).
+Do NOT flag: a claim merely because no source or study is named (the absence of a citation is not an error),
+well-known effects described in general terms (anchoring, loss aversion, peak-end rule, the Zeigarnik effect
+and similar), plausible everyday examples, opinions, rhetorical questions, simplifications that are
+broadly right, or on-screen wording that restates the narration. Be conservative: when in doubt, do not
+flag it. If the script is fine, return an empty list."""
+
+FACT_CHECK_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "issues": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "scene_id": {"type": "integer"},
+                    "claim": {"type": "string", "description": "The questionable claim, quoted briefly"},
+                    "problem": {"type": "string", "description": "Why it is doubtful, in one short sentence"},
+                    "kind": {
+                        "type": "string",
+                        "enum": ["false_claim", "invented_specific", "overclaim"],
+                        "description": "false_claim: wrong; invented_specific: a precise number/date/quote/study that probably does not exist; overclaim: exaggerated wording only",
+                    },
+                },
+                "required": ["scene_id", "claim", "problem", "kind"],
+            },
+        }
+    },
+    "required": ["issues"],
+}
+
+
+def fact_check(script: ScriptSpec, checker: LLMProvider) -> list[str]:
+    """Ask a (preferably different) model to flag doubtful claims. Returns readable issue lines; never raises:
+    if the checker is unavailable the video simply goes without a check."""
+    lines = []
+    for scene in script.scenes:
+        on_screen = {k: v for k, v in scene.motion_action.model_dump().items() if k != "type" and v not in ("", None)}
+        lines.append(f"Scene {scene.id}: {scene.text}  [on screen: {scene.motion_action.type} {json.dumps(on_screen, ensure_ascii=False)}]")
+    user = (
+        f"Title: {script.title}\nSources the writer named: {'; '.join(script.sources) or '(none)'}\n\n"
+        + "\n".join(lines)
+        + "\n\nList the doubtful claims."
+    )
+    try:
+        raw = checker.complete_json(FACT_CHECK_SYSTEM, user, FACT_CHECK_SCHEMA)
+    except Exception as exc:  # noqa: BLE001 - a missing check must never cost a video
+        print(f"[factcheck] skipped ({type(exc).__name__}: {str(exc)[:100]})")
+        return []
+    issues = []
+    for item in raw.get("issues", []) if isinstance(raw, dict) else []:
+        # mere exaggeration ("always", "instantly") is not worth blocking a video; wrong facts and invented specifics are
+        if isinstance(item, dict) and item.get("claim") and item.get("kind") != "overclaim":
+            issues.append(f"Scene {item.get('scene_id', '?')}: \"{str(item['claim'])[:120]}\" ({str(item.get('problem', ''))[:140]})")
+    return issues[:5]
+
+
+class FactCheckUnresolved(RuntimeError):
+    """The fact check found doubtful claims and the repair rounds did not fix them. `script` is the flagged
+    script: the pipeline prefers a reserve script and only publishes this one when nothing else is left."""
+
+    def __init__(self, script: "ScriptSpec", issues: list[str]):
+        super().__init__("Fact check found doubtful claims that could not be fixed: " + "; ".join(issues)[:300])
+        self.script = script
+
+
+REPAIR_ROUNDS = 2
+
+
+def _review(script: ScriptSpec, provider: LLMProvider, settings: Settings) -> ScriptSpec:
+    """Fact check a finished script and try up to REPAIR_ROUNDS repairs. A repaired script carries
+    `review_notes` ("FIXED: ..."). If the doubts cannot be resolved, FactCheckUnresolved is raised with the
+    flagged script (never a silent pass), so a known-wrong claim is not published when there is an alternative."""
+    if not getattr(settings, "fact_check", True):
+        return script
+    checker = provider.second_opinion() if hasattr(provider, "second_opinion") else provider
+    issues = fact_check(script, checker)
+    if not issues:
+        return script
+    print(f"[factcheck] {len(issues)} doubtful claim(s): {issues}")
+    feedback = [
+        "A fact checker doubts these claims. Rewrite ONLY the affected sentences so they are accurate or more "
+        "general (drop invented specifics and precise numbers you are not sure about), keep every other scene, "
+        "keep the loop rule and resubmit the FULL script:"
+    ] + issues
+    for round_no in range(1, REPAIR_ROUNDS + 1):
+        try:
+            revised = _validate_tolerant(provider.revise(feedback))
+            problems = validate_quality(revised)
+            if not problems:
+                revised.review_notes = [f"FIXED: {i}" for i in issues]
+                return revised
+            feedback = ["The repaired script broke these rules, fix them and keep the corrected claims:"] + problems
+        except ValidationError as exc:
+            feedback = ["The repaired script had a schema error, resubmit the FULL valid script:"] + [
+                f"{'.'.join(str(p) for p in e['loc'])}: {e['msg']}" for e in exc.errors()[:4]
+            ]
+        except LLMOutputError as exc:
+            feedback = [f"The reply was unusable ({exc}); resubmit the FULL script with the claims corrected."]
+        except Exception as exc:  # noqa: BLE001 - provider unavailable: no point trying again
+            print(f"[factcheck] repair round {round_no} failed ({type(exc).__name__})")
+            break
+        print(f"[factcheck] repair round {round_no} did not work out")
+    script.review_notes = [f"FLAGGED: {i}" for i in issues]
+    raise FactCheckUnresolved(script, issues)
+
+
 def generate_script(
     topic: str,
     settings: Settings | None = None,
@@ -791,6 +1050,7 @@ def generate_script(
     client: anthropic.Anthropic | None = None,
     provider: LLMProvider | None = None,
     brief: str = "",
+    review: bool = False,
 ) -> ScriptSpec:
     """Ask the selected LLM for a script (`brief` = channel context: niche, tone, rules); validate it and retry with feedback if it breaks the rules."""
     settings = settings or get_settings()
@@ -804,7 +1064,7 @@ def generate_script(
         try:
             raw = provider.propose(topic, brief) if attempt == 1 else provider.revise(problems)
             try:
-                script = ScriptSpec.model_validate(_drop_nulls(raw))
+                script = _validate_tolerant(raw)
                 problems = validate_quality(script)
             except ValidationError as exc:
                 problems = [
@@ -815,7 +1075,7 @@ def generate_script(
             problems = [str(exc)]
 
         if script is not None and not problems:
-            return script
+            return _review(script, provider, settings) if review else script
         last_error = "; ".join(problems)
         print(f"[generator] attempt {attempt}/{max_attempts} rejected ({provider.name}): {last_error}")
 

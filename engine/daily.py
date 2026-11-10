@@ -28,8 +28,9 @@ from engine.channels import list_channel_ids, load_channel, plan_id, upcoming_sl
 from engine.config import get_settings
 from engine.generator import get_llm_provider
 from engine.history import HistoryEntry, load_history, save_history
-from engine.planner import plan_topics
+from engine.planner import PlannedTopic, plan_topics_detailed
 from engine.reserve import available, prune, relpath
+from engine.variety import choose_formats, choose_themes
 
 app = typer.Typer(add_completion=False, help="Daily planning and bookkeeping for the autopilot.")
 
@@ -66,12 +67,16 @@ def build_plan(channel_ids: list[str], now: datetime, settings, history, provide
             # this channel's own reserve scripts are future videos too: a fresh topic must not be the same idea
             own_reserve = [t for _, t in available(cid, history, root=settings.state_dir / "reserve")]
             previous = others + other_reserve + planned_topics + channel.already_covered + own + own_reserve
-            topics: list[str] = []
+            recent = [e for e in history.entries if e.channel == cid]
+            recent_formats = [e.format for e in recent if e.format]
+            planned: list[PlannedTopic] = []
             try:
                 provider = provider or provider_factory()
-                topics = plan_topics(channel, len(slots), previous, provider)
+                planned = plan_topics_detailed(channel, len(slots), previous, provider, recent_formats=recent_formats)
             except Exception as exc:  # noqa: BLE001 - the reserve below keeps every slot filled
                 print(f"[plan] {cid}: the LLM could not plan topics ({str(exc)[:200]}); using the reserve")
+            topics = [p.topic for p in planned]
+            wanted_formats = [p.format for p in planned]
             planned_topics.extend(topics)
 
             # Reserve scripts: the topic source if the planner failed, otherwise a backup for the producer.
@@ -80,6 +85,7 @@ def build_plan(channel_ids: list[str], now: datetime, settings, history, provide
                 for path, topic in available(cid, history, avoid=planned_topics, root=settings.state_dir / "reserve")
             ]
             channel_items: list[dict] = []
+            wanted_formats_for_items: list[str] = []
             unfilled = 0
             for n, slot in enumerate(slots):
                 reserve = ""
@@ -101,9 +107,15 @@ def build_plan(channel_ids: list[str], now: datetime, settings, history, provide
                         "reserve": reserve,
                     }
                 )
+                wanted_formats_for_items.append(wanted_formats[n] if n < len(wanted_formats) else "")
             for item in channel_items:  # every other slot gets a backup script, if one is left
                 if not item["reserve"] and pool:
                     item["reserve"] = relpath(pool.pop(0)[0])
+            # variety: a narrative format and a visual theme per video, rotating and never the same twice in a row
+            formats = choose_formats(wanted_formats_for_items, recent_formats)
+            themes = choose_themes(cid, len(channel_items), [e.theme for e in recent if e.theme])
+            for item, fmt, theme in zip(channel_items, formats, themes):
+                item["format"], item["theme"] = fmt, theme
             items.extend(channel_items)
             if unfilled:
                 errors.append(f"{cid}: no topic and no reserve script for {unfilled} slot(s)")

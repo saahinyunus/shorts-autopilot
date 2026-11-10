@@ -1,0 +1,141 @@
+{
+  "topic": "Why the 1970s stagflation shocked economists",
+  "script": {
+    "title": "Why the 1970s Shocked Economists: The Stagflation Trap",
+    "hook": "Inflation rose while people lost their jobs.",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Inflation rose while people lost their jobs.",
+        "duration_estimate": 3.0,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "STAGFLATION",
+          "subtext": "Impossible. Until 1973."
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "Economists said these two things could never happen at the same time.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "MYTH",
+          "statement": "High prices and high unemployment are mutually exclusive.",
+          "tone": "BAD"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 3,
+        "text": "They relied on the Phillips Curve, a simple trade-off between jobs and prices.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "DOWN",
+          "label": "THE PHILLIPS CURVE"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 4,
+        "text": "One oil embargo shattered that theory in a single day.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "OPEC MEMO",
+          "highlight_text": "OIL PRICES QUADRUPLE",
+          "is_redacted": false
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 5,
+        "text": "Gas prices skyrocketed, and factories had to shut down to save money.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 4.0,
+          "prefix": "$",
+          "suffix": " / GAL",
+          "label": "PEAK GAS PRICE"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 6,
+        "text": "So you got hit by high costs and zero income growth.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "COMPARISON",
+          "left_label": "COSTS",
+          "left_value": "HIGH",
+          "right_label": "JOBS",
+          "right_value": "LOW",
+          "winner": "NONE"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 7,
+        "text": "The Fed tried to fix it by raising interest rates aggressively.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "TIMELINE",
+          "events": [
+            {
+              "label": "1979",
+              "text": "Volcker takes over"
+            },
+            {
+              "label": "1981",
+              "text": "Rates hit double digits"
+            }
+          ]
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 8,
+        "text": "It caused a recession, but it finally broke the inflation spiral.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "UP",
+          "label": "INFLATION RATE STABILIZES"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 9,
+        "text": "So ask yourself again:",
+        "duration_estimate": 1.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "THE TRAP",
+          "subtext": "Can it happen again?"
+        },
+        "sfx": "riser"
+      }
+    ],
+    "loop_transition_text": "So ask yourself again:",
+    "description": "Why the 1970s stagflation shocked economists and broke standard theory. Understand the Phillips Curve and how oil shocks change everything. #Shorts #money #economics #finance",
+    "tags": [
+      "stagflation",
+      "1970s economy",
+      "phillips curve",
+      "oil crisis",
+      "inflation history",
+      "fed rates",
+      "economic history",
+      "money explained"
+    ],
+    "comment_question": "Have you ever felt high prices and low job security at the same time?",
+    "sources": [
+      "Paul Volcker, Fed Chair 1979-1987",
+      "OPEC Oil Embargo, 1973"
+    ],
+    "review_notes": []
+  }
+}

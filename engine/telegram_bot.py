@@ -400,6 +400,29 @@ def _env_item() -> dict:
     return {k: os.environ.get(k.upper(), "") for k in ("channel", "topic", "publish_at", "plan_id")}
 
 
+def _variety_lines(result: dict) -> list[str]:
+    """Format, theme, sources and fact-check outcome of a video, as extra message lines."""
+    from engine.variety import FORMATS
+
+    lines = []
+    fmt = FORMATS.get(result.get("format", ""), {}).get("name")
+    bits = [f"🎞 Biçim: {esc(fmt)}"] if fmt else []
+    if result.get("theme"):
+        bits.append(f"🎨 Tema: {esc(result['theme'])}")
+    if bits:
+        lines.append(" · ".join(bits))
+    if result.get("sources"):
+        lines.append("📚 Kaynak: " + esc("; ".join(result["sources"])[:200]))
+    notes = result.get("review_notes") or []
+    fixed = [n for n in notes if n.startswith("FIXED")]
+    flagged = [n for n in notes if n.startswith("FLAGGED")]
+    if fixed:
+        lines.append(f"🔎 Doğruluk kontrolü {len(fixed)} şüpheli iddiayı düzeltti")
+    if flagged:
+        lines.append(f"⚠️ Doğruluk kontrolü şüpheli iddia buldu, düzeltilemedi: {esc(flagged[0][8:160])}")
+    return lines
+
+
 def _reserve_note(result: dict) -> str:
     reason = result.get("reserve_reason", "")
     return "ℹ️ Yapay zekâ senaryo üretemediği için yedek senaryo kullanıldı" + (f" ({esc(reason[:160])})" if reason else "")
@@ -417,6 +440,7 @@ def message_for_video(
             f"🎬 {esc(result.get('title', ''))}",
             f"🔗 {esc(result.get('url', ''))}",
         ]
+        lines.extend(_variety_lines(result))
         if verdict is not None:
             lines.append(("✔️ YouTube doğruladı: " if verdict[0] else "⚠️ ") + esc(verdict[1]))
         if result.get("comment_text"):
@@ -426,6 +450,7 @@ def message_for_video(
         return "\n".join(lines)
     if result and dry_run:
         lines = [f"🧪 <b>Deneme videosu hazır</b> (yüklenmedi)\n📺 {esc(cid)} · 🕒 {when}\n🎬 {esc(result.get('title', ''))}"]
+        lines.extend(_variety_lines(result))
         if result.get("comment_text"):
             lines.append(f"💬 İlk yorum sorusu: {esc(result['comment_text'])}")
         if result.get("reserve_used"):

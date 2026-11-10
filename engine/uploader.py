@@ -67,6 +67,9 @@ def build_metadata(script: ScriptSpec, channel: ChannelConfig | None = None) -> 
     body = re.sub(r"[ \t]*#\w+", "", body)  # remove them from the text itself
     body = re.sub(r"[ \t]+\n", "\n", re.sub(r"\n{3,}", "\n\n", body)).strip()
     parts = [body, " ".join(tags_line)]
+    sources = [x.strip() for x in script.sources if x.strip()][:2]
+    if sources:
+        parts.insert(1, "Sources: " + "; ".join(sources))
     if channel and channel.description_footer:
         parts.insert(1, channel.description_footer)
     description = "\n\n".join(p for p in parts if p)[:4900]

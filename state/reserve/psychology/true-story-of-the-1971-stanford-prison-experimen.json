@@ -1,0 +1,151 @@
+{
+  "topic": "True story of the 1971 Stanford prison experiment’s ethical fallout",
+  "script": {
+    "title": "Stanford Prison Experiment ethics fallout explained",
+    "hook": "Why did a fake prison shatter science?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Why did a fake prison shatter science?",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Why did a fake prison shatter science?",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "Researchers locked students into roles for just a few days.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "1971 Stanford prison experiment results",
+          "result_headline": "Guards became abusive, prisoners showed distress"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 3,
+        "text": "Guard aggression spiked, while prisoners showed stress signs.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "FACT",
+          "statement": "Guard aggression spikes, prisoners stress rises",
+          "tone": "GOOD"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 4,
+        "text": "Psychologists later criticized the study for consent flaws.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "APA CRITICISM",
+          "highlight_text": "consent flaws",
+          "is_redacted": false
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 5,
+        "text": "The fallout forced new IRB rules on deception.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "COMPARISON",
+          "left_label": "Before 1970",
+          "left_value": "No IRB",
+          "right_label": "After 1970",
+          "right_value": "Strict IRB",
+          "winner": "RIGHT"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 6,
+        "text": "Today, ethics boards demand debriefs and withdrawal rights.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 100.0,
+          "prefix": "",
+          "suffix": "%",
+          "label": "Studies requiring debriefs"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 7,
+        "text": "You can spot similar pressure in workplace drills.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Spot pressure in workplace drills",
+          "subtext": ""
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 8,
+        "text": "Watch for sudden role shifts that silence dissent.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "STEPS",
+          "title": "Three warning signs",
+          "steps": [
+            "Rapid hierarchy change",
+            "Limited questioning",
+            "Increased compliance"
+          ]
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 9,
+        "text": "When authority cues intensify, your brain releases cortisol quickly.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "UP",
+          "label": "Cortisol during authority tasks"
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 10,
+        "text": "Now you know why safeguards matter:",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Now you know why safeguards matter:",
+          "subtext": ""
+        },
+        "sfx": "none"
+      }
+    ],
+    "loop_transition_text": "Now you know why safeguards matter:",
+    "description": "Stanford prison experiment ethics fallout revealed in 30 seconds.\nPsychology of authority.\nResearch ethics.\n\n#Shorts #psychology #humanbehavior #mindset",
+    "tags": [
+      "stanford prison experiment",
+      "research ethics",
+      "psychology authority",
+      "irb rules",
+      "deception studies",
+      "social psychology",
+      "ethical guidelines",
+      "cognitive bias"
+    ],
+    "comment_question": "Which safeguard in research surprises you the most?",
+    "sources": [
+      "Zimbardo, 1973 (original study report)",
+      "American Psychological Association, 1979 (ethical guidelines)"
+    ],
+    "review_notes": [
+      "FIXED: Scene 2: \"Researchers locked students into roles for two weeks.\" (The Stanford Prison Experiment lasted only 2–3 days, not two weeks.)",
+      "FIXED: Scene 4: \"A court later ruled the study violated consent.\" (No court ruling exists; the study was criticized by the APA, not a legal verdict.)"
+    ]
+  }
+}

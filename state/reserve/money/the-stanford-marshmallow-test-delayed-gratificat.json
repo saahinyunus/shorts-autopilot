@@ -1,0 +1,139 @@
+{
+  "topic": "The Stanford Marshmallow Test: Delayed gratification's impact on financial success",
+  "script": {
+    "title": "Marshmallow Test Shows Why Patience Leads to Bigger Paychecks",
+    "hook": "Why does a childhood snack predict your net worth?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Why does a childhood snack predict your net worth?",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Why does a childhood snack predict your",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "The 1960s marshmallow test measured kids’ ability to wait.",
+        "duration_estimate": 5.2,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "STANFORD STUDY",
+          "highlight_text": "delayed gratification",
+          "is_redacted": false
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 3,
+        "text": "Kids who waited tended to achieve better academic results later.",
+        "duration_estimate": 5.8,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "UP",
+          "label": "ACADEMIC PERFORMANCE"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 4,
+        "text": "Long‑term follow‑up found patient people earned more as adults.",
+        "duration_estimate": 5.0,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Patience linked to higher earnings",
+          "subtext": ""
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 5,
+        "text": "Patient participants often earned noticeably more over their careers.",
+        "duration_estimate": 6.4,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Higher lifetime income",
+          "subtext": ""
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 6,
+        "text": "But the effect isn’t magic; it reflects self‑control habits.",
+        "duration_estimate": 5.2,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "MYTH",
+          "statement": "Self‑control is innate",
+          "tone": "BAD"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 7,
+        "text": "Self‑control can be trained like a muscle.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "FACT",
+          "statement": "Practice boosts future earnings",
+          "tone": "GOOD"
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 8,
+        "text": "Three steps to build it: set tiny goals, delay small rewards, track progress.",
+        "duration_estimate": 7.2,
+        "motion_action": {
+          "type": "STEPS",
+          "title": "BUILD SELF‑CONTROL",
+          "steps": [
+            "Set tiny goals",
+            "Delay small rewards",
+            "Track progress"
+          ]
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 9,
+        "text": "Now you know why a simple marshmallow matters more than you think:",
+        "duration_estimate": 5.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "MARSHMALLOW POWER",
+          "subtext": ""
+        },
+        "sfx": "none"
+      }
+    ],
+    "loop_transition_text": "Now you know why a simple marshmallow matters more than you think:",
+    "description": "The marshmallow test reveals how early patience predicts higher earnings.\nSelf control habits explained.\nFinancial psychology of delayed gratification.\n\n#Shorts #money #economics #finance",
+    "tags": [
+      "marshmallow test",
+      "delayed gratification",
+      "financial psychology",
+      "self control",
+      "earnings study",
+      "childhood experiments",
+      "stanford study",
+      "economics education",
+      "wealth building",
+      "psychology research"
+    ],
+    "comment_question": "Did you ever wait for a treat as a kid? How did it feel?",
+    "sources": [
+      "Walter Mischel et al., 1972 (Marshmallow Study)",
+      "Mischel follow‑up, 2011 (Long‑term outcomes)"
+    ],
+    "review_notes": [
+      "FIXED: Scene 3: \"Kids who waited got higher SAT scores years later.\" (No specific evidence cited for SAT link.)",
+      "FIXED: Scene 4: \"Later follow‑up linked patience to adult earnings.\" (The 10% figure is a precise statistic likely not supported.)",
+      "FIXED: Scene 5: \"On average, patient participants earned about thirty thousand dollars more annually.\" (The $30,000 figure is a precise amount that is not verifiable.)"
+    ]
+  }
+}
