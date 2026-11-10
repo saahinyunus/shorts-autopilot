@@ -56,7 +56,14 @@ def build_plan(channel_ids: list[str], now: datetime, settings, history, provide
             # they are the ones the prompt shows when the list is very long.
             others = [t for e in history.entries if e.channel != cid for t in (e.topic, e.title) if t]
             own = [t for e in history.entries if e.channel == cid for t in (e.topic, e.title) if t]
-            previous = others + planned_topics + channel.already_covered + own
+            # a topic waiting in another channel's reserve counts as taken too
+            other_reserve = [
+                t
+                for other in channel_ids + [c for c in list_channel_ids() if c not in channel_ids]
+                if other != cid
+                for _, t in available(other, history, root=settings.state_dir / "reserve")
+            ]
+            previous = others + other_reserve + planned_topics + channel.already_covered + own
             topics: list[str] = []
             try:
                 provider = provider or provider_factory()

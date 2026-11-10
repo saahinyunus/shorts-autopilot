@@ -125,7 +125,8 @@ def fill(
             provider = provider or get_llm_provider(settings)
             others = [t for e in history.entries if e.channel != cid for t in (e.topic, e.title) if t]
             own = [t for e in history.entries if e.channel == cid for t in (e.topic, e.title) if t]
-            previous = others + ch.already_covered + own + [t for _, t in have]
+            elsewhere = [t for o in list_channel_ids() if o != cid for _, t in available(o, history, root=root)]
+            previous = others + elsewhere + ch.already_covered + own + [t for _, t in have]
             topics = plan_topics(ch, need, previous, provider)
         except Exception as exc:  # noqa: BLE001
             typer.secho(f"{cid}: could not plan reserve topics: {exc}", fg=typer.colors.YELLOW)

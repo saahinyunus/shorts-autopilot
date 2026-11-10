@@ -226,3 +226,15 @@ def test_per_minute_limit_is_still_retried(monkeypatch):
     monkeypatch.setattr(gen.time, "sleep", lambda s: None)
     gen.generate_script("t", gemini_settings())
     assert len(rec.calls) == 2 and rec.calls[0]["url"] == rec.calls[1]["url"]
+
+
+def test_planner_treats_other_channels_reserve_topics_as_taken(tmp_path):
+    put(tmp_path, "psychology", "How the decoy effect tricks you into buying larger sizes")
+    seen = []
+
+    def complete(system, user, schema):
+        seen.append(user)
+        return {"topics": [{"topic": t} for t in ["How Nintendo survived a century", "What a Ponzi scheme really is", "Why the penny costs more than its value"]]}
+
+    daily.build_plan(["money"], utc(2026, 11, 10, 3, 23), settings_for(tmp_path), History(), lambda: types.SimpleNamespace(complete_json=complete))
+    assert "decoy effect tricks you into buying larger sizes" in seen[0]
