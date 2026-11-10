@@ -44,6 +44,20 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: pip install pydantic pydantic-settings typer anthropic httpx tzdata
+      - name: Check the Gemini key (prints only the HTTP status and the quota detail, never the key)
+        continue-on-error: true
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          if [ -z "$GEMINI_API_KEY" ]; then echo "::error::Secret GEMINI_API_KEY is EMPTY"; exit 1; fi
+          code=$(curl -s -o /tmp/gemini.json -w '%{http_code}' -H "x-goog-api-key: $GEMINI_API_KEY" -H 'Content-Type: application/json' \
+            -d '{"contents":[{"parts":[{"text":"Say OK"}]}]}' \
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent")
+          echo "key length: ${#GEMINI_API_KEY} chars, HTTP status: $code"
+          if [ "$code" != "200" ]; then
+            msg=$(head -c 900 /tmp/gemini.json | tr '\n' ' ')
+            echo "::error::Gemini key check HTTP $code: $msg"
+          fi
       - name: Plan slots and topics
         id: plan
         env:
