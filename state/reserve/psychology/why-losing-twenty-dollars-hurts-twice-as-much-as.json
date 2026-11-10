@@ -1,0 +1,113 @@
+{
+  "topic": "Why losing twenty dollars hurts twice as much as gaining it",
+  "script": {
+    "title": "Loss Aversion: Why Losing 20 Dollars Hurts Twice as Much",
+    "hook": "Why does losing twenty dollars hurt twice as much as finding it?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Why does losing twenty dollars hurt twice as much as finding it?",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "THE PAIN OF LOSS",
+          "subtext": "Loss vs Gain Psychology"
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 2,
+        "text": "Your brain is hardwired with a cognitive bias called loss aversion.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "COGNITIVE BIAS FILE",
+          "highlight_text": "LOSS AVERSION",
+          "is_redacted": false
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 3,
+        "text": "Nobel Prize winning research proved that pain from loss feels twice as intense as joy from gain.",
+        "duration_estimate": 6.8,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 2.0,
+          "prefix": "",
+          "suffix": "x",
+          "label": "EMOTIONAL INTENSITY OF LOSS"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 4,
+        "text": "Evolution shaped this survival reaction millions of years ago.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "why did loss aversion evolve",
+          "result_headline": "SURVIVAL MECHANISM FOR FINITE RESOURCES"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 5,
+        "text": "For early humans, losing food meant death, while gaining food was just a bonus.",
+        "duration_estimate": 5.2,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "DOWN",
+          "label": "SURVIVAL CHANCE AFTER RESOURCE LOSS"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 6,
+        "text": "Today, marketers exploit this exact fear using limited time deals.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "SALES STRATEGY REPORT",
+          "highlight_text": "FEAR OF MISSING OUT",
+          "is_redacted": true
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 7,
+        "text": "You are not buying to gain something, you are buying to avoid losing it.",
+        "duration_estimate": 5.2,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "BUY TO AVOID LOSS",
+          "subtext": "The psychology of purchasing"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 8,
+        "text": "Which brings us right back to the question:",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "THINK AGAIN",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      }
+    ],
+    "loop_transition_text": "Which brings us right back to the question:",
+    "description": "Why does losing twenty dollars hurt twice as much as finding it? Discover the psychology of loss aversion and why human brains prioritize avoiding losses over seeking gains. Learn how evolution and marketing use this bias against you.\n\n#Shorts #psychology #humanbehavior #mindset",
+    "tags": [
+      "loss aversion",
+      "psychology of decision making",
+      "cognitive biases",
+      "prospect theory",
+      "human behavior psychology",
+      "why loss hurts",
+      "marketing psychology tricks",
+      "behavioral economics"
+    ]
+  }
+}

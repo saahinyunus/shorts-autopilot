@@ -1,0 +1,114 @@
+{
+  "topic": "How the 2008 Icelandic banking collapse reshaped its currency",
+  "script": {
+    "title": "Icelandic banking collapse: how it reshaped the krona",
+    "hook": "Did Iceland really lose its money?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Did Iceland really lose its money?",
+        "duration_estimate": 2.4,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Did Iceland really lose its money?",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "In October two thousand eight all three major banks collapsed overnight.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "BANK FAILURES",
+          "highlight_text": "Three banks default",
+          "is_redacted": false
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 3,
+        "text": "The krona plummeted, losing over half its value against the euro.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 56.0,
+          "prefix": "",
+          "suffix": "%",
+          "label": "Krona depreciation"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 4,
+        "text": "Capital controls froze foreign accounts to stop capital flight.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "Iceland capital controls 2008",
+          "result_headline": "Iceland imposes strict capital controls"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 5,
+        "text": "Domestic prices spiked as imports became twice as expensive.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "UP",
+          "label": "Import price inflation"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 6,
+        "text": "The Central Bank raised rates to eighteen percent to stabilise the economy.",
+        "duration_estimate": 4.8,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 18.0,
+          "prefix": "",
+          "suffix": "%",
+          "label": "Policy rate"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 7,
+        "text": "By two thousand eleven the krona recovered, yet capital controls remain.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Currency rules stay",
+          "subtext": "Capital controls linger"
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 8,
+        "text": "So the answer to the opening question is:",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Answer incoming",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      }
+    ],
+    "loop_transition_text": "So the answer to the opening question is:",
+    "description": "Icelandic banking collapse left the nation wondering if it lost its money.\nExplore the krona's plunge, capital controls, and recovery.\nLearn how a tiny economy rewrote its monetary rules.\n\n#Shorts #money #economics #finance",
+    "tags": [
+      "iceland banking collapse",
+      "2008 financial crisis",
+      "krona devaluation",
+      "iceland capital controls",
+      "currency crisis",
+      "monetary policy iceland",
+      "bank failures iceland",
+      "iceland economy recovery"
+    ]
+  }
+}

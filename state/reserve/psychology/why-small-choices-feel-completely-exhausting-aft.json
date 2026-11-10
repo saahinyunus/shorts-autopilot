@@ -1,0 +1,134 @@
+{
+  "topic": "Why small choices feel completely exhausting after a long day",
+  "script": {
+    "title": "Decision Fatigue Explained: Why Simple Choices Feel Exhausting",
+    "hook": "Why does picking a simple movie feel totally exhausting?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Why does picking a simple movie feel totally exhausting?",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "DECISION FATIGUE",
+          "subtext": "Why tiny choices drain you"
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "You make about thirty five thousand decisions every single day.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 35000.0,
+          "prefix": "",
+          "suffix": "",
+          "label": "DAILY DECISIONS"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 3,
+        "text": "Every micro choice drains the exact same mental fuel tank.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "DOWN",
+          "label": "MENTAL ENERGY RESERVES"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 4,
+        "text": "Psychologists call this phenomenon decision fatigue.",
+        "duration_estimate": 2.4,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "COGNITIVE PSYCHOLOGY",
+          "highlight_text": "DECISION FATIGUE",
+          "is_redacted": false
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 5,
+        "text": "By five o clock, your willpower is fundamentally depleted.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "DEPLETED WILLPOWER",
+          "subtext": "Low cognitive bandwidth"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 6,
+        "text": "So your brain seeks an easy shortcut to survive.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "why is making choices hard at night",
+          "result_headline": "The brain avoids complex trade-offs when tired"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 7,
+        "text": "It either chooses nothing or picks the default option.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "THE DEFAULT OPTION",
+          "subtext": "Avoiding friction"
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 8,
+        "text": "That is why scrolling Netflix for an hour feels easier than watching.",
+        "duration_estimate": 4.8,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "scrolling without picking anything",
+          "result_headline": "Status quo bias during mental exhaustion"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 9,
+        "text": "To fight this, automate routine choices before your day begins.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "AUTOMATE EARLY",
+          "subtext": "Protect your willpower"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 10,
+        "text": "Now you know the real reason behind your evening burnout:",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "EVENING BURNOUT",
+          "subtext": "The psychological trigger"
+        },
+        "sfx": "whoosh"
+      }
+    ],
+    "loop_transition_text": "Now you know the real reason behind your evening burnout:",
+    "description": "Understand decision fatigue and why making simple choices feels overwhelming after a long day. Learn how mental energy affects your willpower and choices. Discover how automating small decisions protects your mind.\\n\\n#Shorts #psychology #humanbehavior #mindset",
+    "tags": [
+      "decision fatigue explained",
+      "psychology of decision making",
+      "why choosing is hard",
+      "mental exhaustion psychology",
+      "willpower depletion",
+      "cognitive burnout",
+      "human behavior psychology",
+      "how to stop overthinking"
+    ]
+  }
+}

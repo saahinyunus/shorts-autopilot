@@ -1,0 +1,137 @@
+{
+  "topic": "How the decoy effect tricks you into buying larger sizes",
+  "script": {
+    "title": "The Decoy Effect: How Stores Trick You into Buying Larger Sizes",
+    "hook": "Why do you always buy the large popcorn at the movies?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Why do you always buy the large popcorn at the movies?",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "THE POPCORN TRAP",
+          "subtext": "Why you buy the large"
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "It is definitely not an accidental design choice.",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "why do stores sell three sizes",
+          "result_headline": "The Decoy Effect Strategy"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 3,
+        "text": "Coffee shops and cinemas use a psychological trick called the decoy effect.",
+        "duration_estimate": 4.8,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "COGNITIVE BIAS FILE",
+          "highlight_text": "THE DECOY EFFECT",
+          "is_redacted": false
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 4,
+        "text": "Imagine a small popcorn costs three dollars and a large costs seven.",
+        "duration_estimate": 4.8,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 7.0,
+          "prefix": "$",
+          "suffix": "",
+          "label": "LARGE SIZE PRICE"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 5,
+        "text": "Seven dollars feels like a complete rip off.",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "DOWN",
+          "label": "PERCEIVED VALUE"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 6,
+        "text": "So stores introduce a medium for six dollars and fifty cents.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 6.5,
+          "prefix": "$",
+          "suffix": "",
+          "label": "DECOY MEDIUM PRICE"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 7,
+        "text": "Suddenly, the large feels like an absolute steal for just fifty cents more.",
+        "duration_estimate": 5.2,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "UP",
+          "label": "LARGE SALES VOLUME"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 8,
+        "text": "That middle option was never actually meant to sell.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "MARKETING MEMO",
+          "highlight_text": "DUMMY OPTION: DECOY PRICE",
+          "is_redacted": true
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 9,
+        "text": "It exists purely to manipulate your perception of value.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "how to spot decoy pricing",
+          "result_headline": "Compare small directly to large"
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 10,
+        "text": "So ask yourself:",
+        "duration_estimate": 1.2,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "PAUSE BEFORE BUYING",
+          "subtext": "Ask yourself:"
+        },
+        "sfx": "none"
+      }
+    ],
+    "loop_transition_text": "So ask yourself:",
+    "description": "Learn how the decoy effect tricks you into buying larger sizes every time you visit the movie theater or coffee shop.\nCognitive biases subtly manipulate your decision making without you noticing. Here is how to spot asymmetric dominance in everyday life.\n\n#Shorts #psychology #humanbehavior #mindset",
+    "tags": [
+      "decoy effect",
+      "cognitive bias",
+      "psychology of pricing",
+      "manipulation techniques",
+      "consumer behavior",
+      "decision making bias",
+      "human psychology",
+      "asymmetric dominance"
+    ]
+  }
+}

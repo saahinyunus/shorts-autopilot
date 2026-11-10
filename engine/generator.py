@@ -615,13 +615,16 @@ class GroqProvider(LLMProvider):
     def __init__(self, settings: Settings):
         super().__init__(settings)
         settings.require("groq_api_key")
+        self.models = [settings.groq_model]
+        if settings.groq_fallback_model and settings.groq_fallback_model not in self.models:
+            self.models.append(settings.groq_fallback_model)
         self.state = {"i": 0}
         self.messages: list[dict] = []
         self._last_text: str | None = None
 
     @property
     def model_label(self) -> str:
-        return self.settings.groq_model
+        return " -> ".join(self.models)
 
     def cost_summary(self) -> str:
         return "$0.00 (Groq free tier; rate-limited, requests are retried automatically)"
@@ -635,14 +638,15 @@ class GroqProvider(LLMProvider):
 
     def _chat(self, messages: list[dict]) -> dict:
         body = {
-            "model": self.settings.groq_model,
             "messages": messages,
             "response_format": {"type": "json_object"},
             "temperature": 0.8,
             "max_tokens": 6000,
         }
         headers = {"Authorization": f"Bearer {self.settings.groq_api_key}", "Content-Type": "application/json"}
-        data = _with_fallback([self.settings.groq_model], self.state, lambda _m: _post_json(GROQ_URL, headers, body, "Groq"))
+        data = _with_fallback(
+            self.models, self.state, lambda model: _post_json(GROQ_URL, headers, {**body, "model": model}, "Groq")
+        )
         choices = data.get("choices") or []
         if not choices:
             raise LLMOutputError("Groq returned no choices.")

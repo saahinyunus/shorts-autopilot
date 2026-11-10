@@ -1,0 +1,139 @@
+{
+  "topic": "How the 1970s oil shock sparked stagflation in the US",
+  "script": {
+    "title": "1970s oil shock sparked US stagflation – the hidden link",
+    "hook": "Why did oil prices explode and the economy freeze?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Why did oil prices explode and the economy freeze?",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Oil Shock = Stagflation?",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "In 1973 the Arab embargo cut output ten percent.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "EMBARGO MEMO",
+          "highlight_text": "output cut ten percent",
+          "is_redacted": false
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 3,
+        "text": "Oil prices then jumped from three to twelve dollars a barrel.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 12.0,
+          "prefix": "$",
+          "suffix": "",
+          "label": "Average barrel price (1973)"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 4,
+        "text": "That shock drove U.S. inflation to eleven percent by 1974.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "UP",
+          "label": "U.S. inflation 1973‑1974"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 5,
+        "text": "Unemployment rose to nine percent, creating a rare double‑whammy.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 9.0,
+          "prefix": "",
+          "suffix": "%",
+          "label": "Unemployment 1975"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 6,
+        "text": "Economists label the mix of high inflation and stagnant growth stagflation.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Stagflation",
+          "subtext": "high inflation + stagnant growth"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 7,
+        "text": "The Fed raised rates, yet growth stayed flat.",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "DOWN",
+          "label": "GDP growth 1973‑1975"
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 8,
+        "text": "Declassified files show officials feared a repeat of the 1930s.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "FED MEMO",
+          "highlight_text": "rates raised, growth flat",
+          "is_redacted": false
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 9,
+        "text": "Did the 1970s oil crisis cause recession? Economists link shock to stagflation.",
+        "duration_estimate": 4.8,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "Did the 1970s oil crisis cause recession?",
+          "result_headline": "Economists link shock to stagflation"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 10,
+        "text": "Why oil can freeze an economy:",
+        "duration_estimate": 2.4,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Why oil can freeze an economy:",
+          "subtext": ""
+        },
+        "sfx": "none"
+      }
+    ],
+    "loop_transition_text": "Why oil can freeze an economy:",
+    "description": "Why did oil prices explode and the economy freeze? The 1970s oil shock sparked US stagflation.\nLearn how the embargo drove inflation and unemployment.\nSee the data behind the economic freeze.\n\n#Shorts #money #economics #finance",
+    "tags": [
+      "1970s oil shock",
+      "stagflation",
+      "oil embargo",
+      "inflation 1970s",
+      "unemployment 1970s",
+      "economic history",
+      "us economy",
+      "oil price crisis",
+      "gdp slowdown",
+      "federal reserve rates"
+    ]
+  }
+}

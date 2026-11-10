@@ -1,0 +1,135 @@
+{
+  "topic": "Why your brain remembers vacations based on only two specific moments",
+  "script": {
+    "title": "Why You Only Remember 2 Vacation Moments: Peak End Rule",
+    "hook": "Why do you only remember two moments from your entire vacation?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Why do you only remember two moments from your entire vacation?",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "VACATION MEMORY TRICK",
+          "subtext": "Why your brain forgets almost everything"
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 2,
+        "text": "You spent seven days relaxing, eating, and exploring.",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 7.0,
+          "prefix": "",
+          "suffix": " DAYS",
+          "label": "DAYS ON VACATION"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 3,
+        "text": "But your brain throws out almost all of it.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "DOWN",
+          "label": "RETENTION OF DAILY DETAILS"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 4,
+        "text": "Psychologists call this the peak end rule.",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "COGNITIVE BIAS FILE",
+          "highlight_text": "THE PEAK-END RULE",
+          "is_redacted": true
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 5,
+        "text": "Your brain does not calculate an average of the experience.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "how memory averages vacations",
+          "result_headline": "Memories rely on intensity peaks not mathematical averages"
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 6,
+        "text": "Instead, it rates the trip by its most intense emotional peak.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "UP",
+          "label": "EMOTIONAL INTENSITY PEAK"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 7,
+        "text": "And pairs that with the final moments before you leave.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "THE FINAL IMPRESSION",
+          "subtext": "The ending shapes the entire memory"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 8,
+        "text": "If the airport run was stressful, your whole trip feels ruined.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "MEMORY EVALUATION",
+          "highlight_text": "OVERALL RATING: SPOILED BY FINAL DAY",
+          "is_redacted": false
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 9,
+        "text": "To fix this, always plan one incredible activity right at the end.",
+        "duration_estimate": 4.8,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "ENGINEER YOUR MEMORIES",
+          "subtext": "Save the absolute best experience for last"
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 10,
+        "text": "Otherwise, you will always end up asking:",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "why do I forget full vacations",
+          "result_headline": "The Peak-End Rule Shapes Travel Memory"
+        },
+        "sfx": "riser"
+      }
+    ],
+    "loop_transition_text": "Otherwise, you will always end up asking:",
+    "description": "Why you only remember two moments from your entire vacation explained by psychology.\\nLearn how the peak end rule shapes travel memories and how to make vacations feel better.\\n\\n#Shorts #psychology #humanbehavior #mindset",
+    "tags": [
+      "peak end rule",
+      "vacation psychology",
+      "memory hacks",
+      "how memory works",
+      "psychology tricks",
+      "cognitive bias",
+      "brain secrets",
+      "travel psychology"
+    ]
+  }
+}

@@ -121,7 +121,7 @@ def test_settings_do_not_demand_any_llm_key_up_front():
 
 def test_env_example_selects_gemini():
     s = Settings(_env_file=Path(__file__).resolve().parent.parent / ".env.example")
-    assert (s.llm_provider, s.gemini_model, s.groq_model) == ("gemini", "gemini-3.6-flash", "llama-3.3-70b-versatile")
+    assert (s.llm_provider, s.gemini_model, s.groq_model) == ("gemini", "gemini-3.6-flash", "openai/gpt-oss-120b")
 
 
 # --------------------------------------------------------------------------- Gemini
@@ -225,7 +225,7 @@ def test_groq_request_shape_and_script(monkeypatch):
     call = rec.calls[0]
     assert call["url"] == "https://api.groq.com/openai/v1/chat/completions"
     assert call["headers"]["Authorization"] == "Bearer q-key"
-    assert call["body"]["model"] == "llama-3.3-70b-versatile"
+    assert call["body"]["model"] == "openai/gpt-oss-120b"
     assert call["body"]["response_format"] == {"type": "json_object"}
     system = call["body"]["messages"][0]
     assert system["role"] == "system" and '"motion_action"' in system["content"]  # schema embedded for JSON mode

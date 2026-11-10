@@ -30,7 +30,8 @@ class Settings(BaseSettings):
 
     # Groq (free tier, OpenAI-compatible)
     groq_api_key: str = ""
-    groq_model: str = "llama-3.3-70b-versatile"
+    groq_model: str = "openai/gpt-oss-120b"
+    groq_fallback_model: str = "qwen/qwen3.8-27b"
 
     # Anthropic (paid; only used when LLM_PROVIDER=anthropic)
     anthropic_api_key: str = ""

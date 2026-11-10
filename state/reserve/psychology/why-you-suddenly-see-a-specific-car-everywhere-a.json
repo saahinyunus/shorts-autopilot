@@ -1,0 +1,159 @@
+{
+  "topic": "Why you suddenly see a specific car everywhere after thinking about it",
+  "script": {
+    "title": "Frequency Illusion Explained: Why You See the Same Car Everywhere",
+    "hook": "Why do you suddenly see one car everywhere?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Why do you suddenly see one car everywhere?",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "EVERYWHERE YOU LOOK",
+          "subtext": "The frequency illusion explained"
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "You think about a red car, and suddenly every street is full of them.",
+        "duration_estimate": 5.2,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "why do I see the same car everywhere",
+          "result_headline": "Baader-Meinhof Phenomenon"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 3,
+        "text": "Did the universe suddenly change overnight?",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "A COSMIC SIGN?",
+          "subtext": "Or just your brain playing tricks?"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 4,
+        "text": "Not at all.",
+        "duration_estimate": 1.2,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "NOT AT ALL",
+          "subtext": ""
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 5,
+        "text": "Scientists call this the frequency illusion.",
+        "duration_estimate": 2.4,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "COGNITIVE REPORT",
+          "highlight_text": "THE FREQUENCY ILLUSION",
+          "is_redacted": false
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 6,
+        "text": "Your brain filters out millions of pieces of data every second.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 11000000.0,
+          "prefix": "",
+          "suffix": " BITS",
+          "label": "DATA FILTERED PER SECOND"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 7,
+        "text": "When you focus on something new, a neural network switches on.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "UP",
+          "label": "SELECTIVE ATTENTION STRENGTH"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 8,
+        "text": "It is called the reticular activating system.",
+        "duration_estimate": 2.4,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "BRAIN MECHANISM",
+          "highlight_text": "RETICULAR ACTIVATING SYSTEM",
+          "is_redacted": true
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 9,
+        "text": "Those cars were always on the road.",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "ALWAYS THERE",
+          "subtext": "Nothing actually changed"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 10,
+        "text": "Your mind simply stopped ignoring them.",
+        "duration_estimate": 2.4,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "how reticular activating system works",
+          "result_headline": "Prioritizes highlighted sensory inputs"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 11,
+        "text": "Confirmation bias then tricks you into thinking it is a spooky pattern.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "BIAS ANALYSIS",
+          "highlight_text": "CONFIRMATION BIAS",
+          "is_redacted": false
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 12,
+        "text": "Which brings us right back to the question:",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "THE REAL REASON",
+          "subtext": "Looping back"
+        },
+        "sfx": "whoosh"
+      }
+    ],
+    "loop_transition_text": "Which brings us right back to the question:",
+    "description": "Ever wonder why you see the exact same car everywhere after thinking about it?\nDiscover how the reticular activating system and confirmation bias create the frequency illusion. Learn how your brain filters daily information.\n\n#Shorts #psychology #humanbehavior #mindset",
+    "tags": [
+      "baader meinhof phenomenon",
+      "frequency illusion",
+      "reticular activating system",
+      "cognitive biases explained",
+      "psychology tricks",
+      "why do i see the same car",
+      "brain filtering info",
+      "confirmation bias",
+      "human behavior psychology"
+    ]
+  }
+}

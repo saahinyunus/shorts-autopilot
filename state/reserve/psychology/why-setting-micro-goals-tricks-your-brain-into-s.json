@@ -1,0 +1,146 @@
+{
+  "topic": "Why setting micro goals tricks your brain into starting hard tasks",
+  "script": {
+    "title": "Micro Goals Trick Your Brain into Starting Hard Tasks",
+    "hook": "Why does opening a document instantly cure your procrastination?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Why does opening a document instantly cure your procrastination?",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "BEAT PROCRASTINATION",
+          "subtext": "The science of starting"
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 2,
+        "text": "Your brain views massive tasks as physical threats.",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "BRAIN SCAN: THREAT RESPONSE",
+          "highlight_text": "AMYGDALA ACTIVATION DETECTED",
+          "is_redacted": false
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 3,
+        "text": "When you attempt to write an entire report, your amygdala panics.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "DOWN",
+          "label": "WILLPOWER RESERVES"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 4,
+        "text": "So it triggers friction, forcing you to check your phone instead.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "why do I procrastinate on big tasks",
+          "result_headline": "Task size triggers perceived cognitive threat"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 5,
+        "text": "To bypass this alarm system, you must make the goal absurdly small.",
+        "duration_estimate": 4.8,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "THE TWO MINUTE TRICK",
+          "subtext": "Shrink the mental barrier"
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 6,
+        "text": "Tell yourself you will only write for two minutes.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 2.0,
+          "prefix": "",
+          "suffix": " MIN",
+          "label": "COMMITMENT WINDOW"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 7,
+        "text": "Suddenly, the friction drops to near zero.",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "DOWN",
+          "label": "TASK FRICTION"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 8,
+        "text": "Once you take action, psychological momentum takes over.",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "THE ZEIGARNIK EFFECT",
+          "subtext": "The brain craves completion"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 9,
+        "text": "Psychologists call this the Zeigarnik effect.",
+        "duration_estimate": 2.4,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "COGNITIVE PRINCIPLE",
+          "highlight_text": "ZEIGARNIK EFFECT: INCOMPLETE TASKS OCCUPY THOUGHT",
+          "is_redacted": true
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 10,
+        "text": "Your brain hates unfinished business and pushes you to keep going.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "UP",
+          "label": "FOCUS & COMPLETION DRIVE"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 11,
+        "text": "So ask yourself:",
+        "duration_estimate": 1.2,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "THE REAL QUESTION:",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      }
+    ],
+    "loop_transition_text": "So ask yourself:",
+    "description": "Learn how setting micro goals tricks your brain to overcome procrastination instantly. Discover the psychological science behind the Zeigarnik effect and task completion. Small habits reduce mental friction so you can focus faster.\n\n#Shorts #psychology #humanbehavior #mindset",
+    "tags": [
+      "micro goals psychology",
+      "how to stop procrastinating",
+      "zeigarnik effect explained",
+      "brain productivity hacks",
+      "overcome procrastination",
+      "psychological tricks focus",
+      "habit building tips",
+      "start hard tasks"
+    ]
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "topic": "The hidden profit in Monopoly’s 'Free Parking' rule",
+  "script": {
+    "title": "Monopoly Free Parking profit: the hidden cash cheat",
+    "hook": "Free Parking is the Monopoly money cheat.",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Free Parking is the Monopoly money cheat.",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Free Parking: Monopoly money cheat",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "Officially, the space has no cash reward.",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "MONOPOLY RULEBOOK",
+          "highlight_text": "Free Parking: No cash awarded",
+          "is_redacted": false
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 3,
+        "text": "Players started pooling fines on the board instead.",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "free parking house rule",
+          "result_headline": "House rule adds cash to Free Parking"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 4,
+        "text": "The pot usually reaches about $150.",
+        "duration_estimate": 2.4,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 150.0,
+          "prefix": "$",
+          "suffix": "",
+          "label": "average pot size"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 5,
+        "text": "Landing on Free Parking spikes a player's cash instantly.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "UP",
+          "label": "PLAYER CASH BOOST"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 6,
+        "text": "House‑rule games boost winner cash by about thirty percent.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 30.0,
+          "prefix": "",
+          "suffix": "%",
+          "label": "extra cash"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 7,
+        "text": "More cash means faster buying, leading to quicker bankruptcies.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Hidden cash fuels faster buying",
+          "subtext": "Accelerates bankruptcies"
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 8,
+        "text": "Fans introduced the cash pool in the early nineties.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "FAN VARIANT",
+          "highlight_text": "Free Parking house rule emerges",
+          "is_redacted": true
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 9,
+        "text": "Free Parking acts like a hidden tax.",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Free Parking acts like a hidden tax",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 10,
+        "text": "When a pile lands on Free Parking, ask:",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "When a pile lands on Free Parking, ask:",
+          "subtext": ""
+        },
+        "sfx": "sub_drop"
+      }
+    ],
+    "loop_transition_text": "When a pile lands on Free Parking, ask:",
+    "description": "Free Parking is the Monopoly money cheat, revealing the hidden profit in the classic board game.\nLearn how the house rule creates a cash pool.\nSee why it changes game dynamics.\n\n#Shorts #money #economics #finance",
+    "tags": [
+      "monopoly free parking rule",
+      "monopoly house rule cash",
+      "board game hidden profit",
+      "monopoly money cheat",
+      "free parking cash pool",
+      "monopoly game mechanics",
+      "economic analogy board games",
+      "monopoly strategy",
+      "game theory monopoly",
+      "hidden tax analogy"
+    ]
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "topic": "Why 'psychic pricing' of .99 cents tricks your brain",
+  "script": {
+    "title": "Psychic pricing: why .99 cents tricks your brain",
+    "hook": "Why .99 prices hijack your mind?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Why .99 prices hijack your mind?",
+        "duration_estimate": 2.4,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Why .99 prices hijack your mind?",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "What does nine ninety‑nine really cost?",
+        "duration_estimate": 2.4,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "what does .99 cost",
+          "result_headline": "Consumers treat .99 as nine dollars"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 3,
+        "text": "Consumers pay about thirty percent less with .99 endings.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 30.0,
+          "prefix": "",
+          "suffix": "%",
+          "label": "price boost vs round numbers"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 4,
+        "text": "Retailers discovered the left‑digit effect in the late 1800s.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "HISTORICAL NOTE",
+          "highlight_text": "left‑digit effect",
+          "is_redacted": false
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 5,
+        "text": "A drop from ten dollars to nine ninety‑nine looks like a full dollar discount.",
+        "duration_estimate": 5.6,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "UP",
+          "label": "PERCEIVED SAVINGS"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 6,
+        "text": "Your brain registers the left digit, ignoring the penny.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "MIND HACK",
+          "highlight_text": "full dollar",
+          "is_redacted": true
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 7,
+        "text": "Tests show .99 items sell roughly twice as fast as rounded prices.",
+        "duration_estimate": 4.8,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 2.0,
+          "prefix": "",
+          "suffix": "x",
+          "label": "faster sales"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 8,
+        "text": "Awareness blunts the illusion, but the habit persists.",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Awareness blunts illusion",
+          "subtext": "habit persists"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 9,
+        "text": "Now you know why .99 works:",
+        "duration_estimate": 2.4,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Now you know why .99 works:",
+          "subtext": ""
+        },
+        "sfx": "none"
+      }
+    ],
+    "loop_transition_text": "Now you know why .99 works:",
+    "description": "Psychic pricing explains why .99 cents tricks your brain.\nLearn the left‑digit effect and its sales impact.\nDiscover the history behind .99 pricing.\n\n#Shorts #money #economics #finance",
+    "tags": [
+      "psychic pricing",
+      "price ending .99",
+      "left digit effect",
+      "consumer psychology",
+      "pricing strategy",
+      "sales tactics",
+      "economic history",
+      "behavioral economics"
+    ]
+  }
+}
