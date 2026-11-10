@@ -37,7 +37,7 @@ class Settings(BaseSettings):
     anthropic_fallback_model: str = "claude-3-5-sonnet-latest"  # used if the primary returns 404
 
     # --- Provider selection: free local engines by default, paid APIs by changing one line ---
-    tts_provider: Literal["edge_tts", "elevenlabs"] = "edge_tts"
+    tts_provider: Literal["edge_tts", "kokoro", "elevenlabs"] = "edge_tts"
     whisper_provider: Literal["faster_whisper", "openai"] = "faster_whisper"
 
     # --- Edge TTS (free, Microsoft neural voices, no API key) ---
@@ -47,6 +47,12 @@ class Settings(BaseSettings):
     # Where caption timings come from: "auto" = the TTS engine's own word boundaries when it provides
     # them (Edge TTS; most accurate, no Whisper needed), else Whisper. "whisper" forces Whisper.
     word_timing_source: Literal["auto", "whisper"] = "auto"
+
+    # --- Kokoro (free, open-source TTS that runs locally; the voice used in GitHub Actions) ---
+    kokoro_voice: str = "am_michael"  # am_* male, af_* female (US), bm_/bf_* British
+    kokoro_speed: float = Field(1.0, ge=0.5, le=2.0)
+    kokoro_model_dir: Path = ROOT_DIR / "models" / "kokoro"  # ~350 MB, downloaded on first use
+    kokoro_release_url: str = "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0"
 
     # --- faster-whisper (free, runs locally; model downloads on first use) ---
     faster_whisper_model: str = "base.en"  # tiny.en | base.en | small.en (or any faster-whisper model)

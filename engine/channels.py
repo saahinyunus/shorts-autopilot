@@ -33,6 +33,8 @@ class ChannelConfig(BaseModel):
     timezone: str = "America/New_York"
     slots: list[str] = Field(default_factory=lambda: ["08:00", "13:00", "19:00"])
     edge_tts_voice: str | None = None
+    kokoro_voice: str | None = None  # voice used when TTS_PROVIDER=kokoro (GitHub Actions)
+    kokoro_speed: float | None = None
     accent_color: str | None = None
 
     @field_validator("slots")

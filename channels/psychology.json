@@ -23,13 +23,30 @@
     "private lives of real people",
     "mental-health treatment advice"
   ],
-  "hashtags": ["#Shorts", "#psychology", "#humanbehavior", "#mindset"],
-  "tags": ["psychology facts", "human behavior", "psychology", "mind tricks", "body language"],
+  "hashtags": [
+    "#Shorts",
+    "#psychology",
+    "#humanbehavior",
+    "#mindset"
+  ],
+  "tags": [
+    "psychology facts",
+    "human behavior",
+    "psychology",
+    "mind tricks",
+    "body language"
+  ],
   "description_footer": "",
   "category_id": "27",
   "language": "en",
   "timezone": "America/New_York",
-  "slots": ["08:00", "13:00", "19:00"],
+  "slots": [
+    "08:00",
+    "13:00",
+    "19:00"
+  ],
   "edge_tts_voice": "en-US-ChristopherNeural",
+  "kokoro_voice": "am_michael",
+  "kokoro_speed": 1.0,
   "accent_color": "#FFE600"
 }

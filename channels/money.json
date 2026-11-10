@@ -23,13 +23,30 @@
     "get-rich-quick schemes and 'secret' trading strategies",
     "politics and partisan economics"
   ],
-  "hashtags": ["#Shorts", "#money", "#economics", "#finance"],
-  "tags": ["money facts", "economics explained", "personal finance", "how money works", "financial literacy"],
+  "hashtags": [
+    "#Shorts",
+    "#money",
+    "#economics",
+    "#finance"
+  ],
+  "tags": [
+    "money facts",
+    "economics explained",
+    "personal finance",
+    "how money works",
+    "financial literacy"
+  ],
   "description_footer": "Educational content only. Not financial advice.",
   "category_id": "27",
   "language": "en",
   "timezone": "America/New_York",
-  "slots": ["08:00", "13:00", "19:00"],
+  "slots": [
+    "08:00",
+    "13:00",
+    "19:00"
+  ],
   "edge_tts_voice": "en-US-AndrewNeural",
+  "kokoro_voice": "am_adam",
+  "kokoro_speed": 0.92,
   "accent_color": "#00E58F"
 }

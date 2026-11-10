@@ -203,7 +203,10 @@ HARD RULES
    - `tags`: 8-12 lowercase search phrases (2-4 words each), most important first, no hashtags.
 9. Facts must be defensible. If a claim is contested, phrase it carefully ("studies suggest").
    Never state a precise number or study result unless you are sure it is real and widely documented.
-10. A CHANNEL BRIEF may follow the topic. Follow its tone and obey its rules and exclusions."""
+10. The narration is read aloud by a text-to-speech engine: write numbers, years, money and symbols the way
+    they are SPOKEN ("nineteen twenty", "four dollars and fifty cents", "three percent"), never as digits or
+    symbols, and avoid abbreviations.
+11. A CHANNEL BRIEF may follow the topic. Follow its tone and obey its rules and exclusions."""
 
 
 SUBMIT_SCRIPT_TOOL = {

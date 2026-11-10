@@ -25,4 +25,14 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements.txt
-      - run: python -m pytest -q
+      - name: Cache the voice models (Kokoro ~350 MB, Whisper ~150 MB)
+        uses: actions/cache@v4
+        with:
+          path: |
+            models/kokoro
+            ~/.cache/huggingface
+          key: voice-models-kokoro-v1.0-whisper-base.en
+      - name: Tests (includes a real Kokoro speech synthesis on Linux)
+        env:
+          RUN_LIVE_TTS: "1"
+        run: python -m pytest -q

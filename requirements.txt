@@ -4,6 +4,7 @@ typer>=0.12
 anthropic>=0.40
 openai>=1.50
 httpx>=0.27
+kokoro-onnx>=0.4.7  # local TTS used in GitHub Actions (Edge TTS is blocked there)
 edge-tts>=7.0       # 7.x for boundary="WordBoundary"
 numpy>=1.26
 faster-whisper>=1.0

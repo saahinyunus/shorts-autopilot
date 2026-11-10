@@ -52,7 +52,7 @@ services by changing one line in `.env`:
 | Setting | Free (default) | Paid |
 |---|---|---|
 | `LLM_PROVIDER` | `gemini` (`GEMINI_API_KEY`, free tier) or `groq` (`GROQ_API_KEY`, free tier) | `anthropic` (`ANTHROPIC_API_KEY`) |
-| `TTS_PROVIDER` | `edge_tts` - Microsoft neural voices via the `edge-tts` package, no key (needs internet) | `elevenlabs` (+ `ELEVENLABS_API_KEY`) |
+| `TTS_PROVIDER` | `edge_tts` - Microsoft neural voices, no key, exact word timings (best on your PC; **blocked on GitHub's servers**). `kokoro` - open-source voice that runs locally, no key, used by the GitHub workflow (~350 MB model, first run only) | `elevenlabs` (+ `ELEVENLABS_API_KEY`) |
 | `WHISPER_PROVIDER` | `faster_whisper` - runs locally, no key | `openai` (+ `OPENAI_API_KEY`) |
 | LLM model | `GEMINI_MODEL=gemini-3.6-flash`, `GROQ_MODEL=llama-3.3-70b-versatile` | `ANTHROPIC_MODEL` |
 | Voice | `EDGE_TTS_VOICE=en-US-ChristopherNeural` (list: `python -m edge_tts --list-voices`) | `ELEVENLABS_VOICE_ID` |

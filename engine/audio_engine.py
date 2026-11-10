@@ -1,6 +1,6 @@
 """Voice-over + word-level timestamps behind swappable providers (Strategy pattern).
 
-    TTS_PROVIDER      edge_tts (free, default)      | elevenlabs (paid)
+    TTS_PROVIDER      edge_tts (free, default)      | kokoro (free, local; works in GitHub Actions) | elevenlabs (paid)
     WHISPER_PROVIDER  faster_whisper (free, local)  | openai (paid)
 
 Both whisper providers return the same `list[WordTiming]` (+ duration), so everything downstream
@@ -15,8 +15,12 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import re
+import shutil
+import tempfile
 import threading
+import wave
 from abc import ABC, abstractmethod
 from collections.abc import Iterable
 from difflib import SequenceMatcher
@@ -202,10 +206,64 @@ def load_tts_words(audio_path: Path) -> list[WordTiming] | None:
     return words or None
 
 
+# ================================================================ Kokoro helpers
+KOKORO_FILES = ("kokoro-v1.0.onnx", "voices-v1.0.bin")
+_KOKORO_ENGINES: dict[str, object] = {}
+
+
+def _download(url: str, target: Path, attempts: int = 3) -> None:
+    """Download `url` to `target` atomically (a half-finished file is never left behind)."""
+    partial = target.with_name(target.name + ".part")
+    for attempt in range(1, attempts + 1):
+        try:
+            with httpx.stream("GET", url, follow_redirects=True, timeout=600) as response:
+                response.raise_for_status()
+                with partial.open("wb") as fh:
+                    for chunk in response.iter_bytes(1 << 20):
+                        fh.write(chunk)
+            partial.replace(target)
+            return
+        except Exception as exc:  # noqa: BLE001 - network errors vary
+            partial.unlink(missing_ok=True)
+            if attempt == attempts:
+                raise RuntimeError(f"Could not download {url}: {exc}") from exc
+            print(f"[tts] download failed ({exc}); retrying {attempt}/{attempts - 1}")
+
+
+def _ascii_espeak_config():
+    """On Windows the espeak-ng library bundled with kokoro-onnx cannot read its data files from a
+    folder whose path contains non-ASCII characters (for example 'Masaüstü'): the process just dies.
+    In that case copy the files to an ASCII-only folder and point kokoro-onnx there. Elsewhere: None."""
+    if os.name != "nt":
+        return None
+    try:
+        import espeakng_loader
+        from kokoro_onnx import EspeakConfig
+    except ImportError:
+        return None
+    lib, data = Path(espeakng_loader.get_library_path()), Path(espeakng_loader.get_data_path())
+    if str(lib).isascii() and str(data).isascii():
+        return None
+    for base in (os.environ.get("PROGRAMDATA", "C:/ProgramData"), tempfile.gettempdir()):
+        target = Path(base) / "shorts-automation-engine" / "espeak"
+        if not str(target).isascii():
+            continue
+        try:
+            if not (target / "espeak-ng-data").exists():
+                target.mkdir(parents=True, exist_ok=True)
+                shutil.copytree(data, target / "espeak-ng-data", dirs_exist_ok=True)
+                shutil.copy2(lib, target / lib.name)
+            return EspeakConfig(lib_path=str(target / lib.name), data_path=str(target / "espeak-ng-data"))
+        except OSError:
+            continue
+    return None
+
+
 # =========================================================================== TTS
 class TTSProvider(ABC):
     name: str
     is_free: bool
+    extension: str = ".mp3"  # audio file type the provider writes (voice<extension>)
 
     def __init__(self, settings: Settings):
         self.settings = settings
@@ -305,8 +363,73 @@ class ElevenLabsProvider(TTSProvider):
         return f"{len(text)} characters of ElevenLabs credit (voice {self.settings.elevenlabs_voice_id})"
 
 
+class KokoroProvider(TTSProvider):
+    """Kokoro-82M (open source, Apache-2.0) running locally through ONNX: no account, no internet service,
+    works in GitHub Actions where Edge TTS is blocked. Slower than Edge (~3x real time on a CPU) and it has
+    no word timestamps, so caption timing comes from Whisper (see align_words)."""
+
+    name = "kokoro"
+    is_free = True
+    extension = ".wav"
+    LEAD_SILENCE = 0.12  # seconds before the first word, like the natural start of the Edge audio
+
+    def _model_files(self) -> tuple[Path, Path]:
+        directory = Path(self.settings.kokoro_model_dir)
+        directory.mkdir(parents=True, exist_ok=True)
+        paths = []
+        for name in KOKORO_FILES:
+            target = directory / name
+            if not target.exists() or target.stat().st_size < 1_000_000:
+                url = f"{self.settings.kokoro_release_url.rstrip('/')}/{name}"
+                print(f"[tts] downloading {name} (first run only) ...")
+                _download(url, target)
+            paths.append(target)
+        return paths[0], paths[1]
+
+    def _engine(self):
+        try:
+            from kokoro_onnx import Kokoro
+        except ImportError as exc:
+            raise RuntimeError("kokoro-onnx is not installed. Run: pip install kokoro-onnx") from exc
+        model, voices = self._model_files()
+        key = str(model)
+        if key not in _KOKORO_ENGINES:
+            _KOKORO_ENGINES[key] = Kokoro(str(model), str(voices), espeak_config=_ascii_espeak_config())
+        return _KOKORO_ENGINES[key]
+
+    def synthesize(self, text: str, out_path: Path) -> Path:
+        import numpy as np
+
+        engine = self._engine()
+        voice = self.settings.kokoro_voice
+        available = sorted(engine.get_voices())
+        if voice not in available:
+            raise RuntimeError(f"KOKORO_VOICE='{voice}' does not exist. Available: {', '.join(available)}")
+        try:
+            samples, rate = engine.create(text, voice=voice, speed=self.settings.kokoro_speed, lang="en-us")
+        except Exception as exc:  # noqa: BLE001 - phonemizer/onnx errors vary
+            raise RuntimeError(f"Kokoro failed: {exc}") from exc
+        if len(samples) == 0:
+            raise RuntimeError("Kokoro produced no audio.")
+
+        pcm = (np.clip(np.asarray(samples, dtype=np.float32), -1.0, 1.0) * 32767).astype("<i2")
+        lead = np.zeros(int(rate * self.LEAD_SILENCE), dtype="<i2")
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        with wave.open(str(out_path), "wb") as wav:
+            wav.setnchannels(1)
+            wav.setsampwidth(2)
+            wav.setframerate(int(rate))
+            wav.writeframes(np.concatenate([lead, pcm]).tobytes())
+        sidecar_path(out_path).unlink(missing_ok=True)  # Kokoro has no word boundaries
+        return out_path
+
+    def cost_summary(self, text: str) -> str:
+        return f"{FREE_LABEL} - Kokoro voice {self.settings.kokoro_voice} (runs locally)"
+
+
 TTS_PROVIDERS: dict[str, type[TTSProvider]] = {
     EdgeTTSProvider.name: EdgeTTSProvider,
+    KokoroProvider.name: KokoroProvider,
     ElevenLabsProvider.name: ElevenLabsProvider,
 }
 

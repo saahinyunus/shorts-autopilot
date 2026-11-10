@@ -131,7 +131,10 @@ def audio(
     Free local providers (edge_tts + faster_whisper) need no API key and no confirmation."""
     settings = get_settings()
     script_obj = _load_script(script_file or workdir / "script.json")
-    voice = workdir / "voice.mp3"
+    voice = next(
+        (workdir / n for n in ("voice.mp3", "voice.wav") if (workdir / n).exists()),
+        workdir / f"voice{get_tts_provider(settings).extension}",
+    )
     c = estimate_costs(script_obj, settings)
 
     if skip_tts and not voice.exists():

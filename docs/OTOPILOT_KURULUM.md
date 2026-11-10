@@ -101,9 +101,11 @@ python engine/youtube_auth.py export
 
 - Planlama ve üretim çalışır, **hiçbir şey yüklenmez**.
 - Çalışma bitince sayfanın altındaki **Artifacts** bölümünden `video-...` dosyasını indirip izleyin.
-- **Bu adımda bakmanız gereken:** Edge TTS (ses) GitHub sunucularında çalışıyor mu? Microsoft'un resmi
-  olmayan servisi bulut IP'lerini zaman zaman reddedebilir. Çalışmazsa log'da `Edge TTS failed` görürsünüz;
-  o durumda bana haber verin, yedek çözüm kurarız.
+- **Ses (TTS):** Microsoft'un Edge TTS servisi GitHub sunucularından ses vermiyor ("No audio was received"; ilk
+  denemede bunu yaşadık). Bu yüzden iş akışı, internet servisine bağlı olmayan **Kokoro** adlı açık kaynak sesi
+  kullanır (`TTS_PROVIDER=kokoro`, ücretsiz). Modeller (~500 MB) ilk çalışmada indirilir ve sonra önbelleğe alınır.
+  Kanal sesleri `channels/*.json` içindeki `kokoro_voice` ve `kokoro_speed` ile seçilir. Kendi bilgisayarınızda
+  Edge TTS kullanmaya devam edebilirsiniz.
 
 Render süresi: 60 FPS videolar GitHub'ın 4 çekirdekli makinesinde yaklaşık **10-20 dk** sürer. Slot başına ayrı
 iş paralel çalıştığı için 6 video yine de ~30-40 dk'da biter. Public depoda Actions dakikaları ücretsizdir.
@@ -177,5 +179,6 @@ Toplam maliyet: **0 TL**.
 - **Doğruluk:** Yapay zekanın bazı iddiaları hatalı olabilir. Prompt'lar kaynaksız istatistiği engellemeye
   çalışır ama garanti değildir. Para kanalında "yatırım tavsiyesi değildir" notu açıklamaya otomatik eklenir ve
   model belirli hisse/kripto önermemeye yönlendirilir.
-- **Telif/ToS:** Edge TTS resmi olmayan bir Microsoft servisidir; ticari kullanım koşullarını kendiniz
-  değerlendirin. Daha güvenli seçenek ücretli bir TTS'e (`TTS_PROVIDER=elevenlabs`) geçmektir.
+- **Ses lisansı:** Kokoro modeli Apache-2.0 lisanslıdır (ticari kullanıma izin verir). Edge TTS ise Microsoft'un
+  resmi olmayan bir servisidir; GitHub'da zaten kullanılmıyor. Ücretli, garantili bir seçenek isterseniz
+  `TTS_PROVIDER=elevenlabs` vardır.

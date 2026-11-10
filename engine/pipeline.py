@@ -23,7 +23,7 @@ from engine.ci import annotate_error
 
 from engine.asset_manager import ensure_sfx
 from engine.channels import ChannelConfig, load_channel
-from engine.audio_engine import Timeline, align_timeline, align_words, synthesize_audio
+from engine.audio_engine import Timeline, align_timeline, align_words, get_tts_provider, synthesize_audio
 from engine.config import get_settings
 from engine.generator import ScriptSpec, generate_script, slugify, validate_quality
 from engine.renderer import build_props, render_video, write_props
@@ -83,6 +83,11 @@ def run(
     if channel_cfg:  # the channel's own voice / colour, unless overridden on the command line
         if channel_cfg.edge_tts_voice and base_settings.tts_provider == "edge_tts":
             overrides.setdefault("edge_tts_voice", channel_cfg.edge_tts_voice)
+        if base_settings.tts_provider == "kokoro":
+            if channel_cfg.kokoro_voice:
+                overrides.setdefault("kokoro_voice", channel_cfg.kokoro_voice)
+            if channel_cfg.kokoro_speed:
+                overrides.setdefault("kokoro_speed", channel_cfg.kokoro_speed)
         if channel_cfg.accent_color:
             overrides.setdefault("accent_color", channel_cfg.accent_color)
         overrides.setdefault("youtube_category_id", channel_cfg.category_id)
@@ -144,10 +149,14 @@ def run(
 
         # 2) voice -----------------------------------------------------------------
         _step(2, total_steps, f"Voice-over ({settings.tts_provider})")
-        audio_name = "voice.mp3"
+        # reuse a voice file from an earlier run of this folder, else the type the provider writes
+        audio_name = next(
+            (n for n in ("voice.mp3", "voice.wav") if (run_dir / n).exists()),
+            f"voice{get_tts_provider(settings).extension}",
+        )
         audio_path = run_dir / audio_name
         if audio_path.exists():
-            typer.echo("  reusing voice.mp3")
+            typer.echo(f"  reusing {audio_name}")
         else:
             synthesize_audio(script.narration, audio_path, settings)
 
