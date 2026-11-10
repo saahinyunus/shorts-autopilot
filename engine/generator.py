@@ -691,8 +691,15 @@ class FailoverProvider(LLMProvider):
         super().__init__(providers[0].settings)
         self.providers = providers
         self.index = 0
+        self.hop_after = 2  # rule-breaking scripts from one provider before the next one gets a try
+        self._bad = 0
         self._topic = ""
         self._brief = ""
+
+    @property
+    def suggested_attempts(self) -> int:
+        """How many script attempts generate_script should make: two per provider (at least 3, at most 6)."""
+        return max(3, min(6, 2 * len(self.providers)))
 
     @property
     def name(self) -> str:  # type: ignore[override]
@@ -717,6 +724,7 @@ class FailoverProvider(LLMProvider):
 
     def propose(self, topic: str, brief: str = "") -> dict:
         self._topic, self._brief = topic, brief
+        self._bad = 0
         while True:
             try:
                 return self.providers[self.index].propose(topic, brief)
@@ -726,6 +734,11 @@ class FailoverProvider(LLMProvider):
                 self._failover(exc)
 
     def revise(self, problems: list[str]) -> dict:
+        self._bad += 1
+        if self._bad >= self.hop_after and self.index + 1 < len(self.providers):
+            print(f"[generator] {self.name} keeps breaking the script rules; trying {self.providers[self.index + 1].name}")
+            self.index += 1
+            return self.propose(self._topic, self._brief)  # fresh conversation on the next provider
         try:
             return self.providers[self.index].revise(problems)
         except LLMOutputError:
@@ -762,13 +775,19 @@ def get_llm_provider(settings: Settings | None = None, client: anthropic.Anthrop
     for name in ("gemini", "groq", "anthropic"):
         if name != settings.llm_provider and getattr(settings, f"{name}_api_key", ""):
             backups.append(_build_one(name, settings, client if name == "anthropic" else None))
-    return FailoverProvider([primary, *backups]) if backups else primary
+    chain: list[LLMProvider] = []
+    for provider in [primary, *backups]:
+        chain.append(provider)
+        if isinstance(provider, GroqProvider) and settings.groq_fallback_model:  # a second Groq model is a fresh chance
+            alt = settings.model_copy(update={"groq_model": settings.groq_fallback_model, "groq_fallback_model": ""})
+            chain.append(GroqProvider(alt))
+    return FailoverProvider(chain) if len(chain) > 1 else primary
 
 
 def generate_script(
     topic: str,
     settings: Settings | None = None,
-    max_attempts: int = 3,
+    max_attempts: int | None = None,
     client: anthropic.Anthropic | None = None,
     provider: LLMProvider | None = None,
     brief: str = "",
@@ -776,6 +795,7 @@ def generate_script(
     """Ask the selected LLM for a script (`brief` = channel context: niche, tone, rules); validate it and retry with feedback if it breaks the rules."""
     settings = settings or get_settings()
     provider = provider or get_llm_provider(settings, client)
+    max_attempts = max_attempts or getattr(provider, "suggested_attempts", 3)
     last_error = "unknown"
     problems: list[str] = []
 

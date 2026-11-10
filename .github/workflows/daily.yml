@@ -33,6 +33,8 @@ env:
   # scheduled runs are always real; manual runs follow the checkbox
   DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && 'true' || 'false' }}
   RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  # Groq first: Gemini's free tier allows only 20 requests a day and is often overloaded. Gemini stays as the backup.
+  LLM_PROVIDER: groq
 
 jobs:
   plan:

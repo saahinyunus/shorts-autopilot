@@ -108,7 +108,9 @@ def test_only_the_selected_providers_key_is_required():
         get_llm_provider(Settings(_env_file=None, llm_provider="groq", gemini_api_key="x"))
     with pytest.raises(RuntimeError, match="ANTHROPIC_API_KEY"):
         get_llm_provider(Settings(_env_file=None, llm_provider="anthropic", gemini_api_key="x"))
-    assert isinstance(get_llm_provider(Settings(_env_file=None, llm_provider="groq", groq_api_key="k")), GroqProvider)
+    solo = get_llm_provider(Settings(_env_file=None, llm_provider="groq", groq_api_key="k"))  # + Groq's second model as a backup
+    assert isinstance(solo.providers[0], GroqProvider) and solo.providers[0].model_label.startswith("openai/gpt-oss-120b") and solo.providers[1].model_label == "qwen/qwen3.8-27b"
+    assert isinstance(get_llm_provider(Settings(_env_file=None, llm_provider="groq", groq_api_key="k", llm_failover=False)), GroqProvider)
     anth = get_llm_provider(Settings(_env_file=None, llm_provider="anthropic", anthropic_api_key="k"))
     assert isinstance(anth, AnthropicProvider) and not anth.is_free
 
