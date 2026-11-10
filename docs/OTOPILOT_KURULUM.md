@@ -182,3 +182,13 @@ Toplam maliyet: **0 TL**.
 - **Ses lisansı:** Kokoro modeli Apache-2.0 lisanslıdır (ticari kullanıma izin verir). Edge TTS ise Microsoft'un
   resmi olmayan bir servisidir; GitHub'da zaten kullanılmıyor. Ücretli, garantili bir seçenek isterseniz
   `TTS_PROVIDER=elevenlabs` vardır.
+
+## Hiçbir slot boş kalmaz (yedek sistemi)
+
+Bir video üretilemezse sistem sırayla şunları dener:
+
+1. **Yeniden deneme**: üretim adımı 3 kez dener (arada 2.5 ve 5 dakika bekler), yarım kalan klasörden devam eder.
+2. **Yedek yapay zekâlar**: Gemini'nin günlük ücretsiz kotası (modelde günde 20 istek) dolarsa önce Gemini'nin ikinci modeline, sonra **Groq**'a (ücretsiz), en son anahtarı varsa Anthropic'e geçer. Anahtarı tanımlı olan her sağlayıcı otomatik zincire girer.
+3. **Yedek senaryo deposu** (`state/reserve/<kanal>/`): hazır, doğrulanmış senaryolar. Hiçbir yapay zekâ çalışmasa bile video yine çıkar. Her gün otomatik doldurulur (kanal başına hedef 8).
+
+Önerilen: Groq anahtarı (https://console.groq.com/keys) alıp GitHub'da `GROQ_API_KEY` secret'ı olarak ekleyin.

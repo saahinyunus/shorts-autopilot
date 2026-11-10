@@ -29,6 +29,7 @@ from engine.config import get_settings
 from engine.generator import get_llm_provider
 from engine.history import HistoryEntry, load_history, save_history
 from engine.planner import plan_topics
+from engine.reserve import available, prune, relpath
 
 app = typer.Typer(add_completion=False, help="Daily planning and bookkeeping for the autopilot.")
 
@@ -49,7 +50,6 @@ def build_plan(channel_ids: list[str], now: datetime, settings, history, provide
             ]
             if not slots:
                 continue
-            provider = provider or provider_factory()
             # Nothing may repeat: not this channel's whole history, not the other channels' videos
             # (e.g. "decoy pricing" must not appear on both), not the channel's already_covered list,
             # not another topic planned in this run. The channel's own newest entries come last, so
@@ -57,17 +57,47 @@ def build_plan(channel_ids: list[str], now: datetime, settings, history, provide
             others = [t for e in history.entries if e.channel != cid for t in (e.topic, e.title) if t]
             own = [t for e in history.entries if e.channel == cid for t in (e.topic, e.title) if t]
             previous = others + planned_topics + channel.already_covered + own
-            topics = plan_topics(channel, len(slots), previous, provider)
+            topics: list[str] = []
+            try:
+                provider = provider or provider_factory()
+                topics = plan_topics(channel, len(slots), previous, provider)
+            except Exception as exc:  # noqa: BLE001 - the reserve below keeps every slot filled
+                print(f"[plan] {cid}: the LLM could not plan topics ({str(exc)[:200]}); using the reserve")
             planned_topics.extend(topics)
-            for slot, topic in zip(slots, topics):
-                items.append(
+
+            # Reserve scripts: the topic source if the planner failed, otherwise a backup for the producer.
+            pool = [
+                (path, topic)
+                for path, topic in available(cid, history, avoid=planned_topics, root=settings.state_dir / "reserve")
+            ]
+            channel_items: list[dict] = []
+            unfilled = 0
+            for n, slot in enumerate(slots):
+                reserve = ""
+                if n < len(topics):
+                    topic = topics[n]
+                elif pool:
+                    path, topic = pool.pop(0)
+                    reserve = relpath(path)
+                    planned_topics.append(topic)
+                else:
+                    unfilled += 1
+                    continue
+                channel_items.append(
                     {
                         "channel": cid,
                         "topic": topic,
                         "publish_at": slot.strftime("%Y-%m-%dT%H:%M:%SZ"),
                         "plan_id": plan_id(cid, slot),
+                        "reserve": reserve,
                     }
                 )
+            for item in channel_items:  # every other slot gets a backup script, if one is left
+                if not item["reserve"] and pool:
+                    item["reserve"] = relpath(pool.pop(0)[0])
+            items.extend(channel_items)
+            if unfilled:
+                errors.append(f"{cid}: no topic and no reserve script for {unfilled} slot(s)")
         except RuntimeError as exc:
             errors.append(f"{cid}: {exc}")
     return items, errors
@@ -115,6 +145,9 @@ def record(
         entry = HistoryEntry(**{k: data.get(k, "") for k in HistoryEntry.model_fields})
         added += int(history.add(entry))
     save_history(history, path)
+    removed = prune(history, settings.state_dir / "reserve")  # reserve scripts whose topic is now published
+    if removed:
+        typer.echo(f"reserve: removed {len(removed)} used script(s)")
     typer.echo(f"history: {added} added, {skipped} skipped, {len(history.entries)} total")
 
 

@@ -1,0 +1,122 @@
+{
+  "topic": "How Airlines Use Dynamic Pricing to Charge You More",
+  "script": {
+    "title": "Airline Ticket Prices: Why You Pay More Than Your Seatmate",
+    "hook": "Why did your seatmate pay half price for your exact flight?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Why did your seatmate pay half price for your exact flight?",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "SAME FLIGHT, DIFFERENT PRICE",
+          "subtext": "The secret behind airline ticket prices"
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 2,
+        "text": "Airlines do not charge fixed prices for seats anymore.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "UP",
+          "label": "DYNAMIC FLIGHT PRICING"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 3,
+        "text": "They use dynamic pricing algorithms that track demand in real time.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "how do airline prices change",
+          "result_headline": "Real-time algorithmic yield management"
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 4,
+        "text": "If search volume spikes, prices jump instantly.",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "UP",
+          "label": "PRICE VS SEARCH DEMAND"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 5,
+        "text": "The algorithm even tracks browser cookies and device location.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "ALGORITHM DATA LOG",
+          "highlight_text": "TRACKING USER DATA AND SEARCH HISTORY",
+          "is_redacted": false
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 6,
+        "text": "Business travelers who book late are forced to pay maximum rates.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "LAST-MINUTE MARKUPS",
+          "subtext": "Targeting high-budget travelers"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 7,
+        "text": "Meanwhile, vacation buyers who search early get targeted with lower teaser rates.",
+        "duration_estimate": 4.8,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "EARLY BIRD DISCOUNTS",
+          "subtext": "Filling seats early to lock in revenue"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 8,
+        "text": "It is called yield management, designed to extract every dollar possible.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "AIRLINE REVENUE STRATEGY",
+          "highlight_text": "MAXIMIZE SURPLUS PER PASSENGER",
+          "is_redacted": true
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 9,
+        "text": "So every single time you reload that tab, algorithms are silently asking:",
+        "duration_estimate": 4.8,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "THE REAL QUESTION",
+          "subtext": "Dynamic pricing in action"
+        },
+        "sfx": "none"
+      }
+    ],
+    "loop_transition_text": "So every single time you reload that tab, algorithms are silently asking:",
+    "description": "Learn how airlines use dynamic pricing and yield management to charge different prices for the exact same seat.\nDiscover how flight search algorithms track demand and adjust ticket costs in real time. Understand the hidden economics behind ticket pricing.\n\n#Shorts #money #economics #finance #travel",
+    "tags": [
+      "airline ticket prices",
+      "dynamic pricing explained",
+      "how airlines set prices",
+      "yield management economics",
+      "flight price algorithms",
+      "why flight prices change",
+      "airline pricing tricks",
+      "economics of travel"
+    ]
+  }
+}

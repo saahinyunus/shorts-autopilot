@@ -277,7 +277,7 @@ def _create_message(client: anthropic.Anthropic, models: list[str], state: dict,
                     f"Model '{model}' was not found and no fallback is left. "
                     f"Set ANTHROPIC_MODEL to a model your account can use."
                 ) from exc
-            print(f"[generator] model '{model}' not found -> falling back to '{models[state['i'] + 1]}'")
+            print(f"[generator] model '{model}' unavailable ({exc}) -> falling back to '{models[state['i'] + 1]}'")
             state["i"] += 1
 
 # ================================================================== LLM providers
@@ -357,7 +357,11 @@ def _parse_json_object(text: str) -> dict:
 
 
 class ModelNotFound(Exception):
-    """HTTP 404 from a JSON API: the model id does not exist (any more)."""
+    """The model cannot be used (HTTP 404, or its daily free quota is used up): try the next model."""
+
+
+class DailyQuotaExhausted(ModelNotFound):
+    """HTTP 429 for a per-day quota. Waiting is pointless (it resets hours later); another model has its own quota."""
 
 
 RETRY_STATUS = {429, 500, 502, 503, 504}
@@ -372,6 +376,8 @@ def _post_json(url: str, headers: dict, body: dict, provider: str) -> dict:
             return response.json()
         if response.status_code == 404:
             raise ModelNotFound(_error_message(response))
+        if response.status_code == 429 and re.search(r"per ?day", response.text, re.IGNORECASE):
+            raise DailyQuotaExhausted("daily free quota used up")
         if response.status_code in RETRY_STATUS and attempt < len(RETRY_DELAYS):
             try:
                 wait = min(60.0, float(response.headers.get("retry-after", "")))
@@ -401,10 +407,10 @@ def _with_fallback(models: list[str], state: dict, call):
         except ModelNotFound as exc:
             if state["i"] + 1 >= len(models):
                 raise RuntimeError(
-                    f"Model '{model}' was not found ({exc}) and no fallback is left. "
-                    f"Set the model in .env to one your account can use."
+                    f"Model '{model}' is unavailable ({exc}) and no fallback is left. "
+                    f"Check the model name in .env or the quota of your API key."
                 ) from exc
-            print(f"[generator] model '{model}' not found -> falling back to '{models[state['i'] + 1]}'")
+            print(f"[generator] model '{model}' unavailable ({exc}) -> falling back to '{models[state['i'] + 1]}'")
             state["i"] += 1
 
 
@@ -665,16 +671,88 @@ LLM_PROVIDERS: dict[str, type[LLMProvider]] = {
 }
 
 
+class FailoverProvider(LLMProvider):
+    """Tries the providers in order. When one is unreachable (quota, outage, bad key) the next one takes over
+    and restarts the conversation, so a single provider's rate limit never costs a video."""
+
+    def __init__(self, providers: list[LLMProvider]):
+        if not providers:
+            raise ValueError("FailoverProvider needs at least one provider")
+        super().__init__(providers[0].settings)
+        self.providers = providers
+        self.index = 0
+        self._topic = ""
+        self._brief = ""
+
+    @property
+    def name(self) -> str:  # type: ignore[override]
+        return self.providers[self.index].name
+
+    @property
+    def is_free(self) -> bool:  # type: ignore[override]
+        return all(p.is_free for p in self.providers)
+
+    @property
+    def model_label(self) -> str:
+        return " -> ".join(f"{p.name}:{p.model_label}" for p in self.providers)
+
+    def cost_summary(self) -> str:
+        return " | ".join(f"{p.name}: {p.cost_summary()}" for p in self.providers)
+
+    def _failover(self, exc: Exception) -> None:
+        if self.index + 1 >= len(self.providers):
+            raise RuntimeError(f"All LLM providers failed; the last error ({self.name}): {exc}") from exc
+        print(f"[generator] {self.name} failed ({str(exc)[:160]}); switching to {self.providers[self.index + 1].name}")
+        self.index += 1
+
+    def propose(self, topic: str, brief: str = "") -> dict:
+        self._topic, self._brief = topic, brief
+        while True:
+            try:
+                return self.providers[self.index].propose(topic, brief)
+            except LLMOutputError:
+                raise
+            except Exception as exc:  # noqa: BLE001 - any API/network failure moves on to the next provider
+                self._failover(exc)
+
+    def revise(self, problems: list[str]) -> dict:
+        try:
+            return self.providers[self.index].revise(problems)
+        except LLMOutputError:
+            raise
+        except Exception as exc:  # noqa: BLE001
+            self._failover(exc)
+        return self.propose(self._topic, self._brief)  # the new provider has no conversation yet
+
+    def complete_json(self, system: str, user: str, schema: dict) -> dict:
+        while True:
+            try:
+                return self.providers[self.index].complete_json(system, user, schema)
+            except LLMOutputError:
+                raise
+            except Exception as exc:  # noqa: BLE001
+                self._failover(exc)
+
+
+def _build_one(name: str, settings: Settings, client: anthropic.Anthropic | None) -> LLMProvider:
+    cls = LLM_PROVIDERS[name]
+    return AnthropicProvider(settings, client) if cls is AnthropicProvider else cls(settings)
+
+
 def get_llm_provider(settings: Settings | None = None, client: anthropic.Anthropic | None = None) -> LLMProvider:
-    """Provider selected by LLM_PROVIDER. Only that provider's API key is required."""
+    """The provider selected by LLM_PROVIDER, backed by every other provider whose API key is set
+    (order: selected, then gemini, groq, anthropic), so one provider's outage or quota never stops a video."""
     settings = settings or get_settings()
-    try:
-        cls = LLM_PROVIDERS[settings.llm_provider]
-    except KeyError:
-        raise RuntimeError(f"Unknown LLM_PROVIDER '{settings.llm_provider}'. Options: {', '.join(LLM_PROVIDERS)}") from None
-    if cls is AnthropicProvider:
-        return AnthropicProvider(settings, client)
-    return cls(settings)
+    if settings.llm_provider not in LLM_PROVIDERS:
+        raise RuntimeError(f"Unknown LLM_PROVIDER '{settings.llm_provider}'. Options: {', '.join(LLM_PROVIDERS)}")
+    primary = _build_one(settings.llm_provider, settings, client)
+    if not settings.llm_failover:
+        return primary
+    backups = []
+    for name in ("gemini", "groq", "anthropic"):
+        if name != settings.llm_provider and getattr(settings, f"{name}_api_key", ""):
+            backups.append(_build_one(name, settings, client if name == "anthropic" else None))
+    return FailoverProvider([primary, *backups]) if backups else primary
 
 
 def generate_script(

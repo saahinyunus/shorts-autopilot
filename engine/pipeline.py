@@ -67,6 +67,7 @@ def run(
     channel: str = typer.Option(None, "--channel", "-c", help="Channel id from channels/ (voice, accent colour, tone, SEO and the YouTube login come from it)."),
     publish_at: str = typer.Option(None, "--publish-at", help="Schedule the upload: ISO time, e.g. 2026-11-12T13:00:00Z (uploaded as private, YouTube publishes it then)."),
     plan_id: str = typer.Option(None, "--plan-id", help="Id of the planned slot (written to result.json for the history)."),
+    reserve_file: Path = typer.Option(None, "--reserve-file", help="Backup script (state/reserve/...): used only if generating a fresh script fails, so the slot is never left empty."),
     demo: bool = typer.Option(False, "--demo", help="Offline demo with placeholder assets (no API keys)."),
 ) -> None:
     base_settings = get_settings()
@@ -120,6 +121,7 @@ def run(
     run_dir.mkdir(parents=True, exist_ok=True)
     typer.echo(f"Run folder: {run_dir}")
 
+    reserve_used = ""
     base_steps = 1 if demo else 3
     total_steps = base_steps + int(render or upload) + int(upload)
     sfx_files = ensure_sfx(settings)
@@ -143,7 +145,16 @@ def run(
             typer.echo("  reusing script.json")
             script = _load_script_file(script_path)
         else:
-            script = generate_script(topic, settings, brief=channel_cfg.brief() if channel_cfg else "")
+            try:
+                script = generate_script(topic, settings, brief=channel_cfg.brief() if channel_cfg else "")
+            except RuntimeError as exc:
+                if not (reserve_file and reserve_file.exists()):
+                    raise
+                from engine.reserve import load_item
+
+                item = load_item(reserve_file)
+                typer.secho(f"  script generation failed ({str(exc)[:160]}); using the reserve script '{item.topic}'", fg=typer.colors.YELLOW)
+                script, topic, reserve_used = item.script, item.topic, str(reserve_file)
         script_path.write_text(script.model_dump_json(indent=2), encoding="utf-8")
         typer.echo(f"  \"{script.title}\" - {len(script.scenes)} scenes, {script.word_count} words")
 
@@ -203,6 +214,7 @@ def run(
             "video_id": uploaded.video_id if uploaded else "",
             "url": uploaded.url if uploaded else "",
             "publish_at": (uploaded.publish_at if uploaded and uploaded.publish_at else (publish_at or "")),
+            "reserve_used": reserve_used,
         }
         (run_dir / "result.json").write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
 

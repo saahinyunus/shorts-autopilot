@@ -259,7 +259,7 @@ def test_every_channel_has_a_kokoro_voice_that_exists_and_they_differ():
 def test_workflows_use_kokoro_and_cache_the_models():
     daily = yaml.safe_load((ROOT / ".github/workflows/daily.yml").read_text(encoding="utf-8"))
     steps = daily["jobs"]["produce"]["steps"]
-    produce = next(s for s in steps if s.get("name") == "Produce the video")
+    produce = next(s for s in steps if str(s.get("name", "")).startswith("Produce the video"))
     assert produce["env"]["TTS_PROVIDER"] == "kokoro"
     cache = next(s for s in steps if str(s.get("uses", "")).startswith("actions/cache"))
     assert "models/kokoro" in cache["with"]["path"] and steps.index(cache) < steps.index(produce)

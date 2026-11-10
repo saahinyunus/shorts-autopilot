@@ -132,7 +132,8 @@ def test_history_roundtrip_and_dedupe(tmp_path):
 
 
 def test_initial_state_file_is_valid():
-    assert load_history(ROOT / "state" / "history.json").entries == []
+    history = load_history(ROOT / "state" / "history.json")  # the autopilot appends real entries over time
+    assert len({e.plan_id for e in history.entries}) == len(history.entries)
 
 
 # ------------------------------------------------------------------------------ planner
@@ -236,7 +237,7 @@ def test_plan_cli_writes_github_outputs(tmp_path, monkeypatch):
     lines = dict(line.split("=", 1) for line in out.read_text(encoding="utf-8").splitlines())
     matrix = json.loads(lines["matrix"])
     assert lines["count"] == "3" and lines["errors"] == "" and len(matrix["include"]) == 3
-    assert set(matrix["include"][0]) == {"channel", "topic", "publish_at", "plan_id"}
+    assert set(matrix["include"][0]) == {"channel", "topic", "publish_at", "plan_id", "reserve"}
 
 
 def test_record_cli_stores_only_uploaded_results_once(tmp_path, monkeypatch):
@@ -457,8 +458,8 @@ def test_workflow_never_puts_expressions_into_shell_commands():
                 if "run" in step:
                     assert "${{" not in step["run"], (name, step["run"])
     produce_steps = load_workflow("daily.yml")["jobs"]["produce"]["steps"]
-    step = next(s for s in produce_steps if s.get("name") == "Produce the video")
-    assert {"TOPIC", "CHANNEL", "PUBLISH_AT", "PLAN_ID", "GEMINI_API_KEY", "YOUTUBE_TOKENS_JSON"} <= set(step["env"])
+    step = next(s for s in produce_steps if str(s.get("name", "")).startswith("Produce the video"))
+    assert {"TOPIC", "CHANNEL", "PUBLISH_AT", "PLAN_ID", "RESERVE", "GEMINI_API_KEY", "GROQ_API_KEY", "YOUTUBE_TOKENS_JSON"} <= set(step["env"])
     assert '--topic "$TOPIC"' in step["run"] and "--upload" in step["run"]
 
 

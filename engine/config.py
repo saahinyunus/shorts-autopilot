@@ -23,6 +23,7 @@ class Settings(BaseSettings):
     llm_provider: Literal["gemini", "anthropic", "groq"] = "gemini"
 
     # Gemini (free tier). gemini-2.0-flash / 1.5-flash were retired by Google; 3.x Flash is current.
+    llm_failover: bool = True  # fall back to every other LLM whose API key is set
     gemini_api_key: str = ""
     gemini_model: str = "gemini-3.6-flash"
     gemini_fallback_model: str = "gemini-3.8-flash"  # used if the primary returns 404
