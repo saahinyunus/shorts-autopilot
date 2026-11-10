@@ -17,6 +17,10 @@ on:
         description: "Comma-separated channel ids (empty = all channels)"
         type: string
         default: ""
+      lead_hours:
+        description: "Only plan slots at least this many hours ahead (empty = 3). Use e.g. 1 to catch a slot that is close."
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -65,7 +69,10 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }} # optional free backup LLM
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }} # optional paid last resort
           CHANNELS: ${{ inputs.channels }}
-        run: python engine/daily.py plan --channels "$CHANNELS" --github-output
+          LEAD_HOURS: ${{ inputs.lead_hours }}
+        run: |
+          if [ -n "$LEAD_HOURS" ]; then export PLAN_LEAD_HOURS="$LEAD_HOURS"; fi
+          python engine/daily.py plan --channels "$CHANNELS" --github-output
 
   produce:
     needs: plan
