@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-11-11T04:45:18Z",
-  "run_url": "https://github.com/saahinyunus/shorts-autopilot/actions/runs/42958371756",
-  "plan_count": 3,
+  "updated_at": "2026-11-11T10:32:04Z",
+  "run_url": "https://github.com/saahinyunus/shorts-autopilot/actions/runs/43002425863",
+  "plan_count": 2,
   "plan_result": "success",
   "produce_result": "success",
   "reserve": {
-    "money": 7,
-    "psychology": 6
+    "money": 8,
+    "psychology": 8
   },
   "llms": [
     "Gemini",

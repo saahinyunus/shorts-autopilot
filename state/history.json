@@ -129,6 +129,32 @@
       "comment_id": "",
       "format": "myth_vs_reality",
       "theme": "violet-rings"
+    },
+    {
+      "plan_id": "money-20261112T1300Z",
+      "channel": "money",
+      "topic": "The 1975 Nixon Gold Standard Exit and Its Market Shock",
+      "title": "Nixon Gold Standard Exit Explained – Why It Shocked Markets",
+      "video_id": "03saSqppQPU",
+      "url": "https://www.youtube.com/shorts/03saSqppQPU",
+      "publish_at": "2026-11-12T13:00:00Z",
+      "comment_text": "Which moment in the Nixon Shock surprised you most?",
+      "comment_id": "",
+      "format": "true_story",
+      "theme": "gold-dots"
+    },
+    {
+      "plan_id": "psychology-20261112T1300Z",
+      "channel": "psychology",
+      "topic": "The classic Stroop test reveals how your brain handles conflicting information",
+      "title": "Stroop Test: Why Conflicting Words Slow Your Brain",
+      "video_id": "XwsOF9ZNH14",
+      "url": "https://www.youtube.com/shorts/XwsOF9ZNH14",
+      "publish_at": "2026-11-12T13:00:00Z",
+      "comment_text": "Which Stroop trick helps you notice when your brain is being misled?",
+      "comment_id": "",
+      "format": "study_or_experiment",
+      "theme": "amber-dots"
     }
   ]
 }

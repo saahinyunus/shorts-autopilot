@@ -1,0 +1,138 @@
+{
+  "topic": "The 1970s “Hawthorne Effect” study that changed workplace management",
+  "script": {
+    "title": "Hawthorne Effect: Why Being Watched Boosts Your Work Performance",
+    "hook": "Did your boss really change just because he watched you?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Did your boss really change just because he watched you?",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Did your boss really change just",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "In the late 1920s a factory tried a weird test.",
+        "duration_estimate": 4.8,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "CASE FILE: HAWTHORNE FACTORY",
+          "highlight_text": "workers improved productivity when observed",
+          "is_redacted": false
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 3,
+        "text": "When researchers noted who was being studied, output noticeably rose.",
+        "duration_estimate": 4.8,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "When researchers noted who was being",
+          "subtext": ""
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 4,
+        "text": "The surprise? The effect persisted even after the cameras vanished.",
+        "duration_estimate": 4.8,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "UP",
+          "label": "LONG‑TERM EFFECT"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 5,
+        "text": "Later studies showed productivity jumps in offices and schools alike.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "COMPARISON",
+          "left_label": "Office",
+          "left_value": "Higher",
+          "right_label": "School",
+          "right_value": "Higher",
+          "winner": "NONE"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 6,
+        "text": "Use three simple steps to harness the effect.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "STEPS",
+          "title": "Boost Team Performance",
+          "steps": [
+            "Set clear goals",
+            "Give frequent feedback",
+            "Recognize effort"
+          ]
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 7,
+        "text": "But over‑monitoring can backfire, causing stress and disengagement.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "WARNING",
+          "statement": "Too much observation kills motivation",
+          "tone": "BAD"
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 8,
+        "text": "Balance is key: observe, then let autonomy breathe.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Balance is key: observe, then let",
+          "subtext": ""
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 9,
+        "text": "Now you know why being watched feels oddly motivating:",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Now you know why being watched feels",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      }
+    ],
+    "loop_transition_text": "Now you know why being watched feels oddly motivating:",
+    "description": "Did your boss really change just because he watched you? Discover the Hawthorne Effect in action.\nLearn how observation shapes behavior at work and home.\nFind out the balance you need.\n\n#Shorts #psychology #humanbehavior #mindset",
+    "tags": [
+      "hawthorne effect",
+      "workplace psychology",
+      "employee motivation",
+      "observation bias",
+      "management tips",
+      "productivity hacks",
+      "behavioral science",
+      "psychology short"
+    ],
+    "comment_question": "Which part of being observed motivates you most: feedback or accountability?",
+    "sources": [
+      "Mayo Clinic, 1933 Hawthorne studies (original research)",
+      "McCarney et al., 2006 systematic review of Hawthorne effect"
+    ],
+    "review_notes": [
+      "FIXED: Scene 3: \"output rose ten percent when researchers noted who was being studied\" (specifies a precise 10% increase that cannot be verified as a documented result of the Hawthorne studies)",
+      "FIXED: Scene 5: \"office 30 % boost, school 25 % boost\" (provides exact percentages for different settings without citing any study; likely fabricated)"
+    ]
+  }
+}

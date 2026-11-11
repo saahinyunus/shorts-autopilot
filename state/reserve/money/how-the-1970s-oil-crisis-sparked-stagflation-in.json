@@ -1,0 +1,155 @@
+{
+  "topic": "How the 1970s oil crisis sparked stagflation in the US",
+  "script": {
+    "title": "1970s oil shock sparked America’s stagflation – why it mattered",
+    "hook": "Did the oil shock really create America’s first stagflation?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Did the oil shock really create America’s first stagflation?",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Oil shock & stagflation?",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "Oil prices jumped about threefold in 1973, ending cheap energy.",
+        "duration_estimate": 3.8,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 300.0,
+          "prefix": "",
+          "suffix": "%",
+          "label": "Oil price rise"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 3,
+        "text": "Gasoline rose to roughly one thirty dollars per gallon.",
+        "duration_estimate": 3.8,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "~$1.30 per gallon",
+          "subtext": ""
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 4,
+        "text": "Businesses faced higher production costs and could not raise wages.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "FACT",
+          "statement": "Higher costs and stagnant wages drove a squeeze",
+          "tone": "GOOD"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 5,
+        "text": "Result: GDP growth stalled while inflation surged past ten percent.",
+        "duration_estimate": 4.8,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 11.0,
+          "prefix": "",
+          "suffix": "%",
+          "label": "Inflation peak 1974"
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 6,
+        "text": "The Fed raised interest rates to fifteen percent, choking credit.",
+        "duration_estimate": 4.8,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 15.0,
+          "prefix": "",
+          "suffix": "%",
+          "label": "Fed rate 1979"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 7,
+        "text": "Unemployment climbed to six percent, a rare double‑whammy.",
+        "duration_estimate": 4.8,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "UP",
+          "label": "UNEMPLOYMENT 1974‑1979"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 8,
+        "text": "Economists call this mix stagflation – stagnant growth plus inflation.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Stagflation explained",
+          "subtext": ""
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 9,
+        "text": "It persisted through the late seventies, only easing after 1980 policy shifts.",
+        "duration_estimate": 5.2,
+        "motion_action": {
+          "type": "TIMELINE",
+          "events": [
+            {
+              "label": "1979",
+              "text": "Volcker tightens money"
+            },
+            {
+              "label": "1980",
+              "text": "Reagan cuts taxes"
+            }
+          ]
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 10,
+        "text": "So the oil shock’s legacy is clear:",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Oil shock’s legacy:",
+          "subtext": ""
+        },
+        "sfx": "none"
+      }
+    ],
+    "loop_transition_text": "So the oil shock’s legacy is clear:",
+    "description": "Did the oil shock really create America’s first stagflation? Discover how soaring oil prices triggered the 1970s stagflation era. Learn the link between energy costs, inflation and unemployment.\n\n#Shorts #money #economics #finance",
+    "tags": [
+      "oil shock stagflation",
+      "1970s inflation",
+      "oil price 1973",
+      "fed interest rates 1970s",
+      "unemployment 1970s",
+      "economic history",
+      "stagflation mechanism",
+      "US economy 1970s"
+    ],
+    "comment_question": "Which part of the oil shock’s impact surprised you the most?",
+    "sources": [
+      "U.S. Energy Information Administration, 1973 oil price data",
+      "Federal Reserve history, 1970s interest rates"
+    ],
+    "review_notes": [
+      "FIXED: Scene 2: \"Oil prices quadrupled in 1973, shattering cheap energy.\" (The increase was roughly 333%, not a full quadrupling.)",
+      "FIXED: Scene 3: \"Consumers saw gas cost soar to twelve dollars a gallon.\" (Gasoline prices in 1974 averaged about $1.30 per gallon, far below $12.)"
+    ]
+  }
+}

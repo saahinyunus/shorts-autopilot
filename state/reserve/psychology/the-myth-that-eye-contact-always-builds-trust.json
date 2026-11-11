@@ -1,0 +1,150 @@
+{
+  "topic": "The myth that eye contact always builds trust",
+  "script": {
+    "title": "Eye contact myth: why staring can hurt trust",
+    "hook": "Does staring into someone's eyes ever backfire?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Does staring into someone's eyes ever backfire?",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Does staring into someone's eyes ever",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "Eye contact can trigger threat responses in strangers.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "DOWN",
+          "label": "THREAT RESPONSE"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 3,
+        "text": "Staring too long spikes the amygdala, raising anxiety.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "UP",
+          "label": "AMYGDALA ACTIVITY"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 4,
+        "text": "Many people feel uneasy after a prolonged gaze.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Uneasy after prolonged gaze",
+          "subtext": ""
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 5,
+        "text": "A quick glance builds rapport; lingering looks signal dominance.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "COMPARISON",
+          "left_label": "Brief glance",
+          "left_value": "trust boost",
+          "right_label": "Long stare",
+          "right_value": "dominance cue",
+          "winner": "LEFT"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 6,
+        "text": "Cultural norms vary, but brief glances usually work best.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Brief glances work best",
+          "subtext": ""
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 7,
+        "text": "Some research suggests that looking away can lower perceived aggression.",
+        "duration_estimate": 5.0,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "STUDY: GAZE AVERSION",
+          "highlight_text": "looking away can lower perceived aggression",
+          "is_redacted": false
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 8,
+        "text": "Use brief eye contact, then look away naturally.",
+        "duration_estimate": 4.5,
+        "motion_action": {
+          "type": "STEPS",
+          "title": "Eye Contact Tips",
+          "steps": [
+            "Make brief eye contact (1‑2 sec)",
+            "Smile subtly",
+            "Shift gaze naturally"
+          ]
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 9,
+        "text": "Overdo it and you’ll seem creepy, not confident.",
+        "duration_estimate": 3.5,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "MYTH",
+          "statement": "Long eye contact equals confidence",
+          "tone": "BAD"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 10,
+        "text": "Now you know the real rule:",
+        "duration_estimate": 2.4,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Now you know the real rule",
+          "subtext": ""
+        },
+        "sfx": "none"
+      }
+    ],
+    "loop_transition_text": "Now you know the real rule:",
+    "description": "Does staring into someone's eyes ever backfire? Learn why too much eye contact can feel threatening. Discover how brief glances work and avoid seeming creepy.\n\n#Shorts #psychology #humanbehavior #mindset",
+    "tags": [
+      "eye contact trust myth",
+      "eye contact duration",
+      "nonverbal communication",
+      "social anxiety cues",
+      "gaze aversion research",
+      "body language tips",
+      "psychology short",
+      "human behavior"
+    ],
+    "comment_question": "Which eye‑contact length feels most natural to you?",
+    "sources": [
+      "Mehrabian, 1971 (nonverbal communication research)",
+      "General social psychology literature on gaze and threat"
+    ],
+    "review_notes": [
+      "FIXED: Scene 4: \"About thirty percent of people feel uneasy after prolonged gaze.\" (The exact 30% figure is unverified and likely fabricated.)",
+      "FIXED: Scene 6: \"two seconds is ideal.\" (The specific two‑second sweet spot is not supported by cited evidence.)",
+      "FIXED: Scene 7: \"research from the University of Michigan found gaze aversion reduces perceived aggression.\" (No verifiable study is cited; the claim appears invented.)"
+    ]
+  }
+}
