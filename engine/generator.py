@@ -115,6 +115,23 @@ class SceneSpec(BaseModel):
     sfx: SfxLiteral = "none"
 
 
+_TYPOGRAPHY = str.maketrans({"‐": "-", "‑": "-", "‒": "-", "−": "-", " ": " ", " ": " ",
+                             "​": None, "‌": None, "‍": None, "﻿": None})
+
+
+def normalize_text(obj):
+    """Replace look-alike characters that LLMs emit (non-breaking hyphens, no-break spaces, zero-width characters)
+    with plain ones. 'foot‑in‑the‑door' would not match a search for 'foot-in-the-door' and may
+    miss a glyph in the caption font."""
+    if isinstance(obj, str):
+        return obj.translate(_TYPOGRAPHY)
+    if isinstance(obj, list):
+        return [normalize_text(v) for v in obj]
+    if isinstance(obj, dict):
+        return {k: normalize_text(v) for k, v in obj.items()}
+    return obj
+
+
 class ScriptSpec(BaseModel):
     title: str
     hook: str
@@ -126,6 +143,11 @@ class ScriptSpec(BaseModel):
     comment_question: str = ""  # first comment under the video (an engagement question about the topic)
     sources: list[str] = Field(default_factory=list)  # real study / event / person the video rests on
     review_notes: list[str] = Field(default_factory=list)  # set by the fact check (never by the LLM)
+
+    @model_validator(mode="before")
+    @classmethod
+    def _plain_characters(cls, data):
+        return normalize_text(data) if isinstance(data, dict) else data
 
     @model_validator(mode="after")
     def _check(self) -> "ScriptSpec":
@@ -170,6 +192,16 @@ def validate_quality(script: ScriptSpec) -> list[str]:
         problems.append(
             "The last scene must be a lead-in that ends with a colon (:) or a dash so the hook "
             "completes it when the video loops, e.g. 'Which brings us back to the question:'."
+        )
+
+    title = script.title.strip()
+    title_words = re.findall(r"[a-z]{4,}", title.lower())
+    repeated = sorted({w for w in title_words if title_words.count(w) > 1})
+    if len(title) < 20 or not (title[0].isupper() or title[0].isdigit()) or repeated:
+        problems.append(
+            "The title must read like a headline: at least 20 characters, starting with a capital letter, and no "
+            "repeated words" + (f" (it repeats: {', '.join(repeated)})" if repeated else "")
+            + f". Rewrite it (e.g. 'Why Multitasking Hurts Your Focus (Rubinstein Study)'). Got: '{title}'."
         )
 
     types = [s.motion_action.type for s in script.scenes]

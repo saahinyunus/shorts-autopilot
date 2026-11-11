@@ -45,7 +45,7 @@ def valid_script() -> dict:
              "motion_action": dict(actions[i % 4]), "sfx": "whoosh" if i % 2 == 0 else "none"}
         )
     return {
-        "title": "T", "hook": "Why does this happen to you?", "scenes": scenes,
+        "title": "Why This Happens To You Every Day", "hook": "Why does this happen to you?", "scenes": scenes,
         "loop_transition_text": scenes[-1]["text"], "description": "d #Shorts", "tags": ["a"],
     }
 

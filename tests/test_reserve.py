@@ -167,7 +167,7 @@ def test_pipeline_falls_back_to_the_reserve_script_when_generation_fails(tmp_pat
     get_settings.cache_clear()
     assert "using the reserve script 'The story of the Dutch tulip bubble'" in result.output
     run_dir = next((tmp_path / "out").iterdir())
-    assert json.loads((run_dir / "script.json").read_text(encoding="utf-8"))["title"] == "T"
+    assert json.loads((run_dir / "script.json").read_text(encoding="utf-8"))["title"] == "Why This Happens To You Every Day"
 
 
 def test_pipeline_without_a_reserve_still_fails_loudly(tmp_path, monkeypatch):

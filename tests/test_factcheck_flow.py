@@ -36,7 +36,7 @@ def run_pipeline(monkeypatch, tmp_path, extra_args):
 def test_a_reserve_script_is_preferred_over_a_script_with_a_known_wrong_claim(monkeypatch, tmp_path):
     item = reserve.save_item("money", reserve.ReserveItem(topic="The story of the Dutch tulip bubble", script=ScriptSpec.model_validate(valid_script())), tmp_path)
     result, script = run_pipeline(monkeypatch, tmp_path, ["--reserve-file", str(item)])
-    assert "using the reserve script" in result.output and script["title"] == "T" and script["review_notes"] == []
+    assert "using the reserve script" in result.output and script["title"] == "Why This Happens To You Every Day" and script["review_notes"] == []
 
 
 def test_without_a_reserve_the_flagged_script_is_published_with_a_warning_not_dropped(monkeypatch, tmp_path):
