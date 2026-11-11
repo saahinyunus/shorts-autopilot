@@ -1,0 +1,161 @@
+{
+  "topic": "The 1987 Black Monday crash: triggers and market recovery",
+  "script": {
+    "title": "1987 Black Monday crash triggers and market recovery explained",
+    "hook": "What caused Black Monday to wipe out trillions overnight?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "What caused Black Monday to wipe out trillions overnight?",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "What caused Black Monday to wipe out",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "On October fifth, 1987, the Dow fell about twenty‑two percent.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "1987 Black Monday Dow drop",
+          "result_headline": "Dow fell about twenty‑two percent on Oct 5, 1987"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 3,
+        "text": "Program trading algorithms amplified the sell‑off in seconds.",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "ALGORITHM TRADING REPORT",
+          "highlight_text": "Speed triggers massive sell‑offs",
+          "is_redacted": false
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 4,
+        "text": "Portfolio insurers tried to hedge, but triggered cascading stops.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "COMPARISON",
+          "left_label": "Portfolio insurers",
+          "left_value": "Hedging strategy",
+          "right_label": "Market",
+          "right_value": "Free fall",
+          "winner": "RIGHT"
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 5,
+        "text": "About one trillion dollars vanished in market value that day.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 1.0,
+          "prefix": "",
+          "suffix": " trillio",
+          "label": "Market value lost"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 6,
+        "text": "The crash spread globally, causing markets worldwide to tumble.",
+        "duration_estimate": 4.2,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "DOWN",
+          "label": "GLOBAL MARKETS"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 7,
+        "text": "Many believe circuit breakers stop crashes completely.",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "MYTH",
+          "statement": "Circuit breakers stop crashes completely",
+          "tone": "BAD"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 8,
+        "text": "In reality they only pause trading, giving markets time to breathe.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "FACT",
+          "statement": "They only pause trading, giving markets time to breathe",
+          "tone": "GOOD"
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 9,
+        "text": "Within two years, the Dow recovered to pre‑crash levels, proving resilience.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "TIMELINE",
+          "events": [
+            {
+              "label": "Oct 19",
+              "text": "Black Monday crash"
+            },
+            {
+              "label": "1988",
+              "text": "Partial recovery"
+            },
+            {
+              "label": "1989",
+              "text": "Dow back to pre‑crash"
+            }
+          ]
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 10,
+        "text": "So the real lesson is:",
+        "duration_estimate": 2.0,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "So the real lesson is:",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      }
+    ],
+    "loop_transition_text": "So the real lesson is:",
+    "description": "What caused Black Monday to wipe out trillions overnight? Learn the triggers behind the 1987 crash and how markets bounced back. Explore algorithmic trading, portfolio insurance, and circuit breakers.\n\n#Shorts #money #economics #finance",
+    "tags": [
+      "black monday 1987 crash",
+      "stock market crash causes",
+      "algorithmic trading impact",
+      "portfolio insurance failure",
+      "circuit breakers market",
+      "dow recovery timeline",
+      "financial history lessons",
+      "economic resilience"
+    ],
+    "comment_question": "Which trigger mattered most: algorithmic trading or portfolio insurance?",
+    "sources": [
+      "NYSE data, 1987 crash statistics",
+      "CFTC report on portfolio insurance, 1988"
+    ],
+    "review_notes": [
+      "FIXED: Scene 2: \"On October fifth, 1987, the Dow plunged 22 point percent.\" (The phrasing “22 point percent” is nonsensical; the Dow fell 22 percent, not 22 point percent.)",
+      "FIXED: Scene 5: \"Over 1.5 trillion dollars vanished in market value that day.\" (The actual market value loss on Black Monday was closer to 1 trillion dollars, not 1.5 trillion.)",
+      "FIXED: Scene 6: \"The crash spread globally, wiping out 23 percent of US equity value.\" (There is no evidence the US equity market lost 23 % of its value globally on that day; the drop was about 22 % in the Dow, not a global 23 %)"
+    ]
+  }
+}

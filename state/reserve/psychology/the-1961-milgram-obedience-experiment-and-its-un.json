@@ -1,0 +1,156 @@
+{
+  "topic": "The 1961 Milgram obedience experiment and its unexpected outcome",
+  "script": {
+    "title": "The Milgram Experiment: Would You Actually Obey?",
+    "hook": "Would you torture an innocent stranger if ordered to?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Would you torture an innocent stranger if ordered to?",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "WOULD YOU OBEY?",
+          "subtext": "The psychology of compliance"
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 2,
+        "text": "In nineteen sixty-one, Yale researchers set up a chilling experiment.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "TIMELINE",
+          "events": [
+            {
+              "label": "1961",
+              "text": "Yale obedience study starts"
+            },
+            {
+              "label": "450V",
+              "text": "Maximum shock level set"
+            }
+          ]
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 3,
+        "text": "Psychiatrists predicted less than three percent would deliver the maximum shock.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "PREDICTION",
+          "statement": "Psychiatrists estimated only 1 to 3% would administer the top shock",
+          "tone": "NEUTRAL"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 4,
+        "text": "They were catastrophically wrong.",
+        "duration_estimate": 1.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "THEY WERE WRONG",
+          "subtext": "The outcome shocked the world"
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 5,
+        "text": "Roughly sixty-five percent of ordinary people went all the way.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 65.0,
+          "prefix": "",
+          "suffix": "%",
+          "label": "DELIVERED MAXIMUM SHOCK"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 6,
+        "text": "They pressed the final button: four hundred and fifty deadly volts.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "LAB PROTOCOL: VOLTAGE LIMIT",
+          "highlight_text": "450 VOLTS: DANGER SEVERE SHOCK",
+          "is_redacted": false
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 7,
+        "text": "Nobody held them at gunpoint.",
+        "duration_estimate": 2.0,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "MYTH",
+          "statement": "Participants were never physically forced or threatened",
+          "tone": "BAD"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 8,
+        "text": "A calm man in a gray coat simply said: please continue.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "SEARCH",
+          "query_text": "why do people obey authority?",
+          "result_headline": "The agentic state: surrendering personal responsibility"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 9,
+        "text": "Authority quietly overrides our deepest moral instincts.",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "COMPARISON",
+          "left_label": "Defied Orders",
+          "left_value": "35 percent",
+          "right_label": "Fully Obeyed",
+          "right_value": "65 percent",
+          "winner": "RIGHT"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 10,
+        "text": "Which forces you to confront the darkest question:",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "THE QUESTION",
+          "subtext": "Would you have stopped?"
+        },
+        "sfx": "whoosh"
+      }
+    ],
+    "loop_transition_text": "Which forces you to confront the darkest question:",
+    "description": "The Milgram experiment revealed a terrifying truth about obedience to authority when tested under pressure.\nDiscover how ordinary participants delivered maximum shocks just because an experimenter told them to. Understand the psychology of compliance.\n\n#Shorts #psychology #humanbehavior #mindset",
+    "tags": [
+      "milgram experiment",
+      "obedience to authority",
+      "psychology experiments",
+      "social psychology",
+      "human behavior psychology",
+      "stanley milgram study",
+      "compliance psychology",
+      "dark psychology facts",
+      "why people obey"
+    ],
+    "comment_question": "Honest answer: do you think you would have walked out, or pulled the switch?",
+    "sources": [
+      "Milgram, S., 1963 (Behavioral Study of Obedience, JASP)",
+      "Milgram, S., 1974 (Obedience to Authority: An Experimental View)"
+    ],
+    "review_notes": [
+      "FIXED: Scene 3: \"Compliance fell sharply after the first shocking shock.\" (In Milgram's experiment, 100% of participants complied past the initial shocks, with the first drop-off occurring only at 300 volts.)"
+    ]
+  }
+}

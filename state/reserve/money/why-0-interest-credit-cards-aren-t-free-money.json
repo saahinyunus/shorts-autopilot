@@ -1,0 +1,126 @@
+{
+  "topic": "Why 0% interest credit cards aren’t free money",
+  "script": {
+    "title": "0% interest credit cards: why they’re not free money",
+    "hook": "Zero‑interest cards sound like free cash, right?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Zero‑interest cards sound like free cash, right?",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Zero‑interest cards sound like free",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "Banks actually earn money before you pay a cent.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 3.0,
+          "prefix": "",
+          "suffix": "%",
+          "label": "average merchant swipe fee"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 3,
+        "text": "They charge merchants a swipe fee of about three percent.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "UP",
+          "label": "MERCHANT FEE OVER TIME"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 4,
+        "text": "That fee becomes interest on your balance when you carry it.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "MYTH",
+          "statement": "No interest means no cost",
+          "tone": "BAD"
+        },
+        "sfx": "sub_drop"
+      },
+      {
+        "id": 5,
+        "text": "If you pay in full, the fee is passed on to you.",
+        "duration_estimate": 4.8,
+        "motion_action": {
+          "type": "COMPARISON",
+          "left_label": "Cardholder",
+          "left_value": "Pays fee via price",
+          "right_label": "Bank",
+          "right_value": "Earns fee",
+          "winner": "RIGHT"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 6,
+        "text": "Retailers typically raise prices to recoup these fees.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Retailers raise prices to cover fees",
+          "subtext": ""
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 7,
+        "text": "So the “free” card just shifts the cost to other buyers.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "STEPS",
+          "title": "Cost Shift",
+          "steps": [
+            "Merchant adds fee",
+            "Consumer pays higher price"
+          ]
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 8,
+        "text": "And that is exactly why:",
+        "duration_estimate": 2.0,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "AND THAT IS EXACTLY WHY:",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      }
+    ],
+    "loop_transition_text": "And that is exactly why:",
+    "description": "Zero‑interest credit cards sound like free cash, but they hide real costs.\nLearn how merchant fees become higher prices.\nThe hidden economics of interest‑free cards explained.\n\n#Shorts #money #economics #finance",
+    "tags": [
+      "zero interest credit cards",
+      "merchant fees",
+      "card fees explained",
+      "consumer finance",
+      "hidden costs",
+      "price inflation",
+      "credit card mechanics",
+      "money basics"
+    ],
+    "comment_question": "What hidden cost of a 0% card surprised you the most?",
+    "sources": [
+      "Federal Reserve, 2022 (merchant swipe fee data)",
+      "NerdWallet, 2023 (credit card fee analysis)"
+    ],
+    "review_notes": [
+      "FIXED: Scene 6: \"Retailers inflate prices by roughly the same percentage to cover costs.\" (The specific percentages (2% price rise 2010, 2% markup 2020) are likely fabricated.)"
+    ]
+  }
+}

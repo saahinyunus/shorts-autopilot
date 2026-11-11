@@ -1,0 +1,15 @@
+{
+  "updated_at": "2026-11-11T04:45:18Z",
+  "run_url": "https://github.com/saahinyunus/shorts-autopilot/actions/runs/42958371756",
+  "plan_count": 3,
+  "plan_result": "success",
+  "produce_result": "success",
+  "reserve": {
+    "money": 7,
+    "psychology": 6
+  },
+  "llms": [
+    "Gemini",
+    "Groq"
+  ]
+}
