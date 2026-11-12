@@ -113,7 +113,7 @@
       "url": "https://www.youtube.com/shorts/nb6ftLnOtT4",
       "publish_at": "2026-11-11T13:00:00Z",
       "comment_text": "Which tiny request have you noticed leading to a bigger ask?",
-      "comment_id": "",
+      "comment_id": "UgzSFr6cs01KNNNaI5N4AaABAg",
       "format": "spot_the_signs",
       "theme": "yellow-grid"
     },
@@ -155,6 +155,32 @@
       "comment_id": "",
       "format": "study_or_experiment",
       "theme": "amber-dots"
+    },
+    {
+      "plan_id": "money-20261113T0000Z",
+      "channel": "money",
+      "topic": "The 1907 Bankers' Panic and the Birth of the Federal Reserve",
+      "title": "1907 Bank Panic: How It Created the Federal Reserve",
+      "video_id": "tHIsita1szQ",
+      "url": "https://www.youtube.com/shorts/tHIsita1szQ",
+      "publish_at": "2026-11-13T00:00:00Z",
+      "comment_text": "Which part of the 1907 panic surprises you the most?",
+      "comment_id": "",
+      "format": "study_or_experiment",
+      "theme": "emerald-waves"
+    },
+    {
+      "plan_id": "psychology-20261113T0000Z",
+      "channel": "psychology",
+      "topic": "How your posture changes before and after a confidence boost",
+      "title": "Posture vs Confidence: How Standing Tall Changes Your Mindset",
+      "video_id": "rbUbS919bhw",
+      "url": "https://www.youtube.com/shorts/rbUbS919bhw",
+      "publish_at": "2026-11-13T00:00:00Z",
+      "comment_text": "Which posture change makes you feel instantly more confident?",
+      "comment_id": "",
+      "format": "before_after",
+      "theme": "rose-waves"
     }
   ]
 }
