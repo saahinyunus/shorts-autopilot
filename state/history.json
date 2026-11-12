@@ -100,7 +100,7 @@
       "url": "https://www.youtube.com/shorts/TtTIF4PLuwc",
       "publish_at": "2026-11-12T00:00:00Z",
       "comment_text": "Do you think wages really keep up with inflation?",
-      "comment_id": "",
+      "comment_id": "Ugzi3aLsdBvq3gt9oTt4AaABAg",
       "format": "myth_vs_reality",
       "theme": "mint-grid"
     },
@@ -126,7 +126,7 @@
       "url": "https://www.youtube.com/shorts/IIBPufCYp_Q",
       "publish_at": "2026-11-12T00:00:00Z",
       "comment_text": "Do you notice yourself multitasking at work?",
-      "comment_id": "",
+      "comment_id": "UgzIb9eZzzCLHWua4ct4AaABAg",
       "format": "myth_vs_reality",
       "theme": "violet-rings"
     },
@@ -181,6 +181,32 @@
       "comment_id": "",
       "format": "before_after",
       "theme": "rose-waves"
+    },
+    {
+      "plan_id": "money-20261113T1300Z",
+      "channel": "money",
+      "topic": "Spot the signs of a hidden inflation surge in everyday prices",
+      "title": "Hidden inflation signs in everyday prices – spot the surge",
+      "video_id": "fHKekF7IJzE",
+      "url": "https://www.youtube.com/shorts/fHKekF7IJzE",
+      "publish_at": "2026-11-13T13:00:00Z",
+      "comment_text": "Which hidden price hike surprised you the most?",
+      "comment_id": "",
+      "format": "spot_the_signs",
+      "theme": "lime-diagonal"
+    },
+    {
+      "plan_id": "psychology-20261113T1300Z",
+      "channel": "psychology",
+      "topic": "The true story of the 1970s \"Stanford Marshmallow Test\" and how delayed gratification predicts life outcomes",
+      "title": "Stanford Marshmallow Test: How a Candy Predicted Success",
+      "video_id": "LmK23N4RZXo",
+      "url": "https://www.youtube.com/shorts/LmK23N4RZXo",
+      "publish_at": "2026-11-13T13:00:00Z",
+      "comment_text": "Which small habit do you think could change your future the most?",
+      "comment_id": "",
+      "format": "true_story",
+      "theme": "sky-diagonal"
     }
   ]
 }
