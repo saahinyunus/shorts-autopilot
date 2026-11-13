@@ -139,7 +139,7 @@
       "url": "https://www.youtube.com/shorts/03saSqppQPU",
       "publish_at": "2026-11-12T13:00:00Z",
       "comment_text": "Which moment in the Nixon Shock surprised you most?",
-      "comment_id": "",
+      "comment_id": "Ugx8NQH_7jBwCQYAHkR4AaABAg",
       "format": "true_story",
       "theme": "gold-dots"
     },
@@ -152,7 +152,7 @@
       "url": "https://www.youtube.com/shorts/XwsOF9ZNH14",
       "publish_at": "2026-11-12T13:00:00Z",
       "comment_text": "Which Stroop trick helps you notice when your brain is being misled?",
-      "comment_id": "",
+      "comment_id": "UgxLwacpwng6d2-RjoJ4AaABAg",
       "format": "study_or_experiment",
       "theme": "amber-dots"
     },
@@ -207,6 +207,32 @@
       "comment_id": "",
       "format": "true_story",
       "theme": "sky-diagonal"
+    },
+    {
+      "plan_id": "money-20261114T0000Z",
+      "channel": "money",
+      "topic": "The rise and fall of the 1920s 'Buy Now, Pay Later' installment plans",
+      "title": "Buy Now Pay Later history: 1920s boom and bust explained",
+      "video_id": "yJudRwKm2B4",
+      "url": "https://www.youtube.com/shorts/yJudRwKm2B4",
+      "publish_at": "2026-11-14T00:00:00Z",
+      "comment_text": "Which part of the 1920s installment craze surprises you the most?",
+      "comment_id": "",
+      "format": "before_after",
+      "theme": "teal-rings"
+    },
+    {
+      "plan_id": "psychology-20261114T0000Z",
+      "channel": "psychology",
+      "topic": "Why the “mirror‑touch” illusion isn’t real empathy",
+      "title": "Mirror-Touch Illusion: Why It’s Not Real Empathy",
+      "video_id": "mTylMp8RZYI",
+      "url": "https://www.youtube.com/shorts/mTylMp8RZYI",
+      "publish_at": "2026-11-14T00:00:00Z",
+      "comment_text": "Which explanation of empathy feels most convincing to you?",
+      "comment_id": "",
+      "format": "myth_vs_reality",
+      "theme": "yellow-grid"
     }
   ]
 }
