@@ -165,7 +165,7 @@
       "url": "https://www.youtube.com/shorts/tHIsita1szQ",
       "publish_at": "2026-11-13T00:00:00Z",
       "comment_text": "Which part of the 1907 panic surprises you the most?",
-      "comment_id": "",
+      "comment_id": "Ugwg6cj_QHLW1ctC9yh4AaABAg",
       "format": "study_or_experiment",
       "theme": "emerald-waves"
     },
@@ -178,7 +178,7 @@
       "url": "https://www.youtube.com/shorts/rbUbS919bhw",
       "publish_at": "2026-11-13T00:00:00Z",
       "comment_text": "Which posture change makes you feel instantly more confident?",
-      "comment_id": "",
+      "comment_id": "UgyTQO514IuDehyaPv94AaABAg",
       "format": "before_after",
       "theme": "rose-waves"
     },
@@ -233,6 +233,32 @@
       "comment_id": "",
       "format": "myth_vs_reality",
       "theme": "yellow-grid"
+    },
+    {
+      "plan_id": "money-20261114T1300Z",
+      "channel": "money",
+      "topic": "Why 9% savings accounts aren’t always better than low‑fee index funds",
+      "title": "Why 9% Savings Accounts Lose to Low-Fee Index Funds",
+      "video_id": "q3DlfEiEklA",
+      "url": "https://www.youtube.com/shorts/q3DlfEiEklA",
+      "publish_at": "2026-11-14T13:00:00Z",
+      "comment_text": "Do you think a high-yield savings account can beat a low-fee index fund over decades?",
+      "comment_id": "",
+      "format": "myth_vs_reality",
+      "theme": "mint-grid"
+    },
+    {
+      "plan_id": "psychology-20261114T1300Z",
+      "channel": "psychology",
+      "topic": "Why the \"recency\" bias makes you overvalue the latest news",
+      "title": "Recency bias: why the newest news tricks you",
+      "video_id": "VyWIxy9OKhY",
+      "url": "https://www.youtube.com/shorts/VyWIxy9OKhY",
+      "publish_at": "2026-11-14T13:00:00Z",
+      "comment_text": "Which recent headline swayed your opinion more than the facts?",
+      "comment_id": "",
+      "format": "common_mistake",
+      "theme": "violet-rings"
     }
   ]
 }
