@@ -20,7 +20,7 @@ jobs:
           python-version: "3.12"
           cache: pip
           cache-dependency-path: requirements.txt
-      - run: pip install pydantic pydantic-settings typer anthropic httpx tzdata google-api-python-client google-auth google-auth-oauthlib
+      - run: pip install -c constraints.txt pydantic pydantic-settings typer anthropic httpx tzdata google-api-python-client google-auth google-auth-oauthlib
       - name: Check every key
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}

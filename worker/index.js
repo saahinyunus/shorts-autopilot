@@ -289,6 +289,13 @@ async function cmdHealth(env, now) {
     lines.push(`${ok ? "✅" : "❌"} Günlük çalıştırma: son ${ago(new Date(st.updated_at), now)}, sonuç ${esc(st.produce_result || "?")}`);
     if (!ok) problems.push("günlük çalıştırma");
   } else lines.push("⚠️ Henüz durum dosyası yok (ilk otomatik çalıştırmadan sonra oluşur)");
+  try {
+    const gaps = findGaps((await rawJson(env, "state/history.json")).entries, now);
+    if (gaps.length) {
+      lines.push(`❌ Slot kapsamı: ${gaps.map((g) => `${esc(g.channel)} ${fmtSlot(g.at.toISOString(), CHANNEL_TZ[g.channel], env.NOTIFY_TZ || "Europe/Istanbul")}`).join(", ")} için video planlı değil`);
+      problems.push("boş slot");
+    } else lines.push("✅ Önümüzdeki 6 saatteki tüm slotlar için video planlı");
+  } catch { /* repo unreachable: the other checks still report */ }
   for (const cid of CHANNELS) {
     try { await accessToken(env, cid); lines.push(`✅ YouTube girişi (${cid}): geçerli`); }
     catch (e) { lines.push(`❌ YouTube girişi (${cid}): ${esc(e.message)}`); problems.push(`${cid} girişi`); }
@@ -424,12 +431,127 @@ async function postDueComments(env, now = new Date()) {
   return results;
 }
 
+// ------------------------------------------------------------------ watchdog (independent of GitHub)
+// If GitHub Actions stops running (a skipped schedule, an outage, a disabled workflow) nothing inside GitHub can
+// say so. This check runs on Cloudflare every 10 minutes and alerts through Telegram, each problem once a day.
+const CHANNEL_SLOTS = { money: ["08:00", "19:00"], psychology: ["08:00", "19:00"] }; // same as channels/*.json (tested)
+const alertMemory = new Set();
+
+function zoned(ms, tz) {
+  const f = new Intl.DateTimeFormat("en-US", {
+    timeZone: tz, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric", hourCycle: "h23",
+  });
+  return Object.fromEntries(f.formatToParts(new Date(ms)).filter((p) => p.type !== "literal").map((p) => [p.type, Number(p.value)]));
+}
+
+// The UTC instant at which the wall clock of `tz` shows y-mo-d hh:mm (daylight saving aware).
+function localToUtcMs(y, mo, d, hh, mm, tz) {
+  const wanted = Date.UTC(y, mo - 1, d, hh, mm);
+  let guess = wanted;
+  for (let i = 0; i < 3; i++) {
+    const z = zoned(guess, tz);
+    guess -= Date.UTC(z.year, z.month - 1, z.day, z.hour, z.minute) - wanted;
+  }
+  return guess;
+}
+
+function slotsBetween(channel, fromMs, toMs) {
+  const tz = CHANNEL_TZ[channel];
+  const start = zoned(fromMs - 36 * HOUR, tz);
+  const found = [];
+  for (let k = 0; k < 6; k++) {
+    const day = new Date(Date.UTC(start.year, start.month - 1, start.day + k));
+    for (const slot of CHANNEL_SLOTS[channel]) {
+      const [hh, mm] = slot.split(":").map(Number);
+      const ms = localToUtcMs(day.getUTCFullYear(), day.getUTCMonth() + 1, day.getUTCDate(), hh, mm, tz);
+      if (ms >= fromMs && ms < toMs) found.push(ms);
+    }
+  }
+  return found.sort((a, b) => a - b);
+}
+
+// Slots in the next `hours` hours that have no video in the history (the pipeline plans ~24 h ahead, so any gap
+// this close is a real failure of the autopilot).
+function findGaps(history, now, hours = 6) {
+  const gaps = [];
+  for (const channel of CHANNELS) {
+    for (const ms of slotsBetween(channel, now.getTime(), now.getTime() + hours * HOUR)) {
+      const planned = history.some((e) => e.channel === channel && Math.abs(Date.parse(e.publish_at) - ms) < 60000);
+      if (!planned) gaps.push({ channel, at: new Date(ms) });
+    }
+  }
+  return gaps;
+}
+
+async function once(env, key, ttlSeconds) { // true the first time within the TTL
+  if (env.KV) {
+    if (await env.KV.get(key)) return false;
+    await env.KV.put(key, "1", { expirationTtl: Math.max(60, ttlSeconds) });
+    return true;
+  }
+  if (alertMemory.has(key)) return false;
+  alertMemory.add(key);
+  return true;
+}
+
+async function watchdog(env, now = new Date()) {
+  const tz = env.NOTIFY_TZ || "Europe/Istanbul";
+  const alerts = [];
+  const hourly = now.getUTCMinutes() < 10; // the cron fires every 10 minutes: run the heavier checks once an hour
+  let history = null;
+  try { history = (await rawJson(env, "state/history.json")).entries; } catch { /* repo unreachable: skip repo-based checks */ }
+
+  if (history) {
+    for (const g of findGaps(history, now)) {
+      if (await once(env, `alert:gap:${g.channel}:${g.at.toISOString()}`, 86400)) {
+        alerts.push(`⚠️ ${esc(g.channel)}: ${fmtSlot(g.at.toISOString(), CHANNEL_TZ[g.channel], tz)} slotu için video planlanmamış. Otopilot çalışmıyor olabilir: GitHub → Actions sayfasına bakın.`);
+      }
+    }
+    if (hourly) { // videos whose publish time has passed must really be public (YouTube may lock or hold them)
+      const overdue = history.filter((e) => { const age = now - new Date(e.publish_at); return age > 25 * 60000 && age < 24 * HOUR; });
+      for (const channel of CHANNELS) {
+        const mine = overdue.filter((e) => e.channel === channel);
+        if (!mine.length) continue;
+        try {
+          const info = await videoInfo(env, channel, mine.map((e) => e.video_id));
+          for (const e of mine) {
+            const v = info[e.video_id];
+            const privacy = v && v.status && v.status.privacyStatus;
+            if (privacy !== "public" && (await once(env, `alert:private:${e.video_id}`, 172800))) {
+              alerts.push(`⚠️ ${esc(channel)}: “${esc((e.title || e.topic).slice(0, 60))}” yayın saati geçti ama video herkese açık değil (durum: ${esc(privacy || "bulunamadı")}). YouTube Studio'ya bakın.`);
+            }
+          }
+        } catch (err) {
+          if (await once(env, `alert:yt:${channel}`, 86400)) alerts.push(`⚠️ ${esc(channel)}: YouTube durumu okunamadı (${esc(err.message)}).`);
+        }
+      }
+    }
+  }
+
+  if (hourly) {
+    for (const channel of CHANNELS) {
+      try { await accessToken(env, channel); } catch (err) {
+        if (await once(env, `alert:token:${channel}`, 86400)) alerts.push(`⚠️ ${esc(channel)}: YouTube girişi çalışmıyor (${esc(err.message)}). Yeniden giriş gerekebilir.`);
+      }
+    }
+  }
+
+  try {
+    const st = await rawJson(env, "state/status.json");
+    const hours = (now - new Date(st.updated_at)) / HOUR;
+    if (hours > 30 && (await once(env, "alert:stale", 21600))) alerts.push(`⚠️ Otopilotun son kalp atışı ${Math.round(hours)} saat önce. GitHub Actions çalışmıyor olabilir.`);
+  } catch { /* no status file yet */ }
+
+  if (alerts.length) await send(env, env.TELEGRAM_CHAT_ID, "🚨 <b>Otopilot uyarısı</b>\n" + alerts.join("\n"));
+  return alerts;
+}
+
 export default {
-  internals: { fmtSlot, ago, checkScheduled, replyFor, handleUpdate, postDueComments, dailySummary, trDate }, // for worker/test.mjs
+  internals: { fmtSlot, ago, checkScheduled, replyFor, handleUpdate, postDueComments, dailySummary, trDate, localToUtcMs, slotsBetween, findGaps, watchdog, tokenCache }, // for worker/test.mjs
   async scheduled(event, env, ctx) {
     // "0 21 * * *" (= 00:00 Istanbul) sends the daily summary; every other trigger posts due first comments
     if (event.cron === "0 21 * * *") ctx.waitUntil(dailySummary(env).catch(() => {}));
-    else ctx.waitUntil(postDueComments(env).catch(() => {}));
+    else ctx.waitUntil(Promise.all([postDueComments(env).catch(() => {}), watchdog(env).catch(() => {})]));
   },
   async fetch(request, env, ctx) {
     if (request.method !== "POST") return new Response("Shorts autopilot bot is running.");

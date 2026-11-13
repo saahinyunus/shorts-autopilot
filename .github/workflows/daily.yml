@@ -8,8 +8,9 @@ on:
   schedule:
     - cron: "23 3 * * *" # 03:23 UTC; an off-peak minute (GitHub delays jobs queued on the hour)
     # Second chance: if the morning run was skipped or failed, this one plans every slot still at least 3 hours away.
+    # It starts early enough (07:23 UTC) to still rescue the 13:00 UTC slot, the earliest one of the day.
     # When the morning run worked it only prepares the next day's first slot early (nothing is ever produced twice).
-    - cron: "23 9 * * *"
+    - cron: "23 7 * * *"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -53,27 +54,14 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-      - run: pip install pydantic pydantic-settings typer anthropic httpx tzdata
-      - name: Check the Gemini key (prints only the HTTP status and the quota detail, never the key)
-        continue-on-error: true
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: |
-          if [ -z "$GEMINI_API_KEY" ]; then echo "::error::Secret GEMINI_API_KEY is EMPTY"; exit 1; fi
-          code=$(curl -s -o /tmp/gemini.json -w '%{http_code}' -H "x-goog-api-key: $GEMINI_API_KEY" -H 'Content-Type: application/json' \
-            -d '{"contents":[{"parts":[{"text":"Say OK"}]}]}' \
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent")
-          echo "key length: ${#GEMINI_API_KEY} chars, HTTP status: $code"
-          if [ "$code" != "200" ]; then
-            msg=$(head -c 900 /tmp/gemini.json | tr '\n' ' ')
-            echo "::error::Gemini key check HTTP $code: $msg"
-          fi
+      - run: pip install -c constraints.txt pydantic pydantic-settings typer anthropic httpx tzdata google-api-python-client google-auth google-auth-oauthlib
       - name: Plan slots and topics
         id: plan
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }} # optional free backup LLM
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }} # optional paid last resort
+          YOUTUBE_TOKENS_JSON: ${{ secrets.YOUTUBE_TOKENS_JSON }} # to see which slots already have a video on YouTube
           CHANNELS: ${{ inputs.channels }}
           LEAD_HOURS: ${{ inputs.lead_hours }}
         run: |
@@ -109,7 +97,7 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-      - run: pip install -r requirements.txt
+      - run: pip install -r requirements.txt -c constraints.txt
       - name: Linux libraries for Remotion's headless Chrome
         run: >
           sudo apt-get update && sudo apt-get install -y
@@ -201,7 +189,7 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-      - run: pip install pydantic pydantic-settings typer anthropic httpx tzdata google-api-python-client google-auth google-auth-oauthlib
+      - run: pip install -c constraints.txt pydantic pydantic-settings typer anthropic httpx tzdata google-api-python-client google-auth google-auth-oauthlib
       - run: mkdir -p artifacts
       - uses: actions/download-artifact@v4
         continue-on-error: true # no artifacts at all when every video failed
@@ -241,9 +229,9 @@ jobs:
           git add state/
           if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
           git commit -m "chore: record published shorts [skip ci]"
-          for attempt in 1 2 3; do
+          for attempt in 1 2 3 4 5 6; do
             git pull --rebase && git push && exit 0
-            sleep 5
+            sleep $((attempt * 8))
           done
           exit 1
 
@@ -258,7 +246,7 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-      - run: pip install pydantic pydantic-settings typer anthropic httpx tzdata
+      - run: pip install -c constraints.txt pydantic pydantic-settings typer anthropic httpx tzdata
       - name: Summary to Telegram
         continue-on-error: true
         env:

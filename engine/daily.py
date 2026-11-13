@@ -35,8 +35,35 @@ from engine.variety import choose_formats, choose_themes
 app = typer.Typer(add_completion=False, help="Daily planning and bookkeeping for the autopilot.")
 
 
-def build_plan(channel_ids: list[str], now: datetime, settings, history, provider_factory) -> tuple[list[dict], list[str]]:
-    """Returns (items to produce, error messages). A failing channel never blocks the others."""
+def youtube_scheduled_slots(settings, channel_id: str, youtube=None) -> set[str]:
+    """Publish times ('YYYY-MM-DDTHH:MM:SSZ') of videos that are ALREADY scheduled on the channel, read from YouTube.
+    The history file says the same thing, but YouTube is the source of truth: if the bookkeeping step of an
+    earlier run failed after an upload, this stops the planner from scheduling a second video for the same slot.
+    Any failure returns an empty set (the history check still applies)."""
+    try:
+        if youtube is None:
+            from googleapiclient.discovery import build
+
+            from engine.uploader import get_credentials
+
+            youtube = build("youtube", "v3", credentials=get_credentials(settings, channel_id), cache_discovery=False)
+        uploads = youtube.channels().list(part="contentDetails", mine=True).execute()["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"]
+        items = youtube.playlistItems().list(part="contentDetails", playlistId=uploads, maxResults=30).execute().get("items", [])
+        ids = [i["contentDetails"]["videoId"] for i in items]
+        if not ids:
+            return set()
+        videos = youtube.videos().list(part="status", id=",".join(ids)).execute().get("items", [])
+        return {v["status"]["publishAt"][:19] + "Z" for v in videos if v.get("status", {}).get("publishAt")}
+    except Exception as exc:  # noqa: BLE001
+        print(f"[plan] could not read the scheduled videos of {channel_id} from YouTube ({type(exc).__name__}); using the history only")
+        return set()
+
+
+def build_plan(
+    channel_ids: list[str], now: datetime, settings, history, provider_factory, scheduled_lookup=None
+) -> tuple[list[dict], list[str]]:
+    """Returns (items to produce, error messages). A failing channel never blocks the others.
+    `scheduled_lookup(channel_id)` -> publish times that already exist on YouTube (slots that are skipped)."""
     items: list[dict] = []
     errors: list[str] = []
     provider = None
@@ -44,10 +71,11 @@ def build_plan(channel_ids: list[str], now: datetime, settings, history, provide
     for cid in channel_ids:
         try:
             channel = load_channel(cid)
+            on_youtube = scheduled_lookup(cid) if scheduled_lookup else set()
             slots = [
                 s
                 for s in upcoming_slots(channel, now, settings.plan_lead_hours, settings.plan_window_hours)
-                if not history.has_plan(plan_id(cid, s))
+                if not history.has_plan(plan_id(cid, s)) and s.strftime("%Y-%m-%dT%H:%M:%SZ") not in on_youtube
             ]
             if not slots:
                 continue
@@ -135,7 +163,10 @@ def plan(
     now_dt = datetime.fromisoformat(now.replace("Z", "+00:00")) if now else datetime.now(timezone.utc)
     history = load_history(settings.state_dir / "history.json")
 
-    items, errors = build_plan(ids, now_dt, settings, history, lambda: get_llm_provider(settings))
+    items, errors = build_plan(
+        ids, now_dt, settings, history, lambda: get_llm_provider(settings),
+        scheduled_lookup=lambda cid: youtube_scheduled_slots(settings, cid),
+    )
 
     typer.echo(json.dumps(items, indent=2, ensure_ascii=False))
     for message in errors:

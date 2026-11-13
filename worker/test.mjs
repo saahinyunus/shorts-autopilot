@@ -2,7 +2,7 @@
 import assert from "node:assert/strict";
 import worker from "./index.js";
 
-const { fmtSlot, checkScheduled, replyFor, handleUpdate, postDueComments, dailySummary, trDate } = worker.internals;
+const { fmtSlot, checkScheduled, replyFor, handleUpdate, postDueComments, dailySummary, trDate, localToUtcMs, slotsBetween, findGaps, watchdog, tokenCache } = worker.internals;
 const NOW = new Date("2026-11-10T12:00:00Z");
 const sent = [];
 let ytError = null;
@@ -186,4 +186,72 @@ assert.equal(sent.length, 1);                                                   
 
 // the timer entry point exists
 assert.equal(typeof worker.scheduled, "function");
+// ---- watchdog: alerts that do not depend on GitHub ----
+{
+  const iso = (ms) => new Date(ms).toISOString();
+  const at = (s) => new Date(s).getTime();
+  // time zone maths, daylight saving aware
+  assert.equal(iso(localToUtcMs(2026, 11, 13, 8, 0, "America/New_York")), "2026-11-13T13:00:00.000Z"); // winter (UTC-5)
+  assert.equal(iso(localToUtcMs(2026, 7, 1, 8, 0, "America/New_York")), "2026-07-01T12:00:00.000Z"); // summer (UTC-4)
+  assert.equal(iso(localToUtcMs(2027, 3, 14, 19, 0, "America/New_York")), "2027-03-14T23:00:00.000Z"); // the day DST starts
+  assert.equal(iso(localToUtcMs(2026, 11, 1, 19, 0, "America/New_York")), "2026-11-02T00:00:00.000Z"); // the day DST ends
+  assert.deepEqual(slotsBetween("money", at("2026-11-13T02:44:00Z"), at("2026-11-13T08:44:00Z")), []);
+  assert.deepEqual(slotsBetween("money", at("2026-11-13T08:00:00Z"), at("2026-11-13T14:00:00Z")).map(iso), ["2026-11-13T13:00:00.000Z"]);
+  assert.deepEqual(slotsBetween("psychology", at("2026-11-13T14:00:00Z"), at("2026-11-14T02:00:00Z")).map(iso), ["2026-11-14T00:00:00.000Z"]);
+
+  const NOWW = new Date("2026-11-13T08:05:00Z");
+  const entry = (channel, id, publishAt, title) => ({ plan_id: `${channel}-${publishAt}`, channel, topic: "t", title, video_id: id, url: `https://youtu.be/${id}`, publish_at: publishAt });
+  const healthy = () => [
+    entry("money", "ok1", "2026-11-13T00:00:00Z", "Money yesterday"), entry("psychology", "ok2", "2026-11-13T00:00:00Z", "Psych yesterday"),
+    entry("money", "f1", "2026-11-13T13:00:00Z", "Money next"), entry("psychology", "f2", "2026-11-13T13:00:00Z", "Psych next"),
+  ];
+  Object.assign(VIDEOS, { ok1: { status: { privacyStatus: "public" }, statistics: {} }, ok2: { status: { privacyStatus: "public" }, statistics: {} } });
+  const fresh = () => ({ ...env, KV: (() => { const m = new Map(); return { get: async (k) => (m.has(k) ? m.get(k) : null), put: async (k, v) => { m.set(k, v); } }; })() });
+  const heartbeat = (hoursAgo) => { STATUS.updated_at = new Date(NOWW - hoursAgo * 3600000).toISOString(); };
+
+  // gap detection
+  const gaps = findGaps([entry("money", "f1", "2026-11-13T13:00:00Z", "x")], new Date("2026-11-13T08:05:00Z"));
+  assert.deepEqual(gaps.map((g) => g.channel), ["psychology"]);
+  assert.deepEqual(findGaps(healthy(), NOWW), []);
+
+  // healthy system: silence
+  HISTORY.entries = healthy(); heartbeat(3); sent.length = 0;
+  assert.deepEqual(await watchdog(fresh(), NOWW), []); assert.equal(sent.length, 0);
+
+  // a slot within 6 hours without a video: one alert, never repeated
+  HISTORY.entries = healthy().filter((e) => e.video_id !== "f2"); sent.length = 0;
+  const w1 = fresh();
+  const first = await watchdog(w1, NOWW);
+  assert.equal(first.length, 1); assert.match(first[0], /psychology/); assert.match(first[0], /planlanmamış/);
+  assert.equal(sent.length, 1); assert.match(sent[0].text, /Otopilot uyarısı/);
+  assert.deepEqual(await watchdog(w1, new Date("2026-11-13T08:15:00Z")), []); assert.equal(sent.length, 1); // same problem, no second message
+
+  // a video whose publish time passed but is still private (locked / held by YouTube)
+  HISTORY.entries = healthy(); VIDEOS.ok1 = { status: { privacyStatus: "private" }, statistics: {} }; sent.length = 0;
+  const priv = await watchdog(fresh(), NOWW);
+  assert.equal(priv.length, 1); assert.match(priv[0], /Money yesterday/); assert.match(priv[0], /herkese açık değil/);
+  VIDEOS.ok1 = { status: { privacyStatus: "public" }, statistics: {} };
+  // the heavier checks run once an hour only (minute < 10)
+  VIDEOS.ok2 = { status: { privacyStatus: "private" }, statistics: {} };
+  assert.deepEqual(await watchdog(fresh(), new Date("2026-11-13T08:25:00Z")), []);
+  VIDEOS.ok2 = { status: { privacyStatus: "public" }, statistics: {} };
+
+  // broken YouTube login
+  sent.length = 0;
+  tokenCache.clear(); // cached access tokens stay valid for up to an hour, then the refresh fails and this fires
+  const noLogin = await watchdog({ ...fresh(), YOUTUBE_TOKENS_JSON: "" }, NOWW);
+  assert.ok(noLogin.some((a) => /YouTube girişi çalışmıyor/.test(a)));
+
+  // stale heartbeat (GitHub not running for over 30 hours)
+  heartbeat(40); sent.length = 0;
+  const stale = await watchdog(fresh(), NOWW);
+  assert.equal(stale.length, 1); assert.match(stale[0], /kalp atışı 40 saat önce/);
+  heartbeat(3);
+
+  // the scheduled handler runs the watchdog next to the comment poster and never throws
+  HISTORY.entries = healthy();
+  await worker.scheduled({ cron: "*/10 * * * *" }, fresh(), { waitUntil: (p) => p });
+  await new Promise((r) => setTimeout(r, 40));
+}
+
 console.log("worker tests passed");
