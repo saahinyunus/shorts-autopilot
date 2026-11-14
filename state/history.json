@@ -217,7 +217,7 @@
       "url": "https://www.youtube.com/shorts/yJudRwKm2B4",
       "publish_at": "2026-11-14T00:00:00Z",
       "comment_text": "Which part of the 1920s installment craze surprises you the most?",
-      "comment_id": "",
+      "comment_id": "UgwESjKsdfYIXJ_a9P14AaABAg",
       "format": "before_after",
       "theme": "teal-rings"
     },
@@ -230,7 +230,7 @@
       "url": "https://www.youtube.com/shorts/mTylMp8RZYI",
       "publish_at": "2026-11-14T00:00:00Z",
       "comment_text": "Which explanation of empathy feels most convincing to you?",
-      "comment_id": "",
+      "comment_id": "Ugw66tARcBag6q0yLCp4AaABAg",
       "format": "myth_vs_reality",
       "theme": "yellow-grid"
     },
@@ -285,6 +285,32 @@
       "comment_id": "",
       "format": "spot_the_signs",
       "theme": "amber-dots"
+    },
+    {
+      "plan_id": "money-20261115T1300Z",
+      "channel": "money",
+      "topic": "Why the 1990s “dot‑com boom” wasn’t just about internet hype",
+      "title": "Why the 1990s dot-com boom was finance, not hype",
+      "video_id": "wzAK5c7iO_s",
+      "url": "https://www.youtube.com/shorts/wzAK5c7iO_s",
+      "publish_at": "2026-11-15T13:00:00Z",
+      "comment_text": "Which factor surprised you more: the flood of venture money or the Fed’s low rates?",
+      "comment_id": "",
+      "format": "myth_vs_reality",
+      "theme": "emerald-waves"
+    },
+    {
+      "plan_id": "psychology-20261115T1300Z",
+      "channel": "psychology",
+      "topic": "How the “door-in-the-face” technique flips refusals into agreements",
+      "title": "Door-in-the-Face technique flips refusals into agreements",
+      "video_id": "Q5qq8iR8vBw",
+      "url": "https://www.youtube.com/shorts/Q5qq8iR8vBw",
+      "publish_at": "2026-11-15T13:00:00Z",
+      "comment_text": "Which situation have you noticed the door-in-the-face trick being used?",
+      "comment_id": "",
+      "format": "study_or_experiment",
+      "theme": "rose-waves"
     }
   ]
 }
