@@ -191,7 +191,7 @@
       "url": "https://www.youtube.com/shorts/fHKekF7IJzE",
       "publish_at": "2026-11-13T13:00:00Z",
       "comment_text": "Which hidden price hike surprised you the most?",
-      "comment_id": "",
+      "comment_id": "UgywQpUnAv7eAIL8gWN4AaABAg",
       "format": "spot_the_signs",
       "theme": "lime-diagonal"
     },
@@ -204,7 +204,7 @@
       "url": "https://www.youtube.com/shorts/LmK23N4RZXo",
       "publish_at": "2026-11-13T13:00:00Z",
       "comment_text": "Which small habit do you think could change your future the most?",
-      "comment_id": "",
+      "comment_id": "UgzOBk9G_HwOtdOrn2R4AaABAg",
       "format": "true_story",
       "theme": "sky-diagonal"
     },
@@ -259,6 +259,32 @@
       "comment_id": "",
       "format": "common_mistake",
       "theme": "violet-rings"
+    },
+    {
+      "plan_id": "money-20261115T0000Z",
+      "channel": "money",
+      "topic": "Why most people overpay on mortgages by ignoring amortization shortcuts",
+      "title": "Mortgage shortcut most borrowers miss – cut thousands in interest",
+      "video_id": "Zjv1WjZj4J8",
+      "url": "https://www.youtube.com/shorts/Zjv1WjZj4J8",
+      "publish_at": "2026-11-15T00:00:00Z",
+      "comment_text": "Have you ever tried the bi-weekly payment method on your mortgage?",
+      "comment_id": "",
+      "format": "common_mistake",
+      "theme": "gold-dots"
+    },
+    {
+      "plan_id": "psychology-20261115T0000Z",
+      "channel": "psychology",
+      "topic": "Spot the subtle signs of the confirmation bias in everyday conversations",
+      "title": "Everyday confirmation bias signs you miss",
+      "video_id": "lnOzApxwY1k",
+      "url": "https://www.youtube.com/shorts/lnOzApxwY1k",
+      "publish_at": "2026-11-15T00:00:00Z",
+      "comment_text": "Which of these bias signs catches you off guard most often?",
+      "comment_id": "",
+      "format": "spot_the_signs",
+      "theme": "amber-dots"
     }
   ]
 }
