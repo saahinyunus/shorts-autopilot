@@ -243,7 +243,7 @@
       "url": "https://www.youtube.com/shorts/q3DlfEiEklA",
       "publish_at": "2026-11-14T13:00:00Z",
       "comment_text": "Do you think a high-yield savings account can beat a low-fee index fund over decades?",
-      "comment_id": "",
+      "comment_id": "Ugwb0O6Sl87KfwYT6Cx4AaABAg",
       "format": "myth_vs_reality",
       "theme": "mint-grid"
     },
@@ -256,7 +256,7 @@
       "url": "https://www.youtube.com/shorts/VyWIxy9OKhY",
       "publish_at": "2026-11-14T13:00:00Z",
       "comment_text": "Which recent headline swayed your opinion more than the facts?",
-      "comment_id": "",
+      "comment_id": "Ugwl5-rdzodvEszQkwh4AaABAg",
       "format": "common_mistake",
       "theme": "violet-rings"
     },
@@ -311,6 +311,32 @@
       "comment_id": "",
       "format": "study_or_experiment",
       "theme": "rose-waves"
+    },
+    {
+      "plan_id": "money-20261116T0000Z",
+      "channel": "money",
+      "topic": "The 1913 Creation of the Federal Reserve and Its First Open Market Operations",
+      "title": "1913 Federal Reserve Birth and Its First Open Market Operation",
+      "video_id": "pU2Iv9o0LpQ",
+      "url": "https://www.youtube.com/shorts/pU2Iv9o0LpQ",
+      "publish_at": "2026-11-16T00:00:00Z",
+      "comment_text": "Which part of the Fed’s early power surprises you the most?",
+      "comment_id": "",
+      "format": "true_story",
+      "theme": "lime-diagonal"
+    },
+    {
+      "plan_id": "psychology-20261116T0000Z",
+      "channel": "psychology",
+      "topic": "Why the \"mirror‑selfie\" illusion doesn’t boost self‑esteem",
+      "title": "Mirror-selfie myth: why it doesn’t really boost confidence",
+      "video_id": "0ZbrBphcY3A",
+      "url": "https://www.youtube.com/shorts/0ZbrBphcY3A",
+      "publish_at": "2026-11-16T00:00:00Z",
+      "comment_text": "Do you feel a mood lift after taking a quick selfie?",
+      "comment_id": "",
+      "format": "myth_vs_reality",
+      "theme": "sky-diagonal"
     }
   ]
 }
