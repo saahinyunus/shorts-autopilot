@@ -269,7 +269,7 @@
       "url": "https://www.youtube.com/shorts/Zjv1WjZj4J8",
       "publish_at": "2026-11-15T00:00:00Z",
       "comment_text": "Have you ever tried the bi-weekly payment method on your mortgage?",
-      "comment_id": "",
+      "comment_id": "UgzYguMJDtPPUqVINaJ4AaABAg",
       "format": "common_mistake",
       "theme": "gold-dots"
     },
@@ -282,7 +282,7 @@
       "url": "https://www.youtube.com/shorts/lnOzApxwY1k",
       "publish_at": "2026-11-15T00:00:00Z",
       "comment_text": "Which of these bias signs catches you off guard most often?",
-      "comment_id": "",
+      "comment_id": "Ugw1t3jVP5mbd64ZPuN4AaABAg",
       "format": "spot_the_signs",
       "theme": "amber-dots"
     },
@@ -337,6 +337,32 @@
       "comment_id": "",
       "format": "myth_vs_reality",
       "theme": "sky-diagonal"
+    },
+    {
+      "plan_id": "money-20261116T1300Z",
+      "channel": "money",
+      "topic": "The 1972 Baker-Wurgler study that quantified IPO underpricing",
+      "title": "Baker-Wurgler IPO underpricing study: why stocks start cheap",
+      "video_id": "U3C8rp39tCM",
+      "url": "https://www.youtube.com/shorts/U3C8rp39tCM",
+      "publish_at": "2026-11-16T13:00:00Z",
+      "comment_text": "Which factor do you think matters most for an IPO’s first-day pop?",
+      "comment_id": "",
+      "format": "study_or_experiment",
+      "theme": "teal-rings"
+    },
+    {
+      "plan_id": "psychology-20261116T1300Z",
+      "channel": "psychology",
+      "topic": "Why people over‑interpret micro‑expressions – the mistake and the reality",
+      "title": "Why micro-expressions fool you – the real truth behind the myth",
+      "video_id": "T7BMv7fOHI8",
+      "url": "https://www.youtube.com/shorts/T7BMv7fOHI8",
+      "publish_at": "2026-11-16T13:00:00Z",
+      "comment_text": "Which mistake have you caught yourself making when reading micro-expressions?",
+      "comment_id": "",
+      "format": "common_mistake",
+      "theme": "yellow-grid"
     }
   ]
 }
