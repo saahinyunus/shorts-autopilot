@@ -295,7 +295,7 @@
       "url": "https://www.youtube.com/shorts/wzAK5c7iO_s",
       "publish_at": "2026-11-15T13:00:00Z",
       "comment_text": "Which factor surprised you more: the flood of venture money or the Fed’s low rates?",
-      "comment_id": "",
+      "comment_id": "UgxErb7VzxPpEcRsvc94AaABAg",
       "format": "myth_vs_reality",
       "theme": "emerald-waves"
     },
@@ -308,7 +308,7 @@
       "url": "https://www.youtube.com/shorts/Q5qq8iR8vBw",
       "publish_at": "2026-11-15T13:00:00Z",
       "comment_text": "Which situation have you noticed the door-in-the-face trick being used?",
-      "comment_id": "",
+      "comment_id": "UgzefwWzOjkGvJQm2Sx4AaABAg",
       "format": "study_or_experiment",
       "theme": "rose-waves"
     },
@@ -363,6 +363,32 @@
       "comment_id": "",
       "format": "common_mistake",
       "theme": "yellow-grid"
+    },
+    {
+      "plan_id": "money-20261117T0000Z",
+      "channel": "money",
+      "topic": "US loaf of bread price: 1900 vs 2024",
+      "title": "US bread price history: from a dime in 1900 to $3 today",
+      "video_id": "QegM5w9TEiQ",
+      "url": "https://www.youtube.com/shorts/QegM5w9TEiQ",
+      "publish_at": "2026-11-17T00:00:00Z",
+      "comment_text": "What would you rather buy with a $3 loaf: a sandwich or a savings account?",
+      "comment_id": "",
+      "format": "before_after",
+      "theme": "mint-grid"
+    },
+    {
+      "plan_id": "psychology-20261117T0000Z",
+      "channel": "psychology",
+      "topic": "Why the “warm‑glow” effect makes you overvalue your own ideas",
+      "title": "Warm-glow bias: why your ideas feel golden",
+      "video_id": "id5qkD6CVzI",
+      "url": "https://www.youtube.com/shorts/id5qkD6CVzI",
+      "publish_at": "2026-11-17T00:00:00Z",
+      "comment_text": "Which of your ideas have you caught the warm-glow bias on?",
+      "comment_id": "",
+      "format": "myth_vs_reality",
+      "theme": "violet-rings"
     }
   ]
 }
