@@ -321,7 +321,7 @@
       "url": "https://www.youtube.com/shorts/pU2Iv9o0LpQ",
       "publish_at": "2026-11-16T00:00:00Z",
       "comment_text": "Which part of the Fed’s early power surprises you the most?",
-      "comment_id": "",
+      "comment_id": "UgzMuBxTFsqir7H4rEN4AaABAg",
       "format": "true_story",
       "theme": "lime-diagonal"
     },
@@ -334,7 +334,7 @@
       "url": "https://www.youtube.com/shorts/0ZbrBphcY3A",
       "publish_at": "2026-11-16T00:00:00Z",
       "comment_text": "Do you feel a mood lift after taking a quick selfie?",
-      "comment_id": "",
+      "comment_id": "Ugw30crEzoURfEOl87J4AaABAg",
       "format": "myth_vs_reality",
       "theme": "sky-diagonal"
     },
@@ -389,6 +389,32 @@
       "comment_id": "",
       "format": "myth_vs_reality",
       "theme": "violet-rings"
+    },
+    {
+      "plan_id": "money-20261117T1300Z",
+      "channel": "money",
+      "topic": "Myth: Inflation always hurts borrowers – Reality: It can lower real debt",
+      "title": "Inflation and Borrowers: Why Rising Prices Can Cut Your Debt",
+      "video_id": "mSqsb3lqII0",
+      "url": "https://www.youtube.com/shorts/mSqsb3lqII0",
+      "publish_at": "2026-11-17T13:00:00Z",
+      "comment_text": "Has inflation ever helped you pay off a loan faster?",
+      "comment_id": "",
+      "format": "myth_vs_reality",
+      "theme": "gold-dots"
+    },
+    {
+      "plan_id": "psychology-20261117T1300Z",
+      "channel": "psychology",
+      "topic": "The Stanford Prison Experiment: how a fake prison revealed situational power dynamics",
+      "title": "Stanford Experiment: How a Fake Jail Revealed Power Dynamics",
+      "video_id": "88raGS-3ZN0",
+      "url": "https://www.youtube.com/shorts/88raGS-3ZN0",
+      "publish_at": "2026-11-17T13:00:00Z",
+      "comment_text": "Which situation in your life shows how environment can change behavior?",
+      "comment_id": "",
+      "format": "true_story",
+      "theme": "amber-dots"
     }
   ]
 }
