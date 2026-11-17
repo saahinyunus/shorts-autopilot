@@ -373,7 +373,7 @@
       "url": "https://www.youtube.com/shorts/QegM5w9TEiQ",
       "publish_at": "2026-11-17T00:00:00Z",
       "comment_text": "What would you rather buy with a $3 loaf: a sandwich or a savings account?",
-      "comment_id": "",
+      "comment_id": "UgyHLmuPIDiG6fFzphN4AaABAg",
       "format": "before_after",
       "theme": "mint-grid"
     },
@@ -386,7 +386,7 @@
       "url": "https://www.youtube.com/shorts/id5qkD6CVzI",
       "publish_at": "2026-11-17T00:00:00Z",
       "comment_text": "Which of your ideas have you caught the warm-glow bias on?",
-      "comment_id": "",
+      "comment_id": "UgxnPmy5s020_43fB8F4AaABAg",
       "format": "myth_vs_reality",
       "theme": "violet-rings"
     },
@@ -441,6 +441,32 @@
       "comment_id": "",
       "format": "before_after",
       "theme": "rose-waves"
+    },
+    {
+      "plan_id": "money-20261118T1300Z",
+      "channel": "money",
+      "topic": "1994 Mexican Peso Crisis: devaluation and global fallout",
+      "title": "1994 Mexican Peso Crisis Explained – Why the Currency Crashed",
+      "video_id": "IR_R7qMTuYs",
+      "url": "https://www.youtube.com/shorts/IR_R7qMTuYs",
+      "publish_at": "2026-11-18T13:00:00Z",
+      "comment_text": "Which part of the 1994 crisis surprised you the most?",
+      "comment_id": "",
+      "format": "true_story",
+      "theme": "lime-diagonal"
+    },
+    {
+      "plan_id": "psychology-20261118T1300Z",
+      "channel": "psychology",
+      "topic": "The Lost-in-the-Middle Effect: why you forget the middle of a story",
+      "title": "Lost-in-the-Middle Effect: Why You Forget the Story’s Core",
+      "video_id": "7tlfJJ7BrlI",
+      "url": "https://www.youtube.com/shorts/7tlfJJ7BrlI",
+      "publish_at": "2026-11-18T13:00:00Z",
+      "comment_text": "Which part of a story do you remember best, the start or the end?",
+      "comment_id": "",
+      "format": "study_or_experiment",
+      "theme": "sky-diagonal"
     }
   ]
 }
