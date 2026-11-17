@@ -347,7 +347,7 @@
       "url": "https://www.youtube.com/shorts/U3C8rp39tCM",
       "publish_at": "2026-11-16T13:00:00Z",
       "comment_text": "Which factor do you think matters most for an IPO’s first-day pop?",
-      "comment_id": "",
+      "comment_id": "Ugz7WYWWl1xKn7gHLMZ4AaABAg",
       "format": "study_or_experiment",
       "theme": "teal-rings"
     },
@@ -360,7 +360,7 @@
       "url": "https://www.youtube.com/shorts/T7BMv7fOHI8",
       "publish_at": "2026-11-16T13:00:00Z",
       "comment_text": "Which mistake have you caught yourself making when reading micro-expressions?",
-      "comment_id": "",
+      "comment_id": "Ugy303NJUD042SXBRkd4AaABAg",
       "format": "common_mistake",
       "theme": "yellow-grid"
     },
@@ -415,6 +415,32 @@
       "comment_id": "",
       "format": "true_story",
       "theme": "amber-dots"
+    },
+    {
+      "plan_id": "money-20261118T0000Z",
+      "channel": "money",
+      "topic": "Spot the hidden fees in everyday banking products",
+      "title": "Hidden banking fees you never notice – spot the signs",
+      "video_id": "gYfCoo4p8ws",
+      "url": "https://www.youtube.com/shorts/gYfCoo4p8ws",
+      "publish_at": "2026-11-18T00:00:00Z",
+      "comment_text": "Which hidden fee surprised you the most: monthly fee, ATM surcharge, foreign fee, or overdraft charge?",
+      "comment_id": "",
+      "format": "spot_the_signs",
+      "theme": "emerald-waves"
+    },
+    {
+      "plan_id": "psychology-20261118T0000Z",
+      "channel": "psychology",
+      "topic": "How your memory of a story changes after hearing it twice",
+      "title": "Memory of a story changes on repeat – why your brain rewrites it",
+      "video_id": "JKKoUJaQe28",
+      "url": "https://www.youtube.com/shorts/JKKoUJaQe28",
+      "publish_at": "2026-11-18T00:00:00Z",
+      "comment_text": "What part of a story do you notice disappears the second time you hear it?",
+      "comment_id": "",
+      "format": "before_after",
+      "theme": "rose-waves"
     }
   ]
 }
