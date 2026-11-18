@@ -399,7 +399,7 @@
       "url": "https://www.youtube.com/shorts/mSqsb3lqII0",
       "publish_at": "2026-11-17T13:00:00Z",
       "comment_text": "Has inflation ever helped you pay off a loan faster?",
-      "comment_id": "",
+      "comment_id": "UgwA8aT1fHPIHI8o2jF4AaABAg",
       "format": "myth_vs_reality",
       "theme": "gold-dots"
     },
@@ -412,7 +412,7 @@
       "url": "https://www.youtube.com/shorts/88raGS-3ZN0",
       "publish_at": "2026-11-17T13:00:00Z",
       "comment_text": "Which situation in your life shows how environment can change behavior?",
-      "comment_id": "",
+      "comment_id": "UgygRWn1W5kWGhtJaTJ4AaABAg",
       "format": "true_story",
       "theme": "amber-dots"
     },
@@ -467,6 +467,32 @@
       "comment_id": "",
       "format": "study_or_experiment",
       "theme": "sky-diagonal"
+    },
+    {
+      "plan_id": "money-20261119T0000Z",
+      "channel": "money",
+      "topic": "Myth: Buying a house always builds equity; Reality: Market swings and depreciation can wipe out equity fast",
+      "title": "Does buying a house really guarantee equity growth?",
+      "video_id": "RT70eF0-95I",
+      "url": "https://www.youtube.com/shorts/RT70eF0-95I",
+      "publish_at": "2026-11-19T00:00:00Z",
+      "comment_text": "What’s the biggest surprise you learned about home equity?",
+      "comment_id": "",
+      "format": "myth_vs_reality",
+      "theme": "teal-rings"
+    },
+    {
+      "plan_id": "psychology-20261119T0000Z",
+      "channel": "psychology",
+      "topic": "Mirroring body language always makes you more likable",
+      "title": "Mirroring body language: why it works and when it backfires",
+      "video_id": "4IYy3jM-Kpc",
+      "url": "https://www.youtube.com/shorts/4IYy3jM-Kpc",
+      "publish_at": "2026-11-19T00:00:00Z",
+      "comment_text": "Do you ever notice yourself mirroring someone's posture without realizing?",
+      "comment_id": "",
+      "format": "myth_vs_reality",
+      "theme": "yellow-grid"
     }
   ]
 }
