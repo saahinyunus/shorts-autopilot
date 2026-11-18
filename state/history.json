@@ -425,7 +425,7 @@
       "url": "https://www.youtube.com/shorts/gYfCoo4p8ws",
       "publish_at": "2026-11-18T00:00:00Z",
       "comment_text": "Which hidden fee surprised you the most: monthly fee, ATM surcharge, foreign fee, or overdraft charge?",
-      "comment_id": "",
+      "comment_id": "Ugw56zaJ381SmCawYbR4AaABAg",
       "format": "spot_the_signs",
       "theme": "emerald-waves"
     },
@@ -438,7 +438,7 @@
       "url": "https://www.youtube.com/shorts/JKKoUJaQe28",
       "publish_at": "2026-11-18T00:00:00Z",
       "comment_text": "What part of a story do you notice disappears the second time you hear it?",
-      "comment_id": "",
+      "comment_id": "Ugz_hpkSfHDagcyOvT94AaABAg",
       "format": "before_after",
       "theme": "rose-waves"
     },
@@ -493,6 +493,32 @@
       "comment_id": "",
       "format": "myth_vs_reality",
       "theme": "yellow-grid"
+    },
+    {
+      "plan_id": "money-20261119T1300Z",
+      "channel": "money",
+      "topic": "Kahneman and Tversky framing experiment: how loss‑aversion skews financial choices",
+      "title": "Why Framing Turns Equal Prices Into Losses",
+      "video_id": "wUx_VMqubyU",
+      "url": "https://www.youtube.com/shorts/wUx_VMqubyU",
+      "publish_at": "2026-11-19T13:00:00Z",
+      "comment_text": "Which framing trap have you noticed affecting your spending?",
+      "comment_id": "",
+      "format": "study_or_experiment",
+      "theme": "mint-grid"
+    },
+    {
+      "plan_id": "psychology-20261119T1300Z",
+      "channel": "psychology",
+      "topic": "Assuming eye contact always signals honesty",
+      "title": "Eye Contact Myth: Why Staring Doesn’t Prove Honesty",
+      "video_id": "5IZ5JMHklUA",
+      "url": "https://www.youtube.com/shorts/5IZ5JMHklUA",
+      "publish_at": "2026-11-19T13:00:00Z",
+      "comment_text": "Have you ever trusted someone just because they kept steady eye contact?",
+      "comment_id": "",
+      "format": "common_mistake",
+      "theme": "violet-rings"
     }
   ]
 }
