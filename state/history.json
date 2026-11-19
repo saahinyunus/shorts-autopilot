@@ -477,7 +477,7 @@
       "url": "https://www.youtube.com/shorts/RT70eF0-95I",
       "publish_at": "2026-11-19T00:00:00Z",
       "comment_text": "What’s the biggest surprise you learned about home equity?",
-      "comment_id": "",
+      "comment_id": "UgxuDVrbtlTgiZDcsXx4AaABAg",
       "format": "myth_vs_reality",
       "theme": "teal-rings"
     },
@@ -490,7 +490,7 @@
       "url": "https://www.youtube.com/shorts/4IYy3jM-Kpc",
       "publish_at": "2026-11-19T00:00:00Z",
       "comment_text": "Do you ever notice yourself mirroring someone's posture without realizing?",
-      "comment_id": "",
+      "comment_id": "UgxMhiPo2reVLc4vPFZ4AaABAg",
       "format": "myth_vs_reality",
       "theme": "yellow-grid"
     },
@@ -545,6 +545,32 @@
       "comment_id": "",
       "format": "spot_the_signs",
       "theme": "amber-dots"
+    },
+    {
+      "plan_id": "money-20261120T1300Z",
+      "channel": "money",
+      "topic": "Why most people overestimate the power of a single stock tip",
+      "title": "Why stock tips fool us more than they help – the hidden cost",
+      "video_id": "JAr8tgr_K2A",
+      "url": "https://www.youtube.com/shorts/JAr8tgr_K2A",
+      "publish_at": "2026-11-20T13:00:00Z",
+      "comment_text": "What’s the biggest loss you’ve felt from following a hot stock tip?",
+      "comment_id": "",
+      "format": "common_mistake",
+      "theme": "emerald-waves"
+    },
+    {
+      "plan_id": "psychology-20261120T1300Z",
+      "channel": "psychology",
+      "topic": "The halo effect makes first impressions skew your judgment of competence",
+      "title": "Halo effect: Why a smile tricks you into seeing competence",
+      "video_id": "JhR-WS8uEik",
+      "url": "https://www.youtube.com/shorts/JhR-WS8uEik",
+      "publish_at": "2026-11-20T13:00:00Z",
+      "comment_text": "Which everyday situation have you noticed the halo effect changing your judgment?",
+      "comment_id": "",
+      "format": "myth_vs_reality",
+      "theme": "rose-waves"
     }
   ]
 }
