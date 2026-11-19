@@ -451,7 +451,7 @@
       "url": "https://www.youtube.com/shorts/IR_R7qMTuYs",
       "publish_at": "2026-11-18T13:00:00Z",
       "comment_text": "Which part of the 1994 crisis surprised you the most?",
-      "comment_id": "",
+      "comment_id": "UgzkRUAsvY5X1UMuyhx4AaABAg",
       "format": "true_story",
       "theme": "lime-diagonal"
     },
@@ -464,7 +464,7 @@
       "url": "https://www.youtube.com/shorts/7tlfJJ7BrlI",
       "publish_at": "2026-11-18T13:00:00Z",
       "comment_text": "Which part of a story do you remember best, the start or the end?",
-      "comment_id": "",
+      "comment_id": "UgwPp9HXXcv9gPmaulZ4AaABAg",
       "format": "study_or_experiment",
       "theme": "sky-diagonal"
     },
@@ -519,6 +519,32 @@
       "comment_id": "",
       "format": "common_mistake",
       "theme": "violet-rings"
+    },
+    {
+      "plan_id": "money-20261120T0000Z",
+      "channel": "money",
+      "topic": "How the 2008 financial crisis changed bank lending standards",
+      "title": "Bank lending standards before vs after 2008 crisis",
+      "video_id": "EzSPc950FVA",
+      "url": "https://www.youtube.com/shorts/EzSPc950FVA",
+      "publish_at": "2026-11-20T00:00:00Z",
+      "comment_text": "Which new lending rule surprised you the most?",
+      "comment_id": "",
+      "format": "before_after",
+      "theme": "gold-dots"
+    },
+    {
+      "plan_id": "psychology-20261120T0000Z",
+      "channel": "psychology",
+      "topic": "Spot the signs of the ‘foot-in-the-door’ compliance technique",
+      "title": "Foot-in-the-door trick: how tiny asks hijack your decisions",
+      "video_id": "TmI71aNuhDA",
+      "url": "https://www.youtube.com/shorts/TmI71aNuhDA",
+      "publish_at": "2026-11-20T00:00:00Z",
+      "comment_text": "Which tiny request have you noticed turning into a bigger ask?",
+      "comment_id": "",
+      "format": "spot_the_signs",
+      "theme": "amber-dots"
     }
   ]
 }
