@@ -503,7 +503,7 @@
       "url": "https://www.youtube.com/shorts/wUx_VMqubyU",
       "publish_at": "2026-11-19T13:00:00Z",
       "comment_text": "Which framing trap have you noticed affecting your spending?",
-      "comment_id": "",
+      "comment_id": "UgwRxKlyGvPS0dUABe14AaABAg",
       "format": "study_or_experiment",
       "theme": "mint-grid"
     },
@@ -516,7 +516,7 @@
       "url": "https://www.youtube.com/shorts/5IZ5JMHklUA",
       "publish_at": "2026-11-19T13:00:00Z",
       "comment_text": "Have you ever trusted someone just because they kept steady eye contact?",
-      "comment_id": "",
+      "comment_id": "UgxQ8TnURC4EugXI7gJ4AaABAg",
       "format": "common_mistake",
       "theme": "violet-rings"
     },
@@ -571,6 +571,32 @@
       "comment_id": "",
       "format": "myth_vs_reality",
       "theme": "rose-waves"
+    },
+    {
+      "plan_id": "money-20261121T0000Z",
+      "channel": "money",
+      "topic": "How the Maastricht Treaty paved the way for the euro",
+      "title": "Maastricht Treaty and the birth of the euro – how it locked Europe together",
+      "video_id": "qDkQrxxtEu4",
+      "url": "https://www.youtube.com/shorts/qDkQrxxtEu4",
+      "publish_at": "2026-11-21T00:00:00Z",
+      "comment_text": "Which Maastricht rule surprised you the most?",
+      "comment_id": "",
+      "format": "true_story",
+      "theme": "lime-diagonal"
+    },
+    {
+      "plan_id": "psychology-20261121T0000Z",
+      "channel": "psychology",
+      "topic": "The 1961 Milgram obedience study: how authority shapes compliance",
+      "title": "Milgram obedience experiment: why authority feels unstoppable",
+      "video_id": "oAM7RqEMWWE",
+      "url": "https://www.youtube.com/shorts/oAM7RqEMWWE",
+      "publish_at": "2026-11-21T00:00:00Z",
+      "comment_text": "Which part of the Milgram experiment surprises you the most?",
+      "comment_id": "",
+      "format": "true_story",
+      "theme": "sky-diagonal"
     }
   ]
 }
