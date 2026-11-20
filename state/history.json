@@ -529,7 +529,7 @@
       "url": "https://www.youtube.com/shorts/EzSPc950FVA",
       "publish_at": "2026-11-20T00:00:00Z",
       "comment_text": "Which new lending rule surprised you the most?",
-      "comment_id": "",
+      "comment_id": "UgzlXgjJETgldpvJ6bR4AaABAg",
       "format": "before_after",
       "theme": "gold-dots"
     },
@@ -542,7 +542,7 @@
       "url": "https://www.youtube.com/shorts/TmI71aNuhDA",
       "publish_at": "2026-11-20T00:00:00Z",
       "comment_text": "Which tiny request have you noticed turning into a bigger ask?",
-      "comment_id": "",
+      "comment_id": "UgwVFG0skGkqkYvzhEp4AaABAg",
       "format": "spot_the_signs",
       "theme": "amber-dots"
     },
@@ -597,6 +597,32 @@
       "comment_id": "",
       "format": "true_story",
       "theme": "sky-diagonal"
+    },
+    {
+      "plan_id": "money-20261121T1300Z",
+      "channel": "money",
+      "topic": "Myth: Wage growth always beats inflation – Reality: It often lags behind",
+      "title": "Wage growth vs inflation: why paychecks lag behind",
+      "video_id": "6LjbTAS6GmU",
+      "url": "https://www.youtube.com/shorts/6LjbTAS6GmU",
+      "publish_at": "2026-11-21T13:00:00Z",
+      "comment_text": "Which factor do you think hurts wages the most: policy or global competition?",
+      "comment_id": "",
+      "format": "myth_vs_reality",
+      "theme": "teal-rings"
+    },
+    {
+      "plan_id": "psychology-20261121T1300Z",
+      "channel": "psychology",
+      "topic": "How the primacy effect skews first impressions vs later judgments",
+      "title": "Primacy effect explained: why first impressions dominate your judgments",
+      "video_id": "dgN9r5avajo",
+      "url": "https://www.youtube.com/shorts/dgN9r5avajo",
+      "publish_at": "2026-11-21T13:00:00Z",
+      "comment_text": "What’s a first impression you wish you could rewrite?",
+      "comment_id": "",
+      "format": "before_after",
+      "theme": "yellow-grid"
     }
   ]
 }
