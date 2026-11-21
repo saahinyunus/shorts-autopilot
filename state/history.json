@@ -555,7 +555,7 @@
       "url": "https://www.youtube.com/shorts/JAr8tgr_K2A",
       "publish_at": "2026-11-20T13:00:00Z",
       "comment_text": "What’s the biggest loss you’ve felt from following a hot stock tip?",
-      "comment_id": "",
+      "comment_id": "UgwHfU2IsE_d0FNUoyV4AaABAg",
       "format": "common_mistake",
       "theme": "emerald-waves"
     },
@@ -568,7 +568,7 @@
       "url": "https://www.youtube.com/shorts/JhR-WS8uEik",
       "publish_at": "2026-11-20T13:00:00Z",
       "comment_text": "Which everyday situation have you noticed the halo effect changing your judgment?",
-      "comment_id": "",
+      "comment_id": "UgwviWlebOtiIFBtvHZ4AaABAg",
       "format": "myth_vs_reality",
       "theme": "rose-waves"
     },
@@ -623,6 +623,32 @@
       "comment_id": "",
       "format": "before_after",
       "theme": "yellow-grid"
+    },
+    {
+      "plan_id": "money-20261122T0000Z",
+      "channel": "money",
+      "topic": "Spot the subtle signs that a price is being artificially inflated by retailers",
+      "title": "How retailers hide price inflation in plain sight",
+      "video_id": "OaxWUXFnFpY",
+      "url": "https://www.youtube.com/shorts/OaxWUXFnFpY",
+      "publish_at": "2026-11-22T00:00:00Z",
+      "comment_text": "Which hidden price trick have you noticed most at the store?",
+      "comment_id": "",
+      "format": "spot_the_signs",
+      "theme": "mint-grid"
+    },
+    {
+      "plan_id": "psychology-20261122T0000Z",
+      "channel": "psychology",
+      "topic": "The False Consensus Effect experiment shows why you overestimate others' agreement",
+      "title": "False Consensus Effect: Why You Overestimate Agreement",
+      "video_id": "5Sq79cx22HQ",
+      "url": "https://www.youtube.com/shorts/5Sq79cx22HQ",
+      "publish_at": "2026-11-22T00:00:00Z",
+      "comment_text": "Have you ever assumed most people felt the same way you do?",
+      "comment_id": "",
+      "format": "study_or_experiment",
+      "theme": "violet-rings"
     }
   ]
 }
