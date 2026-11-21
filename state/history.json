@@ -581,7 +581,7 @@
       "url": "https://www.youtube.com/shorts/qDkQrxxtEu4",
       "publish_at": "2026-11-21T00:00:00Z",
       "comment_text": "Which Maastricht rule surprised you the most?",
-      "comment_id": "",
+      "comment_id": "UgxDZFbnkl6ertMSmlN4AaABAg",
       "format": "true_story",
       "theme": "lime-diagonal"
     },
@@ -594,7 +594,7 @@
       "url": "https://www.youtube.com/shorts/oAM7RqEMWWE",
       "publish_at": "2026-11-21T00:00:00Z",
       "comment_text": "Which part of the Milgram experiment surprises you the most?",
-      "comment_id": "",
+      "comment_id": "UgzLwrSHf611KtzEzvZ4AaABAg",
       "format": "true_story",
       "theme": "sky-diagonal"
     },
@@ -649,6 +649,32 @@
       "comment_id": "",
       "format": "study_or_experiment",
       "theme": "violet-rings"
+    },
+    {
+      "plan_id": "money-20261122T1300Z",
+      "channel": "money",
+      "topic": "Bank Money Creation: Then (pre‑1970s) vs Now (post‑Fed Era)",
+      "title": "Bank Money Creation Then vs Now – The Real Shift",
+      "video_id": "al7d4nqTpdc",
+      "url": "https://www.youtube.com/shorts/al7d4nqTpdc",
+      "publish_at": "2026-11-22T13:00:00Z",
+      "comment_text": "Which change in money creation surprises you the most?",
+      "comment_id": "",
+      "format": "before_after",
+      "theme": "gold-dots"
+    },
+    {
+      "plan_id": "psychology-20261122T1300Z",
+      "channel": "psychology",
+      "topic": "Why you overestimate how much others share your opinions",
+      "title": "Why you think everyone shares your opinions – the hidden bias",
+      "video_id": "OeLG6t0D0fo",
+      "url": "https://www.youtube.com/shorts/OeLG6t0D0fo",
+      "publish_at": "2026-11-22T13:00:00Z",
+      "comment_text": "Do you often assume others think like you? Share a time it surprised you!",
+      "comment_id": "",
+      "format": "myth_vs_reality",
+      "theme": "amber-dots"
     }
   ]
 }
