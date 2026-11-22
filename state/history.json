@@ -633,7 +633,7 @@
       "url": "https://www.youtube.com/shorts/OaxWUXFnFpY",
       "publish_at": "2026-11-22T00:00:00Z",
       "comment_text": "Which hidden price trick have you noticed most at the store?",
-      "comment_id": "",
+      "comment_id": "Ugy9MvfR7ZNm-svyv114AaABAg",
       "format": "spot_the_signs",
       "theme": "mint-grid"
     },
@@ -646,7 +646,7 @@
       "url": "https://www.youtube.com/shorts/5Sq79cx22HQ",
       "publish_at": "2026-11-22T00:00:00Z",
       "comment_text": "Have you ever assumed most people felt the same way you do?",
-      "comment_id": "",
+      "comment_id": "UgyFvY5UPeskYwO12vp4AaABAg",
       "format": "study_or_experiment",
       "theme": "violet-rings"
     },
@@ -701,6 +701,32 @@
       "comment_id": "",
       "format": "before_after",
       "theme": "rose-waves"
+    },
+    {
+      "plan_id": "money-20261123T1300Z",
+      "channel": "money",
+      "topic": "The 1970s Stanford money‑illusion experiment and what it reveals",
+      "title": "Money illusion experiment reveals why $10 feels richer than $20",
+      "video_id": "JXQr1YaflNk",
+      "url": "https://www.youtube.com/shorts/JXQr1YaflNk",
+      "publish_at": "2026-11-23T13:00:00Z",
+      "comment_text": "Have you ever noticed a product tasting better just because it seemed cheaper?",
+      "comment_id": "",
+      "format": "study_or_experiment",
+      "theme": "lime-diagonal"
+    },
+    {
+      "plan_id": "psychology-20261123T1300Z",
+      "channel": "psychology",
+      "topic": "Spot the signs of the “recency bias” in your daily news feed",
+      "title": "Recency Bias in Your News Feed: Spot the Hidden Signs",
+      "video_id": "Ka6yKrzWOTE",
+      "url": "https://www.youtube.com/shorts/Ka6yKrzWOTE",
+      "publish_at": "2026-11-23T13:00:00Z",
+      "comment_text": "Which recency bias sign shows up most in your scrolling?",
+      "comment_id": "",
+      "format": "spot_the_signs",
+      "theme": "sky-diagonal"
     }
   ]
 }
