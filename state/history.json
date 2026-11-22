@@ -607,7 +607,7 @@
       "url": "https://www.youtube.com/shorts/6LjbTAS6GmU",
       "publish_at": "2026-11-21T13:00:00Z",
       "comment_text": "Which factor do you think hurts wages the most: policy or global competition?",
-      "comment_id": "",
+      "comment_id": "UgyjJWJ0iIny7J6o-Dx4AaABAg",
       "format": "myth_vs_reality",
       "theme": "teal-rings"
     },
@@ -620,7 +620,7 @@
       "url": "https://www.youtube.com/shorts/dgN9r5avajo",
       "publish_at": "2026-11-21T13:00:00Z",
       "comment_text": "What’s a first impression you wish you could rewrite?",
-      "comment_id": "",
+      "comment_id": "UgyPqQ4ycfTd_GdRUhd4AaABAg",
       "format": "before_after",
       "theme": "yellow-grid"
     },
@@ -675,6 +675,32 @@
       "comment_id": "",
       "format": "myth_vs_reality",
       "theme": "amber-dots"
+    },
+    {
+      "plan_id": "money-20261123T0000Z",
+      "channel": "money",
+      "topic": "Why the 1918 Spanish Flu caused a temporary deflation spike",
+      "title": "1918 Spanish Flu deflation spike explained – why it was brief",
+      "video_id": "zBgxBRLpecY",
+      "url": "https://www.youtube.com/shorts/zBgxBRLpecY",
+      "publish_at": "2026-11-23T00:00:00Z",
+      "comment_text": "Which myth about pandemic economics surprised you the most?",
+      "comment_id": "",
+      "format": "myth_vs_reality",
+      "theme": "emerald-waves"
+    },
+    {
+      "plan_id": "psychology-20261123T0000Z",
+      "channel": "psychology",
+      "topic": "Myth: You must maintain eye contact to be trustworthy",
+      "title": "Eye Contact Myth: Why Staring Reduces Trust",
+      "video_id": "qwjs6Xsx2rI",
+      "url": "https://www.youtube.com/shorts/qwjs6Xsx2rI",
+      "publish_at": "2026-11-23T00:00:00Z",
+      "comment_text": "Which feels more natural to you: a quick glance or a longer stare?",
+      "comment_id": "",
+      "format": "before_after",
+      "theme": "rose-waves"
     }
   ]
 }
