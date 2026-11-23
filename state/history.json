@@ -659,7 +659,7 @@
       "url": "https://www.youtube.com/shorts/al7d4nqTpdc",
       "publish_at": "2026-11-22T13:00:00Z",
       "comment_text": "Which change in money creation surprises you the most?",
-      "comment_id": "",
+      "comment_id": "UgwUXNRT8cosrVzmcEx4AaABAg",
       "format": "before_after",
       "theme": "gold-dots"
     },
@@ -672,7 +672,7 @@
       "url": "https://www.youtube.com/shorts/OeLG6t0D0fo",
       "publish_at": "2026-11-22T13:00:00Z",
       "comment_text": "Do you often assume others think like you? Share a time it surprised you!",
-      "comment_id": "",
+      "comment_id": "Ugxy1LxZ-fzdBfMUBMN4AaABAg",
       "format": "myth_vs_reality",
       "theme": "amber-dots"
     },
@@ -727,6 +727,32 @@
       "comment_id": "",
       "format": "spot_the_signs",
       "theme": "sky-diagonal"
+    },
+    {
+      "plan_id": "money-20261124T0000Z",
+      "channel": "money",
+      "topic": "Spot the hidden costs in payday loans: fees, interest, and rollover traps",
+      "title": "Payday loan hidden fees explained – why they cost more than you think",
+      "video_id": "cFM2W0beKLg",
+      "url": "https://www.youtube.com/shorts/cFM2W0beKLg",
+      "publish_at": "2026-11-24T00:00:00Z",
+      "comment_text": "Which hidden fee in payday loans surprised you the most?",
+      "comment_id": "",
+      "format": "spot_the_signs",
+      "theme": "teal-rings"
+    },
+    {
+      "plan_id": "psychology-20261124T0000Z",
+      "channel": "psychology",
+      "topic": "Why the “mirroring” trick can backfire in negotiations",
+      "title": "Mirroring in negotiations: why it can backfire",
+      "video_id": "h3_8otNUpAw",
+      "url": "https://www.youtube.com/shorts/h3_8otNUpAw",
+      "publish_at": "2026-11-24T00:00:00Z",
+      "comment_text": "Have you ever tried mirroring in a conversation and felt it backfire?",
+      "comment_id": "",
+      "format": "common_mistake",
+      "theme": "yellow-grid"
     }
   ]
 }
