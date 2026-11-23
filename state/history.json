@@ -685,7 +685,7 @@
       "url": "https://www.youtube.com/shorts/zBgxBRLpecY",
       "publish_at": "2026-11-23T00:00:00Z",
       "comment_text": "Which myth about pandemic economics surprised you the most?",
-      "comment_id": "",
+      "comment_id": "Ugw5-O8f-BkIFXV-CU94AaABAg",
       "format": "myth_vs_reality",
       "theme": "emerald-waves"
     },
@@ -698,7 +698,7 @@
       "url": "https://www.youtube.com/shorts/qwjs6Xsx2rI",
       "publish_at": "2026-11-23T00:00:00Z",
       "comment_text": "Which feels more natural to you: a quick glance or a longer stare?",
-      "comment_id": "",
+      "comment_id": "UgxSdaVR4pPX4_51TUN4AaABAg",
       "format": "before_after",
       "theme": "rose-waves"
     },
@@ -753,6 +753,32 @@
       "comment_id": "",
       "format": "common_mistake",
       "theme": "yellow-grid"
+    },
+    {
+      "plan_id": "money-20261124T1300Z",
+      "channel": "money",
+      "topic": "The 1971 Nixon decision to end the gold standard and its ripple effect on modern fiat money",
+      "title": "Nixon’s 1971 Gold Shock: How It Created Modern Fiat Money",
+      "video_id": "zkdivcVJG2g",
+      "url": "https://www.youtube.com/shorts/zkdivcVJG2g",
+      "publish_at": "2026-11-24T13:00:00Z",
+      "comment_text": "Which impact of the 1971 gold shock surprises you the most?",
+      "comment_id": "",
+      "format": "true_story",
+      "theme": "mint-grid"
+    },
+    {
+      "plan_id": "psychology-20261124T1300Z",
+      "channel": "psychology",
+      "topic": "The false belief that smiling always makes you more trustworthy",
+      "title": "Smiling and trust: the surprising truth",
+      "video_id": "RfsQAb-_2VI",
+      "url": "https://www.youtube.com/shorts/RfsQAb-_2VI",
+      "publish_at": "2026-11-24T13:00:00Z",
+      "comment_text": "Have you ever been fooled by a fake smile? Share your story!",
+      "comment_id": "",
+      "format": "myth_vs_reality",
+      "theme": "violet-rings"
     }
   ]
 }
