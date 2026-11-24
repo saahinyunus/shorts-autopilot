@@ -711,7 +711,7 @@
       "url": "https://www.youtube.com/shorts/JXQr1YaflNk",
       "publish_at": "2026-11-23T13:00:00Z",
       "comment_text": "Have you ever noticed a product tasting better just because it seemed cheaper?",
-      "comment_id": "",
+      "comment_id": "Ugw4zfujAo9w-lkOD754AaABAg",
       "format": "study_or_experiment",
       "theme": "lime-diagonal"
     },
@@ -724,7 +724,7 @@
       "url": "https://www.youtube.com/shorts/Ka6yKrzWOTE",
       "publish_at": "2026-11-23T13:00:00Z",
       "comment_text": "Which recency bias sign shows up most in your scrolling?",
-      "comment_id": "",
+      "comment_id": "Ugx1GRChaqvXg_SqqAl4AaABAg",
       "format": "spot_the_signs",
       "theme": "sky-diagonal"
     },
@@ -779,6 +779,32 @@
       "comment_id": "",
       "format": "myth_vs_reality",
       "theme": "violet-rings"
+    },
+    {
+      "plan_id": "money-20261125T0000Z",
+      "channel": "money",
+      "topic": "Why the \"$0.99\" price trick doesn’t actually boost sales",
+      "title": "Why the $0.99 price trick doesn’t boost sales – the real data",
+      "video_id": "qODDJn8v2GU",
+      "url": "https://www.youtube.com/shorts/qODDJn8v2GU",
+      "publish_at": "2026-11-25T00:00:00Z",
+      "comment_text": "Have you ever bought something just because it was priced at $0.99?",
+      "comment_id": "",
+      "format": "myth_vs_reality",
+      "theme": "gold-dots"
+    },
+    {
+      "plan_id": "psychology-20261125T0000Z",
+      "channel": "psychology",
+      "topic": "The Stanford Marshmallow Test’s real impact on lifelong earnings",
+      "title": "Marshmallow test and lifelong earnings: surprising truth",
+      "video_id": "DP2e1f8m4c8",
+      "url": "https://www.youtube.com/shorts/DP2e1f8m4c8",
+      "publish_at": "2026-11-25T00:00:00Z",
+      "comment_text": "Which daily habit have you tried to improve your self-control?",
+      "comment_id": "",
+      "format": "true_story",
+      "theme": "amber-dots"
     }
   ]
 }
