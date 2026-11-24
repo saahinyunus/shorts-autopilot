@@ -737,7 +737,7 @@
       "url": "https://www.youtube.com/shorts/cFM2W0beKLg",
       "publish_at": "2026-11-24T00:00:00Z",
       "comment_text": "Which hidden fee in payday loans surprised you the most?",
-      "comment_id": "",
+      "comment_id": "UgwEQmvygRsDuIjAo8t4AaABAg",
       "format": "spot_the_signs",
       "theme": "teal-rings"
     },
@@ -750,7 +750,7 @@
       "url": "https://www.youtube.com/shorts/h3_8otNUpAw",
       "publish_at": "2026-11-24T00:00:00Z",
       "comment_text": "Have you ever tried mirroring in a conversation and felt it backfire?",
-      "comment_id": "",
+      "comment_id": "UgzNAne4zkWeE6Dw8_d4AaABAg",
       "format": "common_mistake",
       "theme": "yellow-grid"
     },
@@ -805,6 +805,32 @@
       "comment_id": "",
       "format": "true_story",
       "theme": "amber-dots"
+    },
+    {
+      "plan_id": "money-20261125T1300Z",
+      "channel": "money",
+      "topic": "Paying only the credit‑card minimum: the hidden cost you’re missing",
+      "title": "Credit-card minimum payments: the hidden cost revealed",
+      "video_id": "ZsfWCI_sjb8",
+      "url": "https://www.youtube.com/shorts/ZsfWCI_sjb8",
+      "publish_at": "2026-11-25T13:00:00Z",
+      "comment_text": "What’s the biggest surprise you learned about credit-card minimum payments?",
+      "comment_id": "",
+      "format": "common_mistake",
+      "theme": "emerald-waves"
+    },
+    {
+      "plan_id": "psychology-20261125T1300Z",
+      "channel": "psychology",
+      "topic": "The classic “Stroop Effect” experiment and how it reveals hidden mental interference",
+      "title": "Stroop Effect: Why Your Brain Trips on Red Words",
+      "video_id": "BDX1LRX1m-s",
+      "url": "https://www.youtube.com/shorts/BDX1LRX1m-s",
+      "publish_at": "2026-11-25T13:00:00Z",
+      "comment_text": "When have you noticed your brain tripping on conflicting words?",
+      "comment_id": "",
+      "format": "study_or_experiment",
+      "theme": "rose-waves"
     }
   ]
 }
