@@ -763,7 +763,7 @@
       "url": "https://www.youtube.com/shorts/zkdivcVJG2g",
       "publish_at": "2026-11-24T13:00:00Z",
       "comment_text": "Which impact of the 1971 gold shock surprises you the most?",
-      "comment_id": "",
+      "comment_id": "Ugx0N1-TA2m_mTIuj1d4AaABAg",
       "format": "true_story",
       "theme": "mint-grid"
     },
@@ -776,7 +776,7 @@
       "url": "https://www.youtube.com/shorts/RfsQAb-_2VI",
       "publish_at": "2026-11-24T13:00:00Z",
       "comment_text": "Have you ever been fooled by a fake smile? Share your story!",
-      "comment_id": "",
+      "comment_id": "UgwURF-Uv24B8XopJPN4AaABAg",
       "format": "myth_vs_reality",
       "theme": "violet-rings"
     },
@@ -831,6 +831,32 @@
       "comment_id": "",
       "format": "study_or_experiment",
       "theme": "rose-waves"
+    },
+    {
+      "plan_id": "money-20261126T0000Z",
+      "channel": "money",
+      "topic": "Richard Thaler’s 1970s Money Illusion experiment explained",
+      "title": "Money Illusion experiment: Why higher numbers feel richer",
+      "video_id": "-CQFeR1qSPc",
+      "url": "https://www.youtube.com/shorts/-CQFeR1qSPc",
+      "publish_at": "2026-11-26T00:00:00Z",
+      "comment_text": "Did you ever feel a higher price tag made something seem more valuable?",
+      "comment_id": "",
+      "format": "study_or_experiment",
+      "theme": "lime-diagonal"
+    },
+    {
+      "plan_id": "psychology-20261126T0000Z",
+      "channel": "psychology",
+      "topic": "Why the “scarcity principle” makes limited offers feel irresistible",
+      "title": "Scarcity principle: why limited offers feel irresistible",
+      "video_id": "rvbPLjUoWyk",
+      "url": "https://www.youtube.com/shorts/rvbPLjUoWyk",
+      "publish_at": "2026-11-26T00:00:00Z",
+      "comment_text": "Which limited-time deal have you bought just because it seemed scarce?",
+      "comment_id": "",
+      "format": "myth_vs_reality",
+      "theme": "sky-diagonal"
     }
   ]
 }
