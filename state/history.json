@@ -789,7 +789,7 @@
       "url": "https://www.youtube.com/shorts/qODDJn8v2GU",
       "publish_at": "2026-11-25T00:00:00Z",
       "comment_text": "Have you ever bought something just because it was priced at $0.99?",
-      "comment_id": "",
+      "comment_id": "UgxTIAbfKUBjNsV-o3N4AaABAg",
       "format": "myth_vs_reality",
       "theme": "gold-dots"
     },
@@ -802,7 +802,7 @@
       "url": "https://www.youtube.com/shorts/DP2e1f8m4c8",
       "publish_at": "2026-11-25T00:00:00Z",
       "comment_text": "Which daily habit have you tried to improve your self-control?",
-      "comment_id": "",
+      "comment_id": "UgxYretsUlGGjFwLJM14AaABAg",
       "format": "true_story",
       "theme": "amber-dots"
     },
@@ -857,6 +857,32 @@
       "comment_id": "",
       "format": "myth_vs_reality",
       "theme": "sky-diagonal"
+    },
+    {
+      "plan_id": "money-20261126T1300Z",
+      "channel": "money",
+      "topic": "Myth: High‑interest savings accounts always outpace inflation",
+      "title": "High-interest savings vs inflation: the hidden truth",
+      "video_id": "3MTOIVTWr_Q",
+      "url": "https://www.youtube.com/shorts/3MTOIVTWr_Q",
+      "publish_at": "2026-11-26T13:00:00Z",
+      "comment_text": "Do you think your savings account is actually beating inflation?",
+      "comment_id": "",
+      "format": "myth_vs_reality",
+      "theme": "teal-rings"
+    },
+    {
+      "plan_id": "psychology-20261126T1300Z",
+      "channel": "psychology",
+      "topic": "How the “foot‑in‑the‑door” technique changes your willingness to say yes over time",
+      "title": "Foot-in-the-door technique doubles your yes rate",
+      "video_id": "_vip45ZoHlg",
+      "url": "https://www.youtube.com/shorts/_vip45ZoHlg",
+      "publish_at": "2026-11-26T13:00:00Z",
+      "comment_text": "Which tiny request have you noticed changes your willingness to say yes?",
+      "comment_id": "",
+      "format": "before_after",
+      "theme": "yellow-grid"
     }
   ]
 }
