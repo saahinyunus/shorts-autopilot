@@ -815,7 +815,7 @@
       "url": "https://www.youtube.com/shorts/ZsfWCI_sjb8",
       "publish_at": "2026-11-25T13:00:00Z",
       "comment_text": "What’s the biggest surprise you learned about credit-card minimum payments?",
-      "comment_id": "",
+      "comment_id": "Ugz2CBigIdWCUVlyhzN4AaABAg",
       "format": "common_mistake",
       "theme": "emerald-waves"
     },
@@ -828,7 +828,7 @@
       "url": "https://www.youtube.com/shorts/BDX1LRX1m-s",
       "publish_at": "2026-11-25T13:00:00Z",
       "comment_text": "When have you noticed your brain tripping on conflicting words?",
-      "comment_id": "",
+      "comment_id": "UgzRwsn-0N5R0cVkMKl4AaABAg",
       "format": "study_or_experiment",
       "theme": "rose-waves"
     },
@@ -883,6 +883,32 @@
       "comment_id": "",
       "format": "before_after",
       "theme": "yellow-grid"
+    },
+    {
+      "plan_id": "money-20261127T0000Z",
+      "channel": "money",
+      "topic": "How the US dollar’s purchasing power changed from 1970 to 2020",
+      "title": "Dollar purchasing power 1970 vs 2020 – why it shrank dramatically",
+      "video_id": "tEw_hR0Qi3o",
+      "url": "https://www.youtube.com/shorts/tEw_hR0Qi3o",
+      "publish_at": "2026-11-27T00:00:00Z",
+      "comment_text": "Which era would surprise you more: the 1970s or today’s prices?",
+      "comment_id": "",
+      "format": "before_after",
+      "theme": "mint-grid"
+    },
+    {
+      "plan_id": "psychology-20261127T0000Z",
+      "channel": "psychology",
+      "topic": "Spot the signs of anchoring bias when you shop or negotiate prices",
+      "title": "Anchoring bias in pricing: why first numbers trap you",
+      "video_id": "S9qhK9JxWsQ",
+      "url": "https://www.youtube.com/shorts/S9qhK9JxWsQ",
+      "publish_at": "2026-11-27T00:00:00Z",
+      "comment_text": "What’s the biggest price anchor you’ve ever fallen for?",
+      "comment_id": "",
+      "format": "spot_the_signs",
+      "theme": "violet-rings"
     }
   ]
 }
