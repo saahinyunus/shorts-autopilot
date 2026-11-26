@@ -841,7 +841,7 @@
       "url": "https://www.youtube.com/shorts/-CQFeR1qSPc",
       "publish_at": "2026-11-26T00:00:00Z",
       "comment_text": "Did you ever feel a higher price tag made something seem more valuable?",
-      "comment_id": "",
+      "comment_id": "UgxE507ld_dwx5IZl2h4AaABAg",
       "format": "study_or_experiment",
       "theme": "lime-diagonal"
     },
@@ -854,7 +854,7 @@
       "url": "https://www.youtube.com/shorts/rvbPLjUoWyk",
       "publish_at": "2026-11-26T00:00:00Z",
       "comment_text": "Which limited-time deal have you bought just because it seemed scarce?",
-      "comment_id": "",
+      "comment_id": "UgzurL8I1rUeLBAZONN4AaABAg",
       "format": "myth_vs_reality",
       "theme": "sky-diagonal"
     },
@@ -909,6 +909,32 @@
       "comment_id": "",
       "format": "spot_the_signs",
       "theme": "violet-rings"
+    },
+    {
+      "plan_id": "money-20261127T1300Z",
+      "channel": "money",
+      "topic": "The 1924 British return to the Gold Standard and its eventual collapse",
+      "title": "Britain's 1924 Gold Standard Gamble – Why It Crashed",
+      "video_id": "GxPFuYDBCM0",
+      "url": "https://www.youtube.com/shorts/GxPFuYDBCM0",
+      "publish_at": "2026-11-27T13:00:00Z",
+      "comment_text": "Which part of the gold-standard story surprises you the most?",
+      "comment_id": "",
+      "format": "true_story",
+      "theme": "gold-dots"
+    },
+    {
+      "plan_id": "psychology-20261127T1300Z",
+      "channel": "psychology",
+      "topic": "The foot-in-the-door compliance trick: how a tiny request boosts future agreements",
+      "title": "Foot-in-the-door trick explained – why a tiny favor locks you in",
+      "video_id": "M3MeKJXip3E",
+      "url": "https://www.youtube.com/shorts/M3MeKJXip3E",
+      "publish_at": "2026-11-27T13:00:00Z",
+      "comment_text": "Have you ever agreed to a small favor that later led to a bigger ask?",
+      "comment_id": "",
+      "format": "true_story",
+      "theme": "amber-dots"
     }
   ]
 }

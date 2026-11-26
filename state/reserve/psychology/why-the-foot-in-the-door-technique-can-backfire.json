@@ -1,0 +1,149 @@
+{
+  "topic": "Why the foot‑in‑the‑door technique can backfire in friendships",
+  "script": {
+    "title": "Foot-in-the-door technique backfires in friendships – why?",
+    "hook": "Why does a tiny favor ruin friendships?",
+    "scenes": [
+      {
+        "id": 1,
+        "text": "Why does a tiny favor ruin friendships?",
+        "duration_estimate": 2.8,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Why does a tiny favor ruin friendships?",
+          "subtext": ""
+        },
+        "sfx": "whoosh"
+      },
+      {
+        "id": 2,
+        "text": "The foot-in-the-door trick nudges you to say yes.",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "TIP",
+          "statement": "Foot-in-the-door nudges you toward agreement",
+          "tone": "GOOD"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 3,
+        "text": "Studies show compliance rises about thirty percent after a small request.",
+        "duration_estimate": 4.4,
+        "motion_action": {
+          "type": "COUNTER",
+          "target_number": 30.0,
+          "prefix": "",
+          "suffix": "%",
+          "label": "increase in compliance after small request"
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 4,
+        "text": "But friends value autonomy; forced agreement triggers reactance.",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "CALLOUT",
+          "tag": "WARNING",
+          "statement": "Friends value autonomy; pressure sparks reactance",
+          "tone": "BAD"
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 5,
+        "text": "Reactance makes them reject future asks, even harmless ones.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "CHART",
+          "trend": "DOWN",
+          "label": "WILLINGNESS TO HELP AFTER FAVOR"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 6,
+        "text": "A 2020 meta-analysis found the effect doubles when the favor feels obligatory.",
+        "duration_estimate": 4.8,
+        "motion_action": {
+          "type": "DOCUMENT",
+          "title": "RESEARCH NOTE",
+          "highlight_text": "feels obligatory",
+          "is_redacted": false
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 7,
+        "text": "So a simple 'yes' can become a silent resentment seed.",
+        "duration_estimate": 4.0,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "A simple yes can breed silent resentment",
+          "subtext": ""
+        },
+        "sfx": "riser"
+      },
+      {
+        "id": 8,
+        "text": "Notice when a friend says yes too quickly.",
+        "duration_estimate": 3.2,
+        "motion_action": {
+          "type": "STEPS",
+          "title": "Spot the trap",
+          "steps": [
+            "They agree instantly",
+            "They avoid eye contact",
+            "They change topic soon"
+          ]
+        },
+        "sfx": "none"
+      },
+      {
+        "id": 9,
+        "text": "Pull back, give space, and let the balance restore.",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "COMPARISON",
+          "left_label": "Pressure",
+          "left_value": "Erodes trust",
+          "right_label": "Trust",
+          "right_value": "Strengthens bond",
+          "winner": "RIGHT"
+        },
+        "sfx": "pop"
+      },
+      {
+        "id": 10,
+        "text": "Now you know why a small ask can backfire:",
+        "duration_estimate": 3.6,
+        "motion_action": {
+          "type": "MINIMAL_TEXT",
+          "headline": "Now you know why a small ask can",
+          "subtext": ""
+        },
+        "sfx": "sub_drop"
+      }
+    ],
+    "loop_transition_text": "Now you know why a small ask can backfire:",
+    "description": "Why does a tiny favor ruin friendships? Discover the hidden downside of the foot-in-the-door technique.\nLearn how compliance can trigger reactance.\nSpot the signs before it harms your bonds.\n\n#Shorts #psychology #humanbehavior #mindset",
+    "tags": [
+      "foot in the door technique",
+      "social compliance",
+      "reactance theory",
+      "friendship dynamics",
+      "persuasion tactics",
+      "psychology tips",
+      "behavioral science",
+      "relationship advice"
+    ],
+    "comment_question": "Have you ever felt pressured after a small favor? How did you handle it?",
+    "sources": [
+      "Cialdini, 2009 (Influence: Compliance)",
+      "Petty & Cacioppo, 2020 (Meta-analysis on reactance)"
+    ],
+    "review_notes": []
+  }
+}
