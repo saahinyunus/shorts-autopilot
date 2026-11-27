@@ -987,6 +987,32 @@
       "comment_id": "",
       "format": "study_or_experiment",
       "theme": "sky-diagonal"
+    },
+    {
+      "plan_id": "money-20261129T0000Z",
+      "channel": "money",
+      "topic": "How the 1933 Banking Holiday Reset the U.S. Money Supply",
+      "title": "1933 Banking Holiday: How a Week Reshaped America’s Money Supply",
+      "video_id": "4LusNcxhgkA",
+      "url": "https://www.youtube.com/shorts/4LusNcxhgkA",
+      "publish_at": "2026-11-29T00:00:00Z",
+      "comment_text": "Which sign would you notice first when a banking holiday ends: cash deposits or headline buzz?",
+      "comment_id": "",
+      "format": "spot_the_signs",
+      "theme": "teal-rings"
+    },
+    {
+      "plan_id": "psychology-20261129T0000Z",
+      "channel": "psychology",
+      "topic": "Eye contact myth: why staring can undermine confidence",
+      "title": "Eye contact myth: why staring hurts confidence",
+      "video_id": "gYbbcfGpxrA",
+      "url": "https://www.youtube.com/shorts/gYbbcfGpxrA",
+      "publish_at": "2026-11-29T00:00:00Z",
+      "comment_text": "Which eye-contact habit has helped you feel more confident?",
+      "comment_id": "",
+      "format": "myth_vs_reality",
+      "theme": "yellow-grid"
     }
   ]
 }
