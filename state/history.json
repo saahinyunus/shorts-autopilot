@@ -867,7 +867,7 @@
       "url": "https://www.youtube.com/shorts/3MTOIVTWr_Q",
       "publish_at": "2026-11-26T13:00:00Z",
       "comment_text": "Do you think your savings account is actually beating inflation?",
-      "comment_id": "",
+      "comment_id": "Ugz7ZXDYLdOKH_WDxbV4AaABAg",
       "format": "myth_vs_reality",
       "theme": "teal-rings"
     },
@@ -880,7 +880,7 @@
       "url": "https://www.youtube.com/shorts/_vip45ZoHlg",
       "publish_at": "2026-11-26T13:00:00Z",
       "comment_text": "Which tiny request have you noticed changes your willingness to say yes?",
-      "comment_id": "",
+      "comment_id": "Ugx0QhyMdLi42wk-pZl4AaABAg",
       "format": "before_after",
       "theme": "yellow-grid"
     },
@@ -893,7 +893,7 @@
       "url": "https://www.youtube.com/shorts/tEw_hR0Qi3o",
       "publish_at": "2026-11-27T00:00:00Z",
       "comment_text": "Which era would surprise you more: the 1970s or today’s prices?",
-      "comment_id": "",
+      "comment_id": "Ugx7NtB_jac1bZ1aCJh4AaABAg",
       "format": "before_after",
       "theme": "mint-grid"
     },
@@ -906,7 +906,7 @@
       "url": "https://www.youtube.com/shorts/S9qhK9JxWsQ",
       "publish_at": "2026-11-27T00:00:00Z",
       "comment_text": "What’s the biggest price anchor you’ve ever fallen for?",
-      "comment_id": "",
+      "comment_id": "Ugx_heNei0EY0P1Uu3Z4AaABAg",
       "format": "spot_the_signs",
       "theme": "violet-rings"
     },
@@ -935,6 +935,58 @@
       "comment_id": "",
       "format": "true_story",
       "theme": "amber-dots"
+    },
+    {
+      "plan_id": "money-20261128T0000Z",
+      "channel": "money",
+      "topic": "Why the \"buying on margin\" myth fuels reckless trading",
+      "title": "Margin trading myth: why leverage leads to ruin",
+      "video_id": "VkqUDow5qDg",
+      "url": "https://www.youtube.com/shorts/VkqUDow5qDg",
+      "publish_at": "2026-11-28T00:00:00Z",
+      "comment_text": "Did you ever think margin could protect your capital?",
+      "comment_id": "",
+      "format": "myth_vs_reality",
+      "theme": "emerald-waves"
+    },
+    {
+      "plan_id": "money-20261128T1300Z",
+      "channel": "money",
+      "topic": "The 1893 Panic of 1893: How a gold rush collapse reshaped US banking",
+      "title": "1893 Gold Rush Crash: How It Reshaped US Banking",
+      "video_id": "HYuki9SOUcg",
+      "url": "https://www.youtube.com/shorts/HYuki9SOUcg",
+      "publish_at": "2026-11-28T13:00:00Z",
+      "comment_text": "Which part of the 1893 panic surprises you the most?",
+      "comment_id": "",
+      "format": "true_story",
+      "theme": "lime-diagonal"
+    },
+    {
+      "plan_id": "psychology-20261128T0000Z",
+      "channel": "psychology",
+      "topic": "Why the “scarcity principle” can backfire when you feel pressured",
+      "title": "Why scarcity pressure backfires and how to avoid it",
+      "video_id": "b2sXwfNaQgc",
+      "url": "https://www.youtube.com/shorts/b2sXwfNaQgc",
+      "publish_at": "2026-11-28T00:00:00Z",
+      "comment_text": "Have you ever walked away from a limited-time offer because it felt too pushy?",
+      "comment_id": "",
+      "format": "common_mistake",
+      "theme": "rose-waves"
+    },
+    {
+      "plan_id": "psychology-20261128T1300Z",
+      "channel": "psychology",
+      "topic": "The original “door‑in‑the‑face” experiment that revealed why big refusals lead to compliance",
+      "title": "Why a big refusal makes you say yes – door in the face experiment",
+      "video_id": "wfajCTWv7mg",
+      "url": "https://www.youtube.com/shorts/wfajCTWv7mg",
+      "publish_at": "2026-11-28T13:00:00Z",
+      "comment_text": "Have you ever said yes after a big “no”? Share your story!",
+      "comment_id": "",
+      "format": "study_or_experiment",
+      "theme": "sky-diagonal"
     }
   ]
 }
