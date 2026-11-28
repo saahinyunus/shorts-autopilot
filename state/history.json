@@ -919,7 +919,7 @@
       "url": "https://www.youtube.com/shorts/GxPFuYDBCM0",
       "publish_at": "2026-11-27T13:00:00Z",
       "comment_text": "Which part of the gold-standard story surprises you the most?",
-      "comment_id": "",
+      "comment_id": "Ugz9Evd4hcY1H-XMK1N4AaABAg",
       "format": "true_story",
       "theme": "gold-dots"
     },
@@ -932,7 +932,7 @@
       "url": "https://www.youtube.com/shorts/M3MeKJXip3E",
       "publish_at": "2026-11-27T13:00:00Z",
       "comment_text": "Have you ever agreed to a small favor that later led to a bigger ask?",
-      "comment_id": "",
+      "comment_id": "UgxED95JkDVJf3tZgY14AaABAg",
       "format": "true_story",
       "theme": "amber-dots"
     },
@@ -945,7 +945,7 @@
       "url": "https://www.youtube.com/shorts/VkqUDow5qDg",
       "publish_at": "2026-11-28T00:00:00Z",
       "comment_text": "Did you ever think margin could protect your capital?",
-      "comment_id": "",
+      "comment_id": "Ugywqk9c0qSXqHCgbQV4AaABAg",
       "format": "myth_vs_reality",
       "theme": "emerald-waves"
     },
@@ -971,7 +971,7 @@
       "url": "https://www.youtube.com/shorts/b2sXwfNaQgc",
       "publish_at": "2026-11-28T00:00:00Z",
       "comment_text": "Have you ever walked away from a limited-time offer because it felt too pushy?",
-      "comment_id": "",
+      "comment_id": "UgzeCIuOU8o80n-o32B4AaABAg",
       "format": "common_mistake",
       "theme": "rose-waves"
     },
@@ -1013,6 +1013,32 @@
       "comment_id": "",
       "format": "myth_vs_reality",
       "theme": "yellow-grid"
+    },
+    {
+      "plan_id": "money-20261129T1300Z",
+      "channel": "money",
+      "topic": "The common mistake of neglecting inflation in retirement planning",
+      "title": "Retirement planning mistake: ignoring inflation's silent drain",
+      "video_id": "2C_bOTmtCMs",
+      "url": "https://www.youtube.com/shorts/2C_bOTmtCMs",
+      "publish_at": "2026-11-29T13:00:00Z",
+      "comment_text": "What inflation-adjusted retirement goal would you set for yourself?",
+      "comment_id": "",
+      "format": "common_mistake",
+      "theme": "mint-grid"
+    },
+    {
+      "plan_id": "psychology-20261129T1300Z",
+      "channel": "psychology",
+      "topic": "How your posture shifts confidence before vs. after power‑posing",
+      "title": "Power pose: how posture instantly boosts confidence",
+      "video_id": "0jcLlPdbYZU",
+      "url": "https://www.youtube.com/shorts/0jcLlPdbYZU",
+      "publish_at": "2026-11-29T13:00:00Z",
+      "comment_text": "Have you ever tried a power pose before a big moment?",
+      "comment_id": "",
+      "format": "before_after",
+      "theme": "violet-rings"
     }
   ]
 }
